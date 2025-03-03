@@ -3,8 +3,8 @@
  */
 
 cbuffer cb : register(b0){
-    float4x4 mvp;       //MVP行列
-    float4 mulColor;    //乗算カラー
+    float4x4 mvp;		//MVP行列
+    float4 mulColor;	//乗算カラー
 };
 struct VSInput{
 	float4 pos : POSITION;
@@ -24,6 +24,7 @@ PSInput VSMain(VSInput In)
 	PSInput psIn;
 	psIn.pos = mul( mvp, In.pos );
 	psIn.uv = In.uv;
+	
 	return psIn;
 }
 float4 PSMain( PSInput In ) : SV_Target0
