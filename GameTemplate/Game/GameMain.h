@@ -14,7 +14,7 @@ enum GameMainState
 	enum_Num,
 };
 
-class GameMain : IGameObject
+class GameMain : public IGameObject
 {
 public:
 	/// <summary>
@@ -23,6 +23,10 @@ public:
 	/// <returns></returns>
 	bool Start();
 	/// <summary>
+	/// アップデート関数
+	/// </summary>
+	void Update();
+	/// <summary>
 	/// コンテキストリスト
 	/// </summary>
 	GameMainContextClass* m_contextList[enum_Num];
@@ -30,6 +34,13 @@ public:
 	/// ゲームメインステート
 	/// </summary>
 	GameMainState m_gameMainState = GameMainState::en_outGame;
+	/// <summary>
+	/// ゲームメインステート切り替え
+	/// </summary>
+	void SwitchingGameMainState(GameMainState switchingGameMainState)
+	{
+		m_gameMainState = switchingGameMainState;
+	}
 };
 
 class GameMainStateClass
@@ -39,15 +50,7 @@ protected:
 	/// コンテキスト
 	/// </summary>
 	GameMainContextClass* m_context = nullptr;
-	/// <summary>
-	/// ゲームメインのインスタンス
-	/// </summary>
-	GameMain* m_gameMain = nullptr;
 public:
-	GameMainStateClass(GameMain* gameMain)
-	{
-		m_gameMain = gameMain;
-	}
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -61,20 +64,18 @@ public:
 	/// <param name="context"></param>
 	void SetContext(GameMainContextClass* context)
 	{
-		m_context = context;
-	}
-	/// <summary>
-	/// ゲームメインステート切り替え
-	/// </summary>
-	void SwitchingGameMainState(GameMainState gameMainState)
-	{
-		
+		this->m_context = context;
 	}
 	/// <summary>
 	/// 純粋仮想関数
-	/// ステートアップデート
+	/// ゲーム状態初期化
 	/// </summary>
-	virtual void GameStateUpdate() = 0;
+	virtual void InitGameState() = 0;
+	/// <summary>
+	/// 純粋仮想関数
+	/// ゲーム状態更新
+	/// </summary>
+	virtual void UpdateGameState() = 0;
 };
 
 class GameMainContextClass
@@ -84,18 +85,24 @@ private:
 	/// ステート
 	/// </summary>
 	GameMainStateClass* m_state = nullptr;
+	/// <summary>
+	/// ゲームメインのインスタンス
+	/// </summary>
+	GameMain* m_gameMain = nullptr;
 public: 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="state"></param>
-	GameMainContextClass(GameMainStateClass* state) : m_state(nullptr) 
+	GameMainContextClass(GameMainStateClass* state,GameMain* gameMain) 
+		: m_state(nullptr),m_gameMain(nullptr)
 	{
 		if (m_state != nullptr)
 		{
 			delete this->m_state;
 		}
 		this->m_state = state;
+		this->m_gameMain = gameMain;
 		this->m_state->SetContext(this);
 	};
 	/// <summary>
@@ -106,10 +113,17 @@ public:
 		delete m_state;
 	};
 	/// <summary>
+	/// 継承したクラスのステート初期化を行う
+	/// </summary>
+	void RequestGameStateInit()
+	{
+		this->m_state->InitGameState();
+	}
+	/// <summary>
 	/// 継承したクラスのステートアップデートを行う
 	/// </summary>
 	void RequestGameStateUpdate()
 	{
-		this->RequestGameStateUpdate();
+		this->m_state->UpdateGameState();
 	}
 };

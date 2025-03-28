@@ -1,7 +1,14 @@
 #include "stdafx.h"
 #include "GameOut.h"
 
-void GameOut::GameStateUpdate()
+//ゲームステート初期化
+void GameOut::InitGameState()
+{
+
+}
+
+//ゲームステート更新
+void GameOut::UpdateGameState()
 {
 	
 }

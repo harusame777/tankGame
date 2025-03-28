@@ -1,9 +1,9 @@
 #pragma once
 #include "GameMain.h"
 
-class GameOut : public GameMainStateClass
+class GameIn : public GameMainStateClass
 {
-public: 
+public:
 	/// <summary>
 	/// ステート初期化
 	/// </summary>
@@ -13,8 +13,5 @@ public:
 	/// </summary>
 	void UpdateGameState() override;
 private:
-
-	
-
 };
 

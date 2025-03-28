@@ -223,6 +223,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameIn.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameOut.cpp" />
     <ClCompile Include="main.cpp" />
@@ -234,6 +235,7 @@
     <ClCompile Include="system\system.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameIn.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GameOut.h" />
     <ClInclude Include="stdafx.h" />
