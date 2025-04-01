@@ -6,13 +6,21 @@ class GameTitle;
 class GameOut : public GameMainStateClass
 {
 public: 
-	enum OutGameState {
+	enum GameOutState {
 		en_title,
 
 		en_objectLoad,
 
 		enum_Num
 	};
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	GameOut() {};
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	virtual ~GameOut() {};
 	/// <summary>
 	/// ステート初期化
 	/// </summary>
@@ -21,6 +29,14 @@ public:
 	/// ステートアップデート
 	/// </summary>
 	void UpdateGameState() override;
+	/// <summary>
+	/// ステート変更関数
+	/// </summary>
+	/// <param name="gameOutState"></param>
+	void ChangeGameOutState(GameOutState gameOutState)
+	{
+		m_gameOutState = gameOutState;
+	}
 private:
 	/// <summary>
 	/// ゲームタイトルを作成する
@@ -29,7 +45,7 @@ private:
 	/// <summary>
 	/// アウトゲームのステート
 	/// </summary>
-	OutGameState m_outGameState = OutGameState::en_title;
+	GameOutState m_gameOutState = GameOutState::en_title;
 	/// <summary>
 	/// ゲームタイトルのインスタンス
 	/// </summary>

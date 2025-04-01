@@ -14,15 +14,27 @@ void GameOut::InitGameState()
 void GameOut::UpdateGameState()
 {
 	//ゲームアウトのステート
-	switch (m_outGameState)
+	switch (m_gameOutState)
 	{
 	case GameOut::en_title:
 
 		//ゲームタイトル作成
 		MakeGameTitle();
 
+		if (m_gameTitle->IsGameTitleEnd())
+		{
+
+			//ステートを変更する
+			ChangeGameOutState(
+				GameOutState::en_objectLoad);
+
+		}
+
 		break;
 	case GameOut::en_objectLoad:
+
+		m_gameMain->ChangeGameMainState(GameMain::en_inGame);
+
 		break;
 	case GameOut::enum_Num:
 		break;

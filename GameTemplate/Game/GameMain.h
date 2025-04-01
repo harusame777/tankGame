@@ -2,21 +2,21 @@
 
 class GameMainContextClass;
 
-/// <summary>
-/// ステート
-/// </summary>
-enum GameMainState
-{
-	en_outGame,
-
-	en_inGame,
-
-	enum_Num,
-};
 
 class GameMain : public IGameObject
 {
 public:
+	/// <summary>
+	/// ステート
+	/// </summary>
+	enum GameMainState
+	{
+		en_outGame,
+
+		en_inGame,
+
+		enum_Num,
+	};
 	/// <summary>
 	/// スタート関数
 	/// </summary>
@@ -29,7 +29,7 @@ public:
 	/// <summary>
 	/// ゲームメインステート切り替え
 	/// </summary>
-	void SwitchingGameMainState(GameMainState switchingGameMainState)
+	void ChangeGameMainState(GameMainState switchingGameMainState)
 	{
 		m_gameMainState = switchingGameMainState;
 	}
@@ -51,6 +51,10 @@ protected:
 	/// コンテキスト
 	/// </summary>
 	GameMainContextClass* m_context = nullptr;
+	/// <summary>
+	/// ゲームメインのインスタンス
+	/// </summary>
+	GameMain* m_gameMain = nullptr;
 public:
 	/// <summary>
 	/// デストラクタ
@@ -66,6 +70,14 @@ public:
 	void SetContext(GameMainContextClass* context)
 	{
 		this->m_context = context;
+	}
+	/// <summary>
+	/// ゲームメイン設定
+	/// </summary>
+	/// <param name="gameMainAddress"></param>
+	void SetGameMainAddress(GameMain* gameMainAddress)
+	{
+		this->m_gameMain = gameMainAddress;
 	}
 	/// <summary>
 	/// 純粋仮想関数
@@ -86,25 +98,23 @@ private:
 	/// ステート
 	/// </summary>
 	GameMainStateClass* m_state = nullptr;
-	/// <summary>
-	/// ゲームメインのインスタンス
-	/// </summary>
-	GameMain* m_gameMain = nullptr;
 public: 
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="state"></param>
-	GameMainContextClass(GameMainStateClass* state,GameMain* gameMain) 
-		: m_state(nullptr),m_gameMain(nullptr)
+	GameMainContextClass(
+		GameMainStateClass* state
+		,GameMain* gameMainAddress = nullptr)
+		: m_state(nullptr)
 	{
 		if (m_state != nullptr)
 		{
 			delete this->m_state;
 		}
 		this->m_state = state;
-		this->m_gameMain = gameMain;
 		this->m_state->SetContext(this);
+		this->m_state->SetGameMainAddress(gameMainAddress);
 	};
 	/// <summary>
 	/// デストラクタ
