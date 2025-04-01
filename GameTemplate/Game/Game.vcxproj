@@ -226,6 +226,7 @@
     <ClCompile Include="GameIn.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameOut.cpp" />
+    <ClCompile Include="GameTitle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -238,6 +239,7 @@
     <ClInclude Include="GameIn.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GameOut.h" />
+    <ClInclude Include="GameTitle.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>

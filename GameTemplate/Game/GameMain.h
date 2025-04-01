@@ -27,6 +27,14 @@ public:
 	/// </summary>
 	void Update();
 	/// <summary>
+	/// ゲームメインステート切り替え
+	/// </summary>
+	void SwitchingGameMainState(GameMainState switchingGameMainState)
+	{
+		m_gameMainState = switchingGameMainState;
+	}
+private:
+	/// <summary>
 	/// コンテキストリスト
 	/// </summary>
 	GameMainContextClass* m_contextList[enum_Num];
@@ -34,13 +42,6 @@ public:
 	/// ゲームメインステート
 	/// </summary>
 	GameMainState m_gameMainState = GameMainState::en_outGame;
-	/// <summary>
-	/// ゲームメインステート切り替え
-	/// </summary>
-	void SwitchingGameMainState(GameMainState switchingGameMainState)
-	{
-		m_gameMainState = switchingGameMainState;
-	}
 };
 
 class GameMainStateClass
