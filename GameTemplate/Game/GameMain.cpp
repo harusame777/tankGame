@@ -2,6 +2,7 @@
 #include "GameMain.h"
 #include "GameOut.h"
 #include "GameIn.h"
+#include "GameLoad.h"
 
 //スタート関数
 bool GameMain::Start()
@@ -22,6 +23,9 @@ bool GameMain::Start()
 		//コンテキスト初期化
 		m_contextList[listNo]->RequestGameStateInit();
 	}
+
+	//ロード作成
+	m_gameLoad = NewGO<GameLoad>(1, "gameLoad");
 
 	return true;
 }

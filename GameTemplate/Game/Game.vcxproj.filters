@@ -28,6 +28,9 @@
     <ClCompile Include="GameTitle.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="GameLoad.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -44,6 +47,9 @@
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="GameTitle.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoad.h">
       <Filter>Main</Filter>
     </ClInclude>
   </ItemGroup>

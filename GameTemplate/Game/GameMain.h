@@ -1,6 +1,7 @@
 #pragma once
 
 class GameMainContextClass;
+class GameLoad;
 
 
 class GameMain : public IGameObject
@@ -34,6 +35,10 @@ public:
 		m_gameMainState = switchingGameMainState;
 	}
 private:
+	/// <summary>
+	/// ロードのインスタンス
+	/// </summary>
+	GameLoad* m_gameLoad = nullptr;
 	/// <summary>
 	/// コンテキストリスト
 	/// </summary>
