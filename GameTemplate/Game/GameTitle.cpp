@@ -10,12 +10,23 @@ bool GameTitle::Start()
 //アップデート関数
 void GameTitle::Update()
 {
-
-	if (g_pad[0]->IsTrigger(enButtonB))
+	//待機ステートであれば
+	if (m_gameTitleState == GameTitleState::en_standby)
 	{
-		m_isGameTitleEnd = true;
+		//実行しない
+		return;
 	}
 
+	//ゲームタイトル更新
+	GameTitleUpdate();
+}
+
+void GameTitle::GameTitleUpdate()
+{
+	if (g_pad[0]->IsTrigger(enButtonB))
+	{
+		StopGameTitle();
+	}
 }
 
 //レンダー関数

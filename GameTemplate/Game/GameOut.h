@@ -39,10 +39,6 @@ public:
 	}
 private:
 	/// <summary>
-	/// ゲームタイトルを作成する
-	/// </summary>
-	void MakeGameTitle();
-	/// <summary>
 	/// アウトゲームのステート
 	/// </summary>
 	GameOutState m_gameOutState = GameOutState::en_title;

@@ -5,9 +5,8 @@
 //ゲームステート初期化
 void GameOut::InitGameState()
 {
-
-	
-
+	//ゲームタイトルを作成
+	m_gameTitle = NewGO<GameTitle>(0, "GameTitle");
 }
 
 //ゲームステート更新
@@ -18,10 +17,7 @@ void GameOut::UpdateGameState()
 	{
 	case GameOut::en_title:
 
-		//ゲームタイトル作成
-		MakeGameTitle();
-
-		if (m_gameTitle->IsGameTitleEnd())
+		if (m_gameTitle->IsGameTitleBoot() == false)
 		{
 
 			//ステートを変更する
@@ -42,18 +38,4 @@ void GameOut::UpdateGameState()
 		break;
 	}
 
-}
-
-//ゲームタイトル作成
-void GameOut::MakeGameTitle()
-{
-	//ゲームタイトルが作成されていたら
-	if (m_gameTitle != nullptr)
-	{
-		//実行しない
-		return;
-	}
-
-	//ゲームタイトルを作成
-	m_gameTitle = NewGO<GameTitle>(0, "GameTitle");
 }
