@@ -7,6 +7,8 @@ void GameOut::InitGameState()
 {
 	//ゲームタイトルを作成
 	m_gameTitle = NewGO<GameTitle>(0, "GameTitle");
+	//ゲームタイトルを実行
+	m_gameTitle->BootGameTitle();
 }
 
 //ゲームステート更新
