@@ -2,6 +2,7 @@
 #include "GameMain.h"
 
 class GameTitle;
+class GameLoad;
 
 class GameOut : public GameMainStateClass
 {
@@ -29,22 +30,18 @@ public:
 	/// ステートアップデート
 	/// </summary>
 	void UpdateGameState() override;
-	/// <summary>
-	/// ステート変更関数
-	/// </summary>
-	/// <param name="gameOutState"></param>
-	void ChangeGameOutState(GameOutState gameOutState)
-	{
-		m_gameOutState = gameOutState;
-	}
 private:
 	/// <summary>
-	/// アウトゲームのステート
+	/// ゲームのオブジェクトをロードする
 	/// </summary>
-	GameOutState m_gameOutState = GameOutState::en_title;
+	void LoadGameObject();
 	/// <summary>
 	/// ゲームタイトルのインスタンス
 	/// </summary>
 	GameTitle* m_gameTitle = nullptr;
+	/// <summary>
+	/// ロード画面
+	/// </summary>
+	GameLoad* m_gameLoad = nullptr;
 };
 

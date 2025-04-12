@@ -34,6 +34,11 @@ public:
 	{
 		m_gameMainState = switchingGameMainState;
 	}
+	/// <summary>
+	/// ゲームメインを経由して他のリストのステートを変更
+	/// </summary>
+	/// <param name="switchingGameOutState"></param>
+	void ChangeContextListState(GameMainState changeMainState, int changeListStateNum);
 private:
 	/// <summary>
 	/// ロードのインスタンス
@@ -60,6 +65,18 @@ protected:
 	/// ゲームメインのインスタンス
 	/// </summary>
 	GameMain* m_gameMain = nullptr;
+	/// <summary>
+	/// ステートナンバー
+	/// </summary>
+	int m_stateNum = 0;
+	/// <summary>
+	/// ステート最大数
+	/// </summary>
+	int m_stateNumMax = 0;
+	/// <summary>
+	/// 外部からステートが変更されたか判定
+	/// </summary>
+	bool m_isStateChange = false;
 public:
 	/// <summary>
 	/// デストラクタ
@@ -83,6 +100,24 @@ public:
 	void SetGameMainAddress(GameMain* gameMainAddress)
 	{
 		this->m_gameMain = gameMainAddress;
+	}
+	/// <summary>
+	/// ステートの最大数を設定
+	/// </summary>
+	/// <param name="stateMax"></param>
+	void SetGameStateMax(int stateMax)
+	{
+		m_stateNumMax = stateMax;
+	}
+	/// <summary>
+	/// ステートを変更する
+	/// </summary>
+	/// <param name="stateNumber"></param>
+	void SetGameStateNumber(int stateNumber)
+	{
+		m_stateNum = stateNumber;
+		//ステートが外部から変更されたと伝える
+		m_isStateChange = true;
 	}
 	/// <summary>
 	/// 純粋仮想関数
@@ -110,7 +145,8 @@ public:
 	/// <param name="state"></param>
 	GameMainContextClass(
 		GameMainStateClass* state
-		,GameMain* gameMainAddress = nullptr)
+		,GameMain* gameMainAddress = nullptr
+		,int stateMax = 0)
 		: m_state(nullptr)
 	{
 		if (m_state != nullptr)
@@ -120,6 +156,7 @@ public:
 		this->m_state = state;
 		this->m_state->SetContext(this);
 		this->m_state->SetGameMainAddress(gameMainAddress);
+		this->m_state->SetGameStateMax(stateMax);
 	};
 	/// <summary>
 	/// デストラクタ
@@ -141,5 +178,13 @@ public:
 	void RequestGameStateUpdate()
 	{
 		this->m_state->UpdateGameState();
+	}
+	/// <summary>
+	/// 外部からステートを変更する関数
+	/// </summary>
+	/// <param name="stateNumber"></param>
+	void RequestGameStateChange(int stateNumber)
+	{
+		this->m_state->SetGameStateNumber(stateNumber);
 	}
 };
