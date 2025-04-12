@@ -4,20 +4,53 @@
     <Filter Include="system">
       <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{c9e29f71-795a-4dac-8c77-4cfcf27a0120}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="system\system.cpp">
       <Filter>system</Filter>
     </ClCompile>
-    <ClCompile Include="OutGame.cpp" />
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMain.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOut.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameIn.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTitle.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoad.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
       <Filter>system</Filter>
     </ClInclude>
-    <ClInclude Include="OutGame.h" />
+    <ClInclude Include="GameMain.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOut.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameIn.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTitle.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoad.h">
+      <Filter>Main</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
