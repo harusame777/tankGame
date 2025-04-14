@@ -225,10 +225,12 @@
   <ItemGroup>
     <ClCompile Include="GameIn.cpp" />
     <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="GameMapManager.cpp" />
     <ClCompile Include="GameOut.cpp" />
     <ClCompile Include="GameTitle.cpp" />
     <ClCompile Include="GameLoad.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapObjectFloor.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -239,9 +241,12 @@
   <ItemGroup>
     <ClInclude Include="GameIn.h" />
     <ClInclude Include="GameMain.h" />
+    <ClInclude Include="GameMapManager.h" />
+    <ClInclude Include="GameMapObjectBase.h" />
     <ClInclude Include="GameOut.h" />
     <ClInclude Include="GameTitle.h" />
     <ClInclude Include="GameLoad.h" />
+    <ClInclude Include="MapObjectFloor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
   </ItemGroup>
