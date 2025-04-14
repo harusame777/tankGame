@@ -10,7 +10,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameMapObjectBase() {};
+	virtual ~GameMapObjectBase() {};
 private:
 	/// <summary>
 	/// 位置座標

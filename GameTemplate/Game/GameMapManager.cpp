@@ -4,7 +4,6 @@
 //ここからオブジェクトのインクルード
 #include "MapObjectFloor.h"
 
-
 //スタート関数
 bool GameMapManager::Start()
 {
@@ -13,10 +12,12 @@ bool GameMapManager::Start()
 	//ローカル変数として作成
 	LevelRender MapObjectLevelRender;
 
+	//レベルから位置などを取得してオブジェクトを作成
 	MapObjectLevelRender.Init
 	("Assets/levelData/testLevel/testLevelV1.tkl",
 	[&](LevelObjectData_Render& objData)
 	{
+		//床生成
 		if (objData.ForwardMatchName(L"TestMapV1") == true)
 		{
 			MapObjectFloor* objectFloor = nullptr;
