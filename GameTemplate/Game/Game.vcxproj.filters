@@ -7,6 +7,12 @@
     <Filter Include="Main">
       <UniqueIdentifier>{c9e29f71-795a-4dac-8c77-4cfcf27a0120}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameMap">
+      <UniqueIdentifier>{520fd80a-7ecb-4c56-84fe-c9288ce4c434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameMap\MapObject">
+      <UniqueIdentifier>{66285ef0-0520-4fde-8154-5836e0a5002e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -31,6 +37,12 @@
     <ClCompile Include="GameLoad.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="GameMapManager.cpp">
+      <Filter>GameMap</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjectGeneric.cpp">
+      <Filter>GameMap\MapObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -51,6 +63,15 @@
     </ClInclude>
     <ClInclude Include="GameLoad.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapManager.h">
+      <Filter>GameMap</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMapObjectBase.h">
+      <Filter>GameMap</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjectGeneric.h">
+      <Filter>GameMap\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
