@@ -3,6 +3,7 @@
 
 class GameTitle;
 class GameLoad;
+class GameMapManager;
 
 class GameOut : public GameMainStateClass
 {
@@ -43,5 +44,9 @@ private:
 	/// ロード画面
 	/// </summary>
 	GameLoad* m_gameLoad = nullptr;
+	/// <summary>
+	/// ゲームマップのマネージャー
+	/// </summary>
+	GameMapManager* m_gameMapManager = nullptr;
 };
 

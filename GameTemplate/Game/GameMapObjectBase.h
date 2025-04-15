@@ -24,6 +24,22 @@ private:
 	/// 拡大率
 	/// </summary>
 	Vector3 m_scale = Vector3::One;
+protected:
+	/// <summary>
+	/// モデルの一括更新
+	/// </summary>
+	/// <param name="mr"></param>
+	void UpdateModel(ModelRender& mr)
+	{
+		//座標設定
+		mr.SetPosition(GetPosition());
+		//回転値設定
+		mr.SetRotation(GetRotation());
+		//拡大率設定
+		mr.SetScale(GetScale());
+		//モデルを更新
+		mr.Update();
+	}
 public:
 	/// <summary>
 	/// 位置設定

@@ -40,7 +40,7 @@
     <ClCompile Include="GameMapManager.cpp">
       <Filter>GameMap</Filter>
     </ClCompile>
-    <ClCompile Include="MapObjectFloor.cpp">
+    <ClCompile Include="MapObjectGeneric.cpp">
       <Filter>GameMap\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,7 +70,7 @@
     <ClInclude Include="GameMapObjectBase.h">
       <Filter>GameMap</Filter>
     </ClInclude>
-    <ClInclude Include="MapObjectFloor.h">
+    <ClInclude Include="MapObjectGeneric.h">
       <Filter>GameMap\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
