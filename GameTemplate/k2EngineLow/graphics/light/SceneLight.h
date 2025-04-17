@@ -6,21 +6,31 @@ namespace nsK2EngineLow {
 	static const int MAX_POINT_LIGHT = 32;
 	static const int MAX_SPOT_LIGHT = 32;
 
+	//パディングは16バイトごとに1変数で合わせること
+
 	//ディレクションライトの構造体
 	struct SDirectionLight
 	{
-		//ライトの方向
-		Vector3 m_direction;
-		//影をキャストするかしないか
-		int m_castShadow = true;
-		//カラー
-		Vector3 m_color;
-		//使用されいているかどうか
-		int m_isUse = false;
 		//ライトのビュープロジェクション
 		Matrix m_mt;
+		//ライトの方向
+		Vector3 m_direction;
+		//パディング1
+		int pad1;
+		//カラー
+		Vector3 m_color;
+		//パディング2
+		int pad2;
 		//ビュープロジェクションカメラのポジション
 		Vector3 m_vPCamPosition;
+		//影をキャストするかしないか
+		int m_castShadow = true;
+		//使用されいているかどうか
+		int m_isUse = false;
+		//パディング3
+		int pad3;
+		//パディング4(配列ずれ合わせ分)
+		int pad4[2];
 	public:
 		//方向を設定
 		void SetDirection(const Vector3& direction)
@@ -114,12 +124,22 @@ namespace nsK2EngineLow {
 	struct SPointLight 
 	{
 	private:
+		//座標
 		Vector3 m_position = g_vec3Zero;
-	    int m_isUse = false;
+		//パディング1
+		int pad1;
+		//ライトカラー
 		Vector3 m_color = g_vec3One;
-		float m_pad1;
+		//パディング2
+		int pad2;
+		//影響率
 		Vector3 attn = { 1.0f,1.0f,0.0f };
-		float m_pad2;
+		//パディング3
+		int pad3;
+		//使用中かどうか
+	    int m_isUse = false;
+		//パディング4(配列ずれ合わせ分)
+		int pad4[3];
 	public:
 		//座標を設定
 		void SetPosition(const Vector3& position)
@@ -186,14 +206,30 @@ namespace nsK2EngineLow {
 	struct SSpotLight
 	{
 	private:
+		//座標
 		Vector3 m_position = g_vec3Zero;
-		int m_isUse = false;
+		//パディング1
+		int pad1;
+		//ライトカラー
 		Vector3 m_color = g_vec3One;
-		float m_range = 0.0f;
+		//パディング2
+		int pad2;
+		//方向
 		Vector3 m_direction = g_vec3Down;
-		float m_angle;
+		//パディング3
+		int pad3;
+		//累乗パラメーター
 		Vector3 m_pow = { 1.0f,1.0f,1.0f };
-		float m_pad;
+		//パディング4
+		int pad4;
+		//距離
+		float m_range = 0.0f;
+		//射出角度
+		float m_angle;
+		//使用中かどうか
+		int m_isUse = false;
+		//パディング5(配列ずれ合わせ分)
+		int pad5;
 	public:
 		//座標を設定
 		void SetPosition(const Vector3& position)
@@ -296,18 +332,23 @@ namespace nsK2EngineLow {
 		SPointLight m_pointLights[MAX_POINT_LIGHT];
 		//スポットライトの配列
 		SSpotLight m_spotLights[MAX_SPOT_LIGHT];
+		//ここまでで6144バイト
 		//視点の位置
 		Vector3 m_eyePos;
-		//使用中のポイントライトの数
-		int m_numPointLight;
+		//パディング1
+		int pad1;
 		//環境光
 		Vector3 m_ambientLight;
+		//パディング2
+		int pad2;
+		//使用中のポイントライトの数
+		int m_numPointLight;
 		//使用中のスポットライトの数
 		int m_numSpotLight;
-		Vector3 pad;
 		//使用中のディレクションライトの数
 		int m_numDirectionLight;
-		//ディレクションライトのビュープロジェクション
+		//パディング3
+		int pad3;
 	};
 
 	//シーンライトクラス

@@ -42,6 +42,5 @@ bool GameMapManager::Start()
 //アップデート関数
 void GameMapManager::Update()
 {
-	
 }
 

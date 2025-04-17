@@ -33,6 +33,8 @@ namespace nsK2EngineLow {
 		m_light.m_ambientLight.z = 0.3f;
 		m_light.m_eyePos = g_camera3D->GetPosition();
 
+		//float sizeofTest = sizeof(SPointLight);
+
 		//全てのディレクションライトを未使用にする
 		for (auto& pt : m_light.m_directionalLight)
 		{
