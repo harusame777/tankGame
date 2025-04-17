@@ -34,5 +34,10 @@ private:
 	{
 		m_gameMapObjectList.push_back(object);
 	}
+
+	//テスト用
+	//PointLight m_testPointLig;
+	//
+	//DirectionalLight sunDirectionalLight;
 };
 

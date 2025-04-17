@@ -82,8 +82,8 @@ namespace nsK2EngineLow {
 			initData.m_fxFilePath = "Assets/shader/haruharuModel.fx";
 
 			//ƒ‰ƒCƒg‚Ìî•ñ‚ð“o˜^
-			initData.m_expandConstantBuffer = g_sceneLight->GetLightData();
-			initData.m_expandConstantBufferSize = sizeof(Light);
+			//initData.m_expandConstantBuffer = g_sceneLight->GetLightData();
+			//initData.m_expandConstantBufferSize = sizeof(Light);
 
 			break;
 		case ModelRender::en_shadowShader:

@@ -13,30 +13,48 @@ static const int MAX_SPOT_LIGHT = 32; // スポットライトの最大数
 ////////////////////////////////////////////////
 struct DirectionLight
 {
+    //ライトのビュープロジェクション
+    float4x4 mLVP;
 	//ライトの方向
     float3 direction;
+    //パディング1
+    float pad1;
 	//ライトのカラー
     float3 color;
+    //パディング2
+    float pad2;
+    //ライトのビュープロジェクションカメラ位置
+    float3 ligPos;
+    //影を描画するかどうか
+    int m_castShadow;
     //使用中かどうか
     int isUse;
-    //
-    float4x4 mLVP;
-    //
-    float3 ligPos;
+    //パディング3
+    int pad3;
+    //パディング4(配列合わせ分)
+    int pad4[2];
 };
 
 //ポイントライト
 struct PointLight
 {
 	//座標
-    float3 position; 
-	//使用中フラグ
-    int isUse; 
-	//ライトのカラー
-    float3 color; 
-	//減衰パラメータ
+    float3 position;
+    //パディング1
+    float pad1;
+    //ライトのカラー
+    float3 color;
+    //パディング2
+    float pad2;
+    //減衰パラメータ
 	//xに影響範囲,yに影響率に累乗するパラメータ
-    float3 attn;            
+    float3 attn;
+    //パディング3
+    float pad3;
+	//使用中フラグ
+    int isUse;
+    //パディング4(配列合わせ分)
+    int pad4[3];
 };
 
 //スポットライト
@@ -44,18 +62,28 @@ struct SpotLight
 {
     //座標
     float3 position;
-    //使用中フラグ
-    int isUse;
+    //パディング1
+    int pad1;
     //ライトのカラー
-    float3 color; 
+    float3 color;
+    //パディング2
+    int pad2;
+    //射出方向
+    float3 direction;
+    //パディング3
+    int pad3;
+    //影響率に累乗するパラメータ
+    float3 pow;
+    //パディング4
+    int pad4;
     //影響範囲
     float range;
-     //射出方向
-    float3 direction;
     //射出角度
     float angle; 
-    //影響率に累乗するパラメータ
-    float3 pow; 
+    //使用中フラグ
+    int isUse;
+    //パディング5
+    int pad5;
 };
 
 ////////////////////////////////////////////////
@@ -79,12 +107,20 @@ cbuffer LightCb : register(b1)
     SpotLight m_spotLights[MAX_SPOT_LIGHT];
 	//視点の位置
     float3 m_eyePos;
+    //パディング1
+    float pad1;
+    //環境光
+    float3 m_ambientLight;
+    //パディング2
+    float pad2;
 	//使用中のポイントライトの数
     int m_numPointLight;
-	//環境光
-    float3 m_ambientLight;
     //使用中のスポットライトの数
     int m_numSpotLight;
+    //使用中のディレクションライトの数
+    int m_numDirectionLight;
+    //パディング3
+    int pad3;
 };
 
 ////////////////////////////////////////////////
@@ -369,90 +405,90 @@ SPSIn VSSkinMain( SVSIn vsIn )
 /// </summary>
 float4 PSMain( SPSIn psIn ) : SV_Target0
 {
-    //UV座標をサンプリング
-    float3 localNormal = g_normalMap.Sample(g_sampler, psIn.uv);
-    localNormal = (localNormal - 0.5) * 2.0f;
+    ////UV座標をサンプリング
+    //float3 localNormal = g_normalMap.Sample(g_sampler, psIn.uv);
+    //localNormal = (localNormal - 0.5) * 2.0f;
     
-    psIn.normal = psIn.tangent * localNormal.x
-                + psIn.biNormal * localNormal.y
-                + psIn.normal * localNormal.z;
+    //psIn.normal = psIn.tangent * localNormal.x
+    //            + psIn.biNormal * localNormal.y
+    //            + psIn.normal * localNormal.z;
     
-    psIn.normal = normalize(psIn.normal);
+    //psIn.normal = normalize(psIn.normal);
 
-    float specPow = g_speclarMap.Sample(g_sampler, psIn.uv);
+    //float specPow = g_speclarMap.Sample(g_sampler, psIn.uv);
         
-    //最終的合成
-    float3 finalLig;
+    ////最終的合成
+    //float3 finalLig;
     
-    finalLig.x = 0.0f;
-    finalLig.y = 0.0f;
-    finalLig.z = 0.0f;
+    //finalLig.x = 0.0f;
+    //finalLig.y = 0.0f;
+    //finalLig.z = 0.0f;
     
-    //ココからディレクションライトの計算
+    ////ココからディレクションライトの計算
     
-    for (int dirligNo = 0; dirligNo < NUM_DIRECTIONAL_LIGHT; dirligNo++)
-    {
-        finalLig += CalcLigFromDirectionLight(psIn, m_directionalLight[dirligNo], specPow);
-    }
+    //for (int dirligNo = 0; dirligNo < NUM_DIRECTIONAL_LIGHT; dirligNo++)
+    //{
+    //    finalLig += CalcLigFromDirectionLight(psIn, m_directionalLight[dirligNo], specPow);
+    //}
 
-    //ココからポイントライトの計算
+    ////ココからポイントライトの計算
     
-    //使用されているポイントライトがあるか確認
-    if (m_numPointLight <= 0 == false)
-    {
-        //処理したポイントライトの数を確認する変数
-        int afpCountPt = 0;
+    ////使用されているポイントライトがあるか確認
+    //if (m_numPointLight <= 0 == false)
+    //{
+    //    //処理したポイントライトの数を確認する変数
+    //    int afpCountPt = 0;
         
-        //ポイントライトの配列を回して使用中のライトを探す
-        for (int ptLigNo = 0; ptLigNo < MAX_POINT_LIGHT; ptLigNo++)
-        {
-            if (m_pointLights[ptLigNo].isUse)
-            {
-                //ライトの計算処理
-                finalLig += CalcLigFromPointLight(psIn, m_pointLights[ptLigNo], specPow);
-                //処理したライトの数を加算
-                afpCountPt++;
-                //処理した数が使用中のライトの数以上になったらfor文を抜ける
-                if (afpCountPt >= m_numPointLight)
-                {
-                    break;
-                }
-            }
-        }
-    }
+    //    //ポイントライトの配列を回して使用中のライトを探す
+    //    for (int ptLigNo = 0; ptLigNo < MAX_POINT_LIGHT; ptLigNo++)
+    //    {
+    //        if (m_pointLights[ptLigNo].isUse)
+    //        {
+    //            //ライトの計算処理
+    //            finalLig += CalcLigFromPointLight(psIn, m_pointLights[ptLigNo], specPow);
+    //            //処理したライトの数を加算
+    //            afpCountPt++;
+    //            //処理した数が使用中のライトの数以上になったらfor文を抜ける
+    //            if (afpCountPt >= m_numPointLight)
+    //            {
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
     
-    //使用されているスポットライトがあるか確認
-    if (m_numSpotLight <= 0  == false)
-    {
-        //処理したスポットライトの数を確認する変数
-        int afpCountSp = 0;
+    ////使用されているスポットライトがあるか確認
+    //if (m_numSpotLight <= 0  == false)
+    //{
+    //    //処理したスポットライトの数を確認する変数
+    //    int afpCountSp = 0;
         
-        //スポットライトの配列を回して使用中のライトを探す
-        for (int spLigNo = 0; spLigNo < MAX_SPOT_LIGHT; spLigNo++)
-        {
-            if (m_spotLights[spLigNo].isUse)
-            {
-                //ライトの計算処理
-                finalLig += CalcLigFromSpotLight(psIn, m_spotLights[spLigNo], specPow);
-                //処理したライトの数を加算
-                afpCountSp++;
-                //処理した数が使用中のライトの数以上になったらfor文を抜ける
-                if (afpCountSp >= m_numSpotLight)
-                {
-                    break;
-                }
-            }
-        }
-    }
+    //    //スポットライトの配列を回して使用中のライトを探す
+    //    for (int spLigNo = 0; spLigNo < MAX_SPOT_LIGHT; spLigNo++)
+    //    {
+    //        if (m_spotLights[spLigNo].isUse)
+    //        {
+    //            //ライトの計算処理
+    //            finalLig += CalcLigFromSpotLight(psIn, m_spotLights[spLigNo], specPow);
+    //            //処理したライトの数を加算
+    //            afpCountSp++;
+    //            //処理した数が使用中のライトの数以上になったらfor文を抜ける
+    //            if (afpCountSp >= m_numSpotLight)
+    //            {
+    //                break;
+    //            }
+    //        }
+    //    }
+    //}
     
-    //環境光の合成
-    finalLig += m_ambientLight;
+    ////環境光の合成
+    //finalLig += m_ambientLight;
     
     //最終合成
     
     float4 finalColor = g_albedo.Sample(g_sampler, psIn.uv);
     
-    finalColor.xyz *= finalLig;
+    //finalColor.xyz *= finalLig;
     
     return finalColor;
 }
