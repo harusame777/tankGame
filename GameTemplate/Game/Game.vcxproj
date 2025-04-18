@@ -223,6 +223,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameMainCamera.cpp" />
+    <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameIn.cpp" />
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameMapManager.cpp" />
@@ -239,6 +241,9 @@
     <ClCompile Include="system\system.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameMainCamera.h" />
+    <ClInclude Include="GameCameraManager.h" />
+    <ClInclude Include="GameCameraObjectBase.h" />
     <ClInclude Include="GameIn.h" />
     <ClInclude Include="GameMain.h" />
     <ClInclude Include="GameMapManager.h" />

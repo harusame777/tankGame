@@ -3,7 +3,9 @@
 #include "GameTitle.h"
 #include "GameIn.h"
 #include "GameLoad.h"
+
 #include "GameMapManager.h"
+#include "GameCameraManager.h"
 
 //ゲームステート初期化
 void GameOut::InitGameState()
@@ -64,6 +66,8 @@ void GameOut::UpdateGameState()
 //オブジェクトロード
 void GameOut::LoadGameObject()
 {
+	//ゲームカメラのマネージャーを作成
+	m_gameCameraManager = NewGO<GameCameraManager>(0, "gameCamManager");
 	//ゲームマップのマネージャーを作成
 	m_gameMapManager = NewGO<GameMapManager>(0, "gameMapManager");
 }
