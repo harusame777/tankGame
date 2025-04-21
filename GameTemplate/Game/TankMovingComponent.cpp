@@ -10,10 +10,9 @@ namespace TankMoveConstant
 }
 
 //コンストラクタ
-TankMovingComponent::TankMovingComponent(
-	Vector3& forward,							//正面方向
+void TankMovingComponent::InitTankMoveingData(
 	Vector3& moveDirection,						//移動方向
-	float& moveSpeed,							//最高速度
+	float& maxMoveSpeed,						//最大速度
 	float& acceleration,						//加速度
 	float& deceleration,						//減速
 	float& friction,							//自然減速
@@ -22,12 +21,10 @@ TankMovingComponent::TankMovingComponent(
 	ModelRender& rotModel						//回転させるモデル
 )
 {
-	//正面方向のアドレスを取得
-	m_forward = &forward;
 	//移動方向のアドレスを取得
 	m_moveDirection = &moveDirection;
-	//移動速度のアドレスを取得
-	m_moveSpeed = &moveSpeed;
+	//最大速度のアドレスを取得
+	m_maxMoveSpeed = &maxMoveSpeed;
 	//加速度のアドレスを取得
 	m_acceleration = &acceleration;
 	//減速のアドレスを取得
@@ -43,9 +40,8 @@ TankMovingComponent::TankMovingComponent(
 }
 
 //計算値を取得する
-const Vector3& TankMovingComponent::GetCalcValue()
+void TankMovingComponent::CalcValueAndModelUpdate()
 {
-	
 	//まずは前進させるか回転させるかを判定する
 	RotAndMoveDetermination();
 
@@ -54,14 +50,13 @@ const Vector3& TankMovingComponent::GetCalcValue()
 
 	//移動計算
 	MoveCalc();
-
 }
 
 //どう移動させるかどう回転させるかを判定
 void TankMovingComponent::RotAndMoveDetermination()
 {
 	//正面値
-	Vector3 forward = *m_forward;
+	Vector3 forward = m_forward;
 	//移動先方向
 	Vector3 moveDirection = *m_moveDirection;
 
@@ -129,8 +124,6 @@ void TankMovingComponent::RotAndMoveDetermination()
 //回転計算
 void TankMovingComponent::RotateCalc()
 {
-	float yaw = 0.0f;
-
 	//回転処理
 	switch (m_moveLRModeState)
 	{
@@ -140,17 +133,87 @@ void TankMovingComponent::RotateCalc()
 		break;
 	case TankMovingComponent::en_trunLeft:
 
+		m_rotationY -= *m_trunSpeed * g_gameTime->GetFrameDeltaTime();
 
 		break;
 	case TankMovingComponent::en_trunRight:
+
+		m_rotationY += *m_trunSpeed * g_gameTime->GetFrameDeltaTime();
+
 		break;
 	default:
 		break;
 	}
 
+	//回転値
+	Quaternion rot;
+	rot.SetRotationDegY(m_rotationY);
+
+	//モデルの回転更新
+	m_rotModel->SetRotation(rot);
+	//正面値修正
+	m_forward = Vector3::AxisZ;
+	rot.Apply(m_forward);
 }
 
 //移動計算
 void TankMovingComponent::MoveCalc()
 {
+	//移動処理
+	switch (m_moveFRModeState)
+	{
+	case TankMovingComponent::en_neutral:
+
+		//自然減速処理
+		if (m_moveSpeed > 0.0f)
+		{
+			m_moveSpeed -= *m_friction * g_gameTime->GetFrameDeltaTime();
+
+			if (m_moveSpeed < 0.0f)
+			{
+				m_moveSpeed = 0.0f;
+			}
+		}
+		else if(m_moveSpeed < 0.0f)
+ 		{
+			m_moveSpeed += *m_friction * g_gameTime->GetFrameDeltaTime();
+		}
+
+		break;
+	case TankMovingComponent::en_moveForward:
+
+		//前進処理
+		m_moveSpeed += *m_acceleration * g_gameTime->GetFrameDeltaTime();
+
+		break;
+	case TankMovingComponent::en_moveBackward:
+
+		//後進処理
+		m_moveSpeed -= *m_acceleration * g_gameTime->GetFrameDeltaTime();
+
+		break;
+	default:
+		break;
+	}
+
+	//速度のクランプ
+	if (m_moveSpeed > *m_maxMoveSpeed)
+	{
+		m_moveSpeed = *m_maxMoveSpeed;
+	}
+	if (m_moveSpeed < -*m_maxMoveSpeed * 0.5)
+	{
+		//後進は遅めに設定
+		m_moveSpeed = -*m_maxMoveSpeed * 0.5;
+	}
+
+	//移動方向
+	Vector3 moveDirection = *m_moveDirection;
+	moveDirection.Normalize();
+	//最終的な速度
+	Vector3 finalMoveSpeed;
+	finalMoveSpeed += moveDirection * m_moveSpeed;
+
+	//キャラコン後進
+	m_characterController->Execute(finalMoveSpeed, g_gameTime->GetFrameDeltaTime());
 }

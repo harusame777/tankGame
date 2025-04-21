@@ -29,17 +29,24 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	/// <param name="正面咆哮"></param>
-	/// <param name="移動方向"></param>
-	/// <param name="最高速度"></param>
-	/// <param name="加速度"></param>
-	/// <param name="減速度"></param>
-	/// <param name="自然減速度"></param>
-	/// <param name="動かしたい対象のキャラクターコントローラー"></param>
-	TankMovingComponent(
-		Vector3& forward,							//正面方向
+	TankMovingComponent() {};
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~TankMovingComponent() {};
+	/// <summary>
+	/// 戦車移動初期化
+	/// </summary>
+	/// <param name="moveDirection"></param>
+	/// <param name="acceleration"></param>
+	/// <param name="deceleration"></param>
+	/// <param name="friction"></param>
+	/// <param name="characterControoler"></param>
+	/// <param name="trunSpeed"></param>
+	/// <param name="rotModel"></param>
+	void InitTankMoveingData(
 		Vector3& moveDirection,						//移動方向
-		float& moveSpeed,							//最高速度
+		float& maxMoveSpeed,						//最大速度
 		float& acceleration,						//加速度
 		float& deceleration,						//減速
 		float& friction,							//自然減速
@@ -48,14 +55,34 @@ public:
 		ModelRender& rotModel						//回転させるモデル
 	);
 	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~TankMovingComponent() {};
-	/// <summary>
-	/// 計算値を取得する
+	/// 計算とモデル更新を行う
 	/// </summary>
 	/// <returns></returns>
-	const Vector3& GetCalcValue();
+	void CalcValueAndModelUpdate();
+	/// <summary>
+	/// 現在速度を返す
+	/// </summary>
+	/// <returns></returns>
+	const float GetMoveSpeed()const
+	{
+		return m_moveSpeed;
+	}
+	/// <summary>
+	/// 現在回転角度(Y)を返す
+	/// </summary>
+	/// <returns></returns>
+	const float GetRotationY()const
+	{
+		return m_rotationY;
+	}
+	/// <summary>
+	/// 現在正面方向を返す
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetForward()const
+	{
+		return m_forward;
+	}
 private:
 	/// <summary>
 	/// どう回転するか、どう移動するかの判定
@@ -80,15 +107,23 @@ private:
 	/// <summary>
 	/// 正面方向
 	/// </summary>
-	Vector3* m_forward = nullptr;
+	Vector3 m_forward = Vector3::AxisZ;
+	/// <summary>
+	/// 現在速度
+	/// </summary>
+	float m_moveSpeed = 0.0f;
+	/// <summary>
+	/// 現在回転角度
+	/// </summary>
+	float m_rotationY = 0.0f;
 	/// <summary>
 	/// 移動方向
 	/// </summary>
 	Vector3* m_moveDirection = nullptr;
 	/// <summary>
-	/// 最高速度
+	/// 最大速度
 	/// </summary>
-	float* m_moveSpeed = nullptr;
+	float* m_maxMoveSpeed = nullptr;
 	/// <summary>
 	/// 加速度
 	/// </summary>
