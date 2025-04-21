@@ -17,7 +17,9 @@ TankMovingComponent::TankMovingComponent(
 	float& acceleration,						//加速度
 	float& deceleration,						//減速
 	float& friction,							//自然減速
-	CharacterController& characterControoler	//キャラコン
+	CharacterController& characterControoler,	//キャラコン
+	float& trunSpeed,							//回転速度
+	ModelRender& rotModel						//回転させるモデル
 )
 {
 	//正面方向のアドレスを取得
@@ -34,6 +36,10 @@ TankMovingComponent::TankMovingComponent(
 	m_friction = &friction;
 	//キャラクターコントローラーのアドレスを取得
 	m_characterController = &characterControoler;
+	//回転速度のアドレスを取得
+	m_trunSpeed = &trunSpeed;
+	//回転させるモデルのアドレスを取得
+	m_rotModel = &rotModel;
 }
 
 //計算値を取得する
@@ -42,6 +48,9 @@ const Vector3& TankMovingComponent::GetCalcValue()
 	
 	//まずは前進させるか回転させるかを判定する
 	RotAndMoveDetermination();
+
+	//回転計算
+	RotateCalc();
 
 	//移動計算
 	MoveCalc();
@@ -61,30 +70,26 @@ void TankMovingComponent::RotAndMoveDetermination()
 	moveDirection.y = 0.0f;
 
 	//移動方向の2乗の数値を計算
-	float distanceSq = moveDirection.LengthSq();
+	const float distanceSq = moveDirection.LengthSq();
 
 	//正面値と移動方向のベクトルを単位ベクトルにする
 	forward.Normalize();
 	moveDirection.Normalize();
 
-	//角度関係
-	float dot = 0.0f;
-	Vector3 cross;
-
 	//前進回転闘値計算
 	Quaternion rotCalc;
 	rotCalc.AddRotationDegZ(10.0f);
-	float forwardThreshold = rotCalc.z;
+	const float forwardThreshold = rotCalc.z;
 
 	//後進回転闘値計算
 	rotCalc.AddRotationDegZ(20.0f);
-	float backwardThreshold = rotCalc.z;
+	const float backwardThreshold = rotCalc.z;
 
 	//正面値と移動方向の内積を計算し、角度を求める
-	dot = Dot(forward, moveDirection);
+	const float dot = Dot(forward, moveDirection);
 
 	//外積を使い左に回転するか右に回転するかを判定
-	cross = Cross(forward, moveDirection);
+	const Vector3 cross = Cross(forward, moveDirection);
 
 	//ここから移動判定
 	if (distanceSq < TankMoveConstant::NO_MOVE_DISTANSE)
@@ -121,8 +126,31 @@ void TankMovingComponent::RotAndMoveDetermination()
 	}
 }
 
+//回転計算
+void TankMovingComponent::RotateCalc()
+{
+	float yaw = 0.0f;
+
+	//回転処理
+	switch (m_moveLRModeState)
+	{
+	case TankMovingComponent::en_neutral:
+
+		return;
+		break;
+	case TankMovingComponent::en_trunLeft:
+
+
+		break;
+	case TankMovingComponent::en_trunRight:
+		break;
+	default:
+		break;
+	}
+
+}
+
 //移動計算
 void TankMovingComponent::MoveCalc()
 {
-
 }

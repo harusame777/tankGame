@@ -43,7 +43,9 @@ public:
 		float& acceleration,						//加速度
 		float& deceleration,						//減速
 		float& friction,							//自然減速
-		CharacterController& characterControoler	//キャラコン
+		CharacterController& characterControoler,	//キャラコン
+		float& trunSpeed,							//回転速度
+		ModelRender& rotModel						//回転させるモデル
 	);
 	/// <summary>
 	/// デストラクタ
@@ -63,6 +65,10 @@ private:
 	/// 移動計算
 	/// </summary>
 	void MoveCalc();
+	/// <summary>
+	/// 回転計算
+	/// </summary>
+	void RotateCalc();
 	/// <summary>
 	/// 正面、後方移動ステート
 	/// </summary>
@@ -99,5 +105,13 @@ private:
 	/// キャラクターコントローラー
 	/// </summary>
 	CharacterController* m_characterController = nullptr;
+	/// <summary>
+	/// 回転速度
+	/// </summary>
+	float* m_trunSpeed = nullptr;
+	/// <summary>
+	/// 回転させるモデル
+	/// </summary>
+	ModelRender* m_rotModel = nullptr;
 };
 
