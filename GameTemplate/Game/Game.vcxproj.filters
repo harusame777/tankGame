@@ -13,6 +13,9 @@
     <Filter Include="GameMap\MapObject">
       <UniqueIdentifier>{66285ef0-0520-4fde-8154-5836e0a5002e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{88a5e1d0-a223-4574-b782-ef013b47c343}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -43,6 +46,12 @@
     <ClCompile Include="MapObjectGeneric.cpp">
       <Filter>GameMap\MapObject</Filter>
     </ClCompile>
+    <ClCompile Include="GameCameraManager.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMainCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -72,6 +81,15 @@
     </ClInclude>
     <ClInclude Include="MapObjectGeneric.h">
       <Filter>GameMap\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCameraManager.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMainCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCameraObjectBase.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

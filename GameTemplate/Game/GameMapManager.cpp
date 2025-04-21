@@ -35,12 +35,12 @@ bool GameMapManager::Start()
 		}
 		return true;
 	});
-
 	return true;
 }
 
 //アップデート関数
 void GameMapManager::Update()
 {
+
 }
 
