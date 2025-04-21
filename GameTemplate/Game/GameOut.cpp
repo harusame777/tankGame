@@ -6,6 +6,7 @@
 
 #include "GameMapManager.h"
 #include "GameCameraManager.h"
+#include "GamePlayer.h"
 
 //ゲームステート初期化
 void GameOut::InitGameState()
@@ -70,4 +71,7 @@ void GameOut::LoadGameObject()
 	m_gameCameraManager = NewGO<GameCameraManager>(0, "gameCamManager");
 	//ゲームマップのマネージャーを作成
 	m_gameMapManager = NewGO<GameMapManager>(0, "gameMapManager");
+	//ゲームプレイヤーを作成
+	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
+
 }

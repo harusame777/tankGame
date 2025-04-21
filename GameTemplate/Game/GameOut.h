@@ -6,6 +6,7 @@ class GameLoad;
 
 class GameMapManager;
 class GameCameraManager;
+class GamePlayer;
 
 class GameOut : public GameMainStateClass
 {
@@ -54,5 +55,10 @@ private:
 	/// ゲームマップのマネージャー
 	/// </summary>
 	GameMapManager* m_gameMapManager = nullptr;
+	/// <summary>
+	/// ゲームプレイヤー
+	/// </summary>
+	GamePlayer* m_gamePlayer = nullptr;
+
 };
 
