@@ -1,4 +1,7 @@
 #pragma once
+
+class TankMovingComponent;
+
 class GamePlayer : public IGameObject
 {
 public:
@@ -33,6 +36,10 @@ private:
 	/// 砲塔モデル
 	/// </summary>
 	ModelRender m_tankTurret;
+	/// <summary>
+	/// 戦車移動コンポーネント
+	/// </summary>
+	TankMovingComponent m_tankMovingComponent;
 
 };
 

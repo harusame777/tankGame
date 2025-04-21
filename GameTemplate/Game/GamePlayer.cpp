@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "GamePlayer.h"
 
+#include "TankMovingComponent.h"
+
 //スタート関数
 bool GamePlayer::Start()
 {
@@ -20,6 +22,10 @@ bool GamePlayer::Start()
 		0,
 		enModelUpAxisZ,
 		ModelRender::en_usuallyShader
+	);
+
+	m_tankMovingComponent.InitTankMoveingData(
+		
 	);
 
 	return true;

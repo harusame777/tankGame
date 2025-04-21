@@ -129,7 +129,8 @@ void TankMovingComponent::RotateCalc()
 	{
 	case TankMovingComponent::en_neutral:
 
-		return;
+
+
 		break;
 	case TankMovingComponent::en_trunLeft:
 
@@ -210,10 +211,18 @@ void TankMovingComponent::MoveCalc()
 	//移動方向
 	Vector3 moveDirection = *m_moveDirection;
 	moveDirection.Normalize();
+
 	//最終的な速度
 	Vector3 finalMoveSpeed;
 	finalMoveSpeed += moveDirection * m_moveSpeed;
 
+	//最終的な移動座標
+	Vector3 finalPosition = Vector3::AxisZ;
+
 	//キャラコン後進
-	m_characterController->Execute(finalMoveSpeed, g_gameTime->GetFrameDeltaTime());
+	finalPosition = m_characterController
+		->Execute(finalMoveSpeed, g_gameTime->GetFrameDeltaTime());
+
+	//モデル更新
+	m_rotModel->SetPosition(finalPosition);
 }
