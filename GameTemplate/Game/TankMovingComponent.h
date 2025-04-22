@@ -21,10 +21,14 @@ public:
 	{
 		//移動しない
 		en_neutralLR,
-		//左に回転
-		en_trunLeft,
-		//右に回転
-		en_trunRight
+		//左正面に回転
+		en_trunLeftForward,
+		//右正面に回転
+		en_trunRightForward,
+		//左背面に回転
+		en_trunLeftBackward,
+		//右背面に回転
+		en_trunRightBackward,
 	};
 	/// <summary>
 	/// コンストラクタ
@@ -46,6 +50,7 @@ public:
 	/// <param name="rotModel"></param>
 	void InitTankMoveingData(
 		Vector3& moveDirection,						//移動方向
+		Vector3& forward,							//正面方向
 		float& maxMoveSpeed,						//最大速度
 		float& acceleration,						//加速度
 		float& deceleration,						//減速
@@ -67,19 +72,15 @@ public:
 	{
 		return m_moveSpeed;
 	}
-	/// <summary>
-	/// 現在正面方向を返す
-	/// </summary>
-	/// <returns></returns>
-	const Vector3& GetForward()const
-	{
-		return m_forward;
-	}
 private:
 	/// <summary>
-	/// どう回転するか、どう移動するかの判定
+	/// どう移動するかを判定
 	/// </summary>
-	void RotAndMoveDetermination();
+	void MoveDetermination();
+	/// <summary>
+	/// どう回転するかを判定
+	/// </summary>
+	void RotDetermination();
 	/// <summary>
 	/// 移動計算
 	/// </summary>
@@ -97,10 +98,6 @@ private:
 	/// </summary>
 	EnLeftRightMoveMode m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
 	/// <summary>
-	/// 正面方向
-	/// </summary>
-	Vector3 m_forward = Vector3::AxisZ;
-	/// <summary>
 	/// 現在速度
 	/// </summary>
 	float m_moveSpeed = 0.0f;
@@ -112,6 +109,10 @@ private:
 	/// 移動方向
 	/// </summary>
 	Vector3* m_moveDirection = nullptr;
+	/// <summary>
+	/// 正面方向
+	/// </summary>
+	Vector3* m_forward = nullptr;
 	/// <summary>
 	/// 最大速度
 	/// </summary>

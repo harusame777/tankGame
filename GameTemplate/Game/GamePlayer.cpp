@@ -38,6 +38,7 @@ bool GamePlayer::Start()
 
 	m_tankMovingComponent->InitTankMoveingData(
 		padVector,
+		m_forward,
 		maxMoveSpeed,
 		acceleration,
 		deceleration,

@@ -42,6 +42,7 @@ private:
 	TankMovingComponent* m_tankMovingComponent = nullptr;
 
 	Vector3 m_pos = Vector3::AxisZ;
+	Vector3 m_forward = Vector3::AxisZ;
 
 	//ˆÚ“®ƒeƒXƒg
 	Vector3 padVector;
