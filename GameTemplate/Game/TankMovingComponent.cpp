@@ -55,106 +55,88 @@ void TankMovingComponent::CalcValueAndModelUpdate()
 //どう移動させるかどう回転させるかを判定
 void TankMovingComponent::RotAndMoveDetermination()
 {
-	//正面値
-	Vector3 forward = m_forward;
-	//移動先方向
-	Vector3 moveDirection = *m_moveDirection;
-
-	//水平方向で考えるためY値をゼロにする
-	forward.y = 0.0f;
-	moveDirection.y = 0.0f;
-
-	//移動方向の2乗の数値を計算
-	const float distanceSq = moveDirection.LengthSq();
-
-	//正面値と移動方向のベクトルを単位ベクトルにする
-	forward.Normalize();
-	moveDirection.Normalize();
-
-	//前進回転闘値計算
-	Quaternion rotCalc;
-	rotCalc.AddRotationDegZ(10.0f);
-	const float forwardThreshold = rotCalc.z;
-
-	//後進回転闘値計算
-	rotCalc.AddRotationDegZ(20.0f);
-	const float backwardThreshold = rotCalc.z;
-
-	//正面値と移動方向の内積を計算し、角度を求める
-	const float dot = Dot(forward, moveDirection);
-
-	//外積を使い左に回転するか右に回転するかを判定
-	const Vector3 cross = Cross(forward, moveDirection);
-
-	//ここから移動判定
-	if (distanceSq < TankMoveConstant::NO_MOVE_DISTANSE)
+	//移動していない状態で一旦初期化
+	m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
+	//回転していない状態で一旦初期化
+	m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
+	
+	//移動方向の入力があるかどうかを判定
+	if (m_moveDirection->LengthSq() < 0.01f)
 	{
-		//移動していない
-		m_moveFRModeState = EnFrontRearMoveMode::en_neutral;
-	}
-	else if (dot >= cosf(forwardThreshold))
-	{
-		//正面に移動できる
-		m_moveFRModeState = EnFrontRearMoveMode::en_moveForward;
-	}
-	else if(dot <= -cosf(backwardThreshold))
-	{
-		//後方に移動できる
-		m_moveFRModeState = EnFrontRearMoveMode::en_moveBackward;
+		//どちらも入力無しで決定
+		return;
 	}
 
-	//ここから回転判定
-	if (fabsf(cross.y < TankMoveConstant::EQSILON))
+	//移動方向のZ値の境界数値
+	const float minZThreshold = 0.05f;
+	//横方向と前後方向の比率がこの数値以下で前進のみの扱いとする
+	const float straightThreshold = 0.1f;
+	//横方向と前後方向の比率がこの数値未満でカーブ、以上で旋回とする
+	const float curveThreshold = 0.5f;
+
+	//ここから絶対値取得
+	//左右入力の強さを計算
+	float absX = fabsf(m_moveDirection->x);
+	//前後入力の強さを計算
+	float absZ = fabsf(m_moveDirection->z);
+
+	//ここから判定
+	//まずは回転判定
+	
+	//absZ < minZThresholdの比較
+	//真で前にも後ろにもほとんど動いていない、旋回をすると判断
+	//absX / absZ > straightThresholdの計算、比較
+	//(横移動の強さ ÷ 前後移動の強さ)がある程度大きい場合であれば横向きに近い入力と判断
+	if (absZ < minZThreshold || (absZ / absX) > straightThreshold)
 	{
-		//左右にずれてないので回転しない
-		m_moveLRModeState = EnLeftRightMoveMode::en_neutral;
+		//m_moveDirection->x > 0.0fであれば右回転、小さければ左回転
+		m_moveLRModeState = (m_moveDirection->x > 0.0f) 
+			? EnLeftRightMoveMode::en_trunRight : EnLeftRightMoveMode::en_trunLeft;
 	}
-	else if (cross.y > 0.0f)
+
+	//次に前進後退を判定
+	//z値が小さくなければ前進するか後退すると判定
+	if (absZ >= minZThreshold)
 	{
-		//左に回転
-		m_moveLRModeState = EnLeftRightMoveMode::en_trunLeft;
-	}
-	else
-	{
-		//右に回転
-		m_moveLRModeState = EnLeftRightMoveMode::en_trunRight;
+		//m_moveDirection->z > 0.0fであれば前進判定、小さければ後退判定
+		m_moveFRModeState = (m_moveDirection->z > 0.0f) 
+			? EnFrontRearMoveMode::en_moveForward : EnFrontRearMoveMode::en_moveBackward;
 	}
 }
 
 //回転計算
 void TankMovingComponent::RotateCalc()
 {
+	//回転値
+	float trunCalcValue = 0.0f;
+	
 	//回転処理
 	switch (m_moveLRModeState)
 	{
-	case TankMovingComponent::en_neutral:
+	case TankMovingComponent::en_neutralLR:
 
 
 
 		break;
 	case TankMovingComponent::en_trunLeft:
 
-		m_rotationY -= *m_trunSpeed * g_gameTime->GetFrameDeltaTime();
+		m_rotaiton.AddRotationDegY(*m_trunSpeed);
 
 		break;
 	case TankMovingComponent::en_trunRight:
 
-		m_rotationY += *m_trunSpeed * g_gameTime->GetFrameDeltaTime();
+		m_rotaiton.AddRotationDegY(-*m_trunSpeed);
 
 		break;
 	default:
 		break;
 	}
 
-	//回転値
-	Quaternion rot;
-	rot.SetRotationDegY(m_rotationY);
-
 	//モデルの回転更新
-	m_rotModel->SetRotation(rot);
+	m_rotModel->SetRotation(m_rotaiton);
 	//正面値修正
 	m_forward = Vector3::AxisZ;
-	rot.Apply(m_forward);
+	m_rotaiton.Apply(m_forward);
 }
 
 //移動計算
@@ -163,7 +145,7 @@ void TankMovingComponent::MoveCalc()
 	//移動処理
 	switch (m_moveFRModeState)
 	{
-	case TankMovingComponent::en_neutral:
+	case TankMovingComponent::en_neutralFR:
 
 		//自然減速処理
 		if (m_moveSpeed > 0.0f)

@@ -39,7 +39,17 @@ private:
 	/// <summary>
 	/// 戦車移動コンポーネント
 	/// </summary>
-	TankMovingComponent m_tankMovingComponent;
+	TankMovingComponent* m_tankMovingComponent = nullptr;
 
+	Vector3 m_pos = Vector3::AxisZ;
+
+	//移動テスト
+	Vector3 padVector;
+	float maxMoveSpeed = 10.0f;
+	float acceleration = 5.0f;
+	float deceleration = 4.0f;
+	float friction = 2.0f;
+	CharacterController characterController;
+	float rotSpeed = 0.0f;
 };
 

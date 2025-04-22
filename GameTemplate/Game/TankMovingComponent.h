@@ -8,7 +8,7 @@ public:
 	enum EnFrontRearMoveMode
 	{
 		//移動しない
-		en_neutral,
+		en_neutralFR,
 		//正面に移動
 		en_moveForward,
 		//後方に移動
@@ -20,7 +20,7 @@ public:
 	enum EnLeftRightMoveMode
 	{
 		//移動しない
-		en_neutral,
+		en_neutralLR,
 		//左に回転
 		en_trunLeft,
 		//右に回転
@@ -68,14 +68,6 @@ public:
 		return m_moveSpeed;
 	}
 	/// <summary>
-	/// 現在回転角度(Y)を返す
-	/// </summary>
-	/// <returns></returns>
-	const float GetRotationY()const
-	{
-		return m_rotationY;
-	}
-	/// <summary>
 	/// 現在正面方向を返す
 	/// </summary>
 	/// <returns></returns>
@@ -99,11 +91,11 @@ private:
 	/// <summary>
 	/// 正面、後方移動ステート
 	/// </summary>
-	EnFrontRearMoveMode m_moveFRModeState = EnFrontRearMoveMode::en_neutral;
+	EnFrontRearMoveMode m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
 	/// <summary>
 	/// 左右回転ステート
 	/// </summary>
-	EnLeftRightMoveMode m_moveLRModeState = EnLeftRightMoveMode::en_neutral;
+	EnLeftRightMoveMode m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
 	/// <summary>
 	/// 正面方向
 	/// </summary>
@@ -113,9 +105,9 @@ private:
 	/// </summary>
 	float m_moveSpeed = 0.0f;
 	/// <summary>
-	/// 現在回転角度
+	/// 現在回転値
 	/// </summary>
-	float m_rotationY = 0.0f;
+	Quaternion m_rotaiton = Quaternion::Identity;
 	/// <summary>
 	/// 移動方向
 	/// </summary>

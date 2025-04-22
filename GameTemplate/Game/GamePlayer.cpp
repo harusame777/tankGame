@@ -3,6 +3,10 @@
 
 #include "TankMovingComponent.h"
 
+namespace GamePlayerTankConstant 
+{
+}
+
 //スタート関数
 bool GamePlayer::Start()
 {
@@ -24,8 +28,23 @@ bool GamePlayer::Start()
 		ModelRender::en_usuallyShader
 	);
 
-	m_tankMovingComponent.InitTankMoveingData(
-		
+	m_tankMovingComponent = new TankMovingComponent;
+
+	characterController.Init(5.0f, 5.0f, m_pos);
+
+	Quaternion rotSpeedQua;
+	rotSpeedQua.AddRotationY(180.0f);
+	rotSpeed = rotSpeedQua.y;
+
+	m_tankMovingComponent->InitTankMoveingData(
+		padVector,
+		maxMoveSpeed,
+		acceleration,
+		deceleration,
+		friction,
+		characterController,
+		rotSpeed,
+		m_tankCrawkerTrack
 	);
 
 	return true;
@@ -34,7 +53,15 @@ bool GamePlayer::Start()
 //アップデート関数
 void GamePlayer::Update()
 {
-	
+	float pad_x = g_pad[0]->GetLStickXF();
+	float pad_y = g_pad[0]->GetLStickYF();
+
+	padVector.x = pad_x;
+	padVector.z = pad_y;
+
+	m_tankMovingComponent->CalcValueAndModelUpdate();
+
+	m_tankCrawkerTrack.Update();
 }
 
 //レンダリング関数
