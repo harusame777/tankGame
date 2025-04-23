@@ -23,10 +23,10 @@ public:
 		en_neutralLR,
 		//¶³–Ê‚É‰ñ“]
 		en_trunLeftForward,
-		//‰E³–Ê‚É‰ñ“]
-		en_trunRightForward,
 		//¶”w–Ê‚É‰ñ“]
 		en_trunLeftBackward,
+		//‰E³–Ê‚É‰ñ“]
+		en_trunRightForward,
 		//‰E”w–Ê‚É‰ñ“]
 		en_trunRightBackward,
 	};

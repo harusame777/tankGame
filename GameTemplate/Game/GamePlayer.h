@@ -46,11 +46,11 @@ private:
 
 	//ˆÚ“®ƒeƒXƒg
 	Vector3 padVector;
-	float maxMoveSpeed = 10.0f;
+	float maxMoveSpeed = 100.0f;
 	float acceleration = 5.0f;
 	float deceleration = 4.0f;
 	float friction = 2.0f;
 	CharacterController characterController;
-	float rotSpeed = 0.0f;
+	float rotSpeed = 10.0f;
 };
 

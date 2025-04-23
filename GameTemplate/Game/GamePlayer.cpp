@@ -32,9 +32,7 @@ bool GamePlayer::Start()
 
 	characterController.Init(5.0f, 5.0f, m_pos);
 
-	Quaternion rotSpeedQua;
-	rotSpeedQua.AddRotationY(180.0f);
-	rotSpeed = rotSpeedQua.y;
+	
 
 	m_tankMovingComponent->InitTankMoveingData(
 		padVector,

@@ -45,6 +45,9 @@ void TankMovingComponent::InitTankMoveingData(
 //計算値を取得する
 void TankMovingComponent::CalcValueAndModelUpdate()
 {
+	//回転方向を判定する
+	RotDetermination();
+
 	//まずは前進させるか後退させるかを判定する
 	MoveDetermination();
 
@@ -75,33 +78,31 @@ void TankMovingComponent::MoveDetermination()
 
 	//内積を計算(クランプする)
 	const float dot = btClamped(Dot(normForwardVec, normMoveDirection), -1.0f, 1.0f);
-	//角度出す
-	const float angle = acos(dot);
 
-	//正面旋回境界角度
-	const float forwardThreshold = DirectX::XMConvertToRadians(2.0f);
-	//背面旋回境界角度
-	const float backwardThreshold = DirectX::XMConvertToRadians(178.0f);
+	const float forwardThershold = cosf(DirectX::XMConvertToRadians(45.0f));
 
 	//正面角度以下であれば前進する
-	if (angle < forwardThreshold)
+	if (dot > forwardThershold)
 	{
 		m_moveFRModeState = EnFrontRearMoveMode::en_moveForward;
 
 		return;
 	}
 	//背面角度以上であれば後進する
-	else if(angle > backwardThreshold)
+	else if(dot < -forwardThershold)
 	{
 		m_moveFRModeState = EnFrontRearMoveMode::en_moveBackward;
 
 		return;
 	}
+	else
+	{
+		//いちおうここでも設定
+		m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
 
-	//いちおうここでも設定
-	m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
+		return;
+	}
 
-	return;
 }
 
 //回転方向を判定
@@ -122,67 +123,92 @@ void TankMovingComponent::RotDetermination()
 	Vector3 normMoveDirection = *m_moveDirection;
 	normMoveDirection.Normalize();
 
-	//内積を計算(クランプする)
-	const float dot = btClamped(Dot(normForwardVec, normMoveDirection), -1.0f, 1.0f);
 	//正面差分角度を出す
-	const float angleToForward = acos(dot);
+	const float angleToForward = acos(
+		btClamped(Dot(normForwardVec, normMoveDirection), -1.0f, 1.0f));
 	//背面差分角度を出す
-	const float angleToBackward = acos(-dot);
+	const float angleToBackward = acos(
+		btClamped(Dot((normForwardVec * -1.0f), normMoveDirection), -1.0f, 1.0f));
 
 	//正面方向に回転させるか背面方向に回転させるかを判定
 	bool aimToForward = angleToForward < angleToBackward;
 
+	//正面方向回転か、背面方向回転かでクロス積の計算方法を変更する
+	Vector3 dirCalcVec = aimToForward ? normForwardVec : (normForwardVec * -1.0f);
+
 	//クロス積を計算してY値角度を出す
-	float cross = normForwardVec.x * normMoveDirection.z - normForwardVec.z * normMoveDirection.x;
+	float cross = dirCalcVec.x * normMoveDirection.z - dirCalcVec.z * normMoveDirection.x;
+
+	//正面旋回境界角度
+	const float forwardThreshold = DirectX::XMConvertToRadians(2.0f);
+	//背面旋回境界角度
+	const float backwardThreshold = DirectX::XMConvertToRadians(178.0f);
 
 	//出した角度を使用し判定
-	if (cross > 0)
+	if (cross > 0.1f)
 	{
-		//正面方向に回転するか、背面方向に回転させるかを決定
+		//左にズレがある
 		m_moveLRModeState = aimToForward ? 
 			EnLeftRightMoveMode::en_trunLeftForward : EnLeftRightMoveMode::en_trunLeftBackward;
 	}
-	else
+	else if (cross < -0.1f)
 	{
-		//正面方向に回転するか、背面方向に回転させるかを決定
+		//左にズレがある
 		m_moveLRModeState = aimToForward ?
 			EnLeftRightMoveMode::en_trunRightForward : EnLeftRightMoveMode::en_trunRightBackward;
 	}
+	else
+	{
+		m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
+	}
+
 }
 
 //回転計算
 void TankMovingComponent::RotateCalc()
 {
-	//回転値
-	float trunCalcValue = 0.0f;
-	
-	//回転処理
-	//switch (m_moveLRModeState)
-	//{
-	//case TankMovingComponent::en_neutralLR:
+	//回転方向
+	float trunDir = 0.0f;
+	//角度
+	float angleDelta = 0.0f;
 
+	switch (m_moveLRModeState)
+	{
+	case TankMovingComponent::en_neutralLR:
+		break;
+	case TankMovingComponent::en_trunLeftForward:
+	case TankMovingComponent::en_trunLeftBackward:
 
+		trunDir = -1.0f;
 
-	//	break;
-	//case TankMovingComponent::en_trunLeft:
+		break;
+	case TankMovingComponent::en_trunRightForward:
+	case TankMovingComponent::en_trunRightBackward:
 
-	//	m_rotaiton.AddRotationDegY(*m_trunSpeed);
+		trunDir = 1.0f;
 
-	//	break;
-	//case TankMovingComponent::en_trunRight:
+		break;
+	default:
+		break;
+	}
 
-	//	m_rotaiton.AddRotationDegY(-*m_trunSpeed);
+	Quaternion rotCalcQua;
+	rotCalcQua.AddRotationY(180.0f);
+	const float rotationCalcY = rotCalcQua.y;
 
-	//	break;
-	//default:
-	//	break;
-	//}
+	if (trunDir != 0.0f)
+	{
+		angleDelta = trunDir * rotationCalcY * *m_trunSpeed;
+
+		m_rotaiton.AddRotationDegY(angleDelta);
+
+		//回転角から新しい正面ベクトルを更新
+		*m_forward = Vector3::AxisZ;
+		m_rotaiton.Apply(*m_forward);
+	}
 
 	//モデルの回転更新
 	m_rotModel->SetRotation(m_rotaiton);
-	//正面値修正
-	*m_forward = Vector3::AxisZ;
-	m_rotaiton.Apply(*m_forward);
 }
 
 //移動計算
@@ -212,13 +238,13 @@ void TankMovingComponent::MoveCalc()
 	case TankMovingComponent::en_moveForward:
 
 		//前進処理
-		m_moveSpeed -= *m_acceleration * g_gameTime->GetFrameDeltaTime();
+		m_moveSpeed += *m_acceleration;
 
 		break;
 	case TankMovingComponent::en_moveBackward:
 
 		//後進処理
-		m_moveSpeed += *m_acceleration * g_gameTime->GetFrameDeltaTime();
+		m_moveSpeed += *m_acceleration;
 
 		break;
 	default:
@@ -233,7 +259,7 @@ void TankMovingComponent::MoveCalc()
 	if (m_moveSpeed < -*m_maxMoveSpeed * 0.5)
 	{
 		//後進は遅めに設定
-		m_moveSpeed = -*m_maxMoveSpeed * 0.5;
+		m_moveSpeed = -*m_maxMoveSpeed;
 	}
 
 	//移動方向
