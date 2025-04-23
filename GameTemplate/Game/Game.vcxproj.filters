@@ -16,6 +16,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{88a5e1d0-a223-4574-b782-ef013b47c343}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TankComponents">
+      <UniqueIdentifier>{a740cfd3-bf26-452b-88d4-bf66c56fd5d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -51,6 +54,10 @@
     </ClCompile>
     <ClCompile Include="GameMainCamera.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayer.cpp" />
+    <ClCompile Include="TankMovingComponent.cpp">
+      <Filter>TankComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +97,10 @@
     </ClInclude>
     <ClInclude Include="GameCameraObjectBase.h">
       <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayer.h" />
+    <ClInclude Include="TankMovingComponent.h">
+      <Filter>TankComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

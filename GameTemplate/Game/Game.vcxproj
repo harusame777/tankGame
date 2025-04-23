@@ -229,6 +229,7 @@
     <ClCompile Include="GameMain.cpp" />
     <ClCompile Include="GameMapManager.cpp" />
     <ClCompile Include="GameOut.cpp" />
+    <ClCompile Include="GamePlayer.cpp" />
     <ClCompile Include="GameTitle.cpp" />
     <ClCompile Include="GameLoad.cpp" />
     <ClCompile Include="main.cpp" />
@@ -239,6 +240,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="TankMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMainCamera.h" />
@@ -249,11 +251,13 @@
     <ClInclude Include="GameMapManager.h" />
     <ClInclude Include="GameMapObjectBase.h" />
     <ClInclude Include="GameOut.h" />
+    <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="GameTitle.h" />
     <ClInclude Include="GameLoad.h" />
     <ClInclude Include="MapObjectGeneric.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="TankMovingComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
