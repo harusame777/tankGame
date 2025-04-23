@@ -79,7 +79,7 @@ void TankMovingComponent::MoveDetermination()
 	//内積を計算(クランプする)
 	const float dot = btClamped(Dot(normForwardVec, normMoveDirection), -1.0f, 1.0f);
 
-	const float forwardThershold = cosf(DirectX::XMConvertToRadians(45.0f));
+	const float forwardThershold = cosf(DirectX::XMConvertToRadians(65.0f));
 
 	//正面角度以下であれば前進する
 	if (dot > forwardThershold)
@@ -214,61 +214,37 @@ void TankMovingComponent::RotateCalc()
 //移動計算
 void TankMovingComponent::MoveCalc()
 {
+	//移動方向
+	Vector3 moveDirection = Vector3::Zero;
+	//最終的な速度
+	Vector3 finalMoveSpeed;
+	
 	//移動処理
 	switch (m_moveFRModeState)
 	{
 	case TankMovingComponent::en_neutralFR:
-
-		//自然減速処理
-		if (m_moveSpeed > 0.0f)
-		{
-			m_moveSpeed -= *m_friction * g_gameTime->GetFrameDeltaTime();
-
-			if (m_moveSpeed < 0.0f)
-			{
-				m_moveSpeed = 0.0f;
-			}
-		}
-		else if(m_moveSpeed < 0.0f)
- 		{
-			m_moveSpeed += *m_friction * g_gameTime->GetFrameDeltaTime();
-		}
-
 		break;
 	case TankMovingComponent::en_moveForward:
 
-		//前進処理
-		m_moveSpeed += *m_acceleration;
+		moveDirection = *m_forward;
+
+		moveDirection.Normalize();
+
+		finalMoveSpeed += moveDirection * *m_maxMoveSpeed;
 
 		break;
 	case TankMovingComponent::en_moveBackward:
 
-		//後進処理
-		m_moveSpeed += *m_acceleration;
+		moveDirection = (*m_forward * 1.0f);
+
+		moveDirection.Normalize();
+
+		finalMoveSpeed += moveDirection * -*m_maxMoveSpeed;
 
 		break;
 	default:
 		break;
 	}
-
-	//速度のクランプ
-	if (m_moveSpeed > *m_maxMoveSpeed)
-	{
-		m_moveSpeed = *m_maxMoveSpeed;
-	}
-	if (m_moveSpeed < -*m_maxMoveSpeed * 0.5)
-	{
-		//後進は遅めに設定
-		m_moveSpeed = -*m_maxMoveSpeed;
-	}
-
-	//移動方向
-	Vector3 moveDirection = *m_moveDirection;
-	moveDirection.Normalize();
-
-	//最終的な速度
-	Vector3 finalMoveSpeed;
-	finalMoveSpeed += moveDirection * m_moveSpeed;
 
 	//最終的な移動座標
 	Vector3 finalPosition = Vector3::AxisZ;
