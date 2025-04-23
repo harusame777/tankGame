@@ -47,10 +47,10 @@ public:
 	class Edge
 	{
 	public:
-		BP_FP_INT_TYPE m_pos;			// low bit is min/max
+		BP_FP_INT_TYPE m_position;			// low bit is min/max
 		BP_FP_INT_TYPE m_handle;
 
-		BP_FP_INT_TYPE IsMax() const {return static_cast<BP_FP_INT_TYPE>(m_pos & 1);}
+		BP_FP_INT_TYPE IsMax() const {return static_cast<BP_FP_INT_TYPE>(m_position & 1);}
 	};
 
 public:
@@ -331,12 +331,12 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::unQuantize(btBroadphaseProxy* proxy,b
 	unsigned short vecInMin[3];
 	unsigned short vecInMax[3];
 
-	vecInMin[0] = m_pEdges[0][pHandle->m_minEdges[0]].m_pos ;
-	vecInMax[0] = m_pEdges[0][pHandle->m_maxEdges[0]].m_pos +1 ;
-	vecInMin[1] = m_pEdges[1][pHandle->m_minEdges[1]].m_pos ;
-	vecInMax[1] = m_pEdges[1][pHandle->m_maxEdges[1]].m_pos +1 ;
-	vecInMin[2] = m_pEdges[2][pHandle->m_minEdges[2]].m_pos ;
-	vecInMax[2] = m_pEdges[2][pHandle->m_maxEdges[2]].m_pos +1 ;
+	vecInMin[0] = m_pEdges[0][pHandle->m_minEdges[0]].m_position ;
+	vecInMax[0] = m_pEdges[0][pHandle->m_maxEdges[0]].m_position +1 ;
+	vecInMin[1] = m_pEdges[1][pHandle->m_minEdges[1]].m_position ;
+	vecInMax[1] = m_pEdges[1][pHandle->m_maxEdges[1]].m_position +1 ;
+	vecInMin[2] = m_pEdges[2][pHandle->m_minEdges[2]].m_position ;
+	vecInMax[2] = m_pEdges[2][pHandle->m_maxEdges[2]].m_position +1 ;
 	
 	aabbMin.setValue((btScalar)(vecInMin[0]) / (m_quantize.getX()),(btScalar)(vecInMin[1]) / (m_quantize.getY()),(btScalar)(vecInMin[2]) / (m_quantize.getZ()));
 	aabbMin += m_worldAabbMin;
@@ -419,9 +419,9 @@ m_raycastAccelerator(0)
 		m_pHandles[0].m_minEdges[axis] = 0;
 		m_pHandles[0].m_maxEdges[axis] = 1;
 
-		m_pEdges[axis][0].m_pos = 0;
+		m_pEdges[axis][0].m_position = 0;
 		m_pEdges[axis][0].m_handle = 0;
-		m_pEdges[axis][1].m_pos = m_handleSentinel;
+		m_pEdges[axis][1].m_position = m_handleSentinel;
 		m_pEdges[axis][1].m_handle = 0;
 #ifdef DEBUG_BROADPHASE
 		debugPrintAxis(axis);
@@ -534,10 +534,10 @@ BP_FP_INT_TYPE btAxisSweep3Internal<BP_FP_INT_TYPE>::addHandle(const btVector3& 
 
 		m_pEdges[axis][limit + 1] = m_pEdges[axis][limit - 1];
 
-		m_pEdges[axis][limit - 1].m_pos = min[axis];
+		m_pEdges[axis][limit - 1].m_position = min[axis];
 		m_pEdges[axis][limit - 1].m_handle = handle;
 
-		m_pEdges[axis][limit].m_pos = max[axis];
+		m_pEdges[axis][limit].m_position = max[axis];
 		m_pEdges[axis][limit].m_handle = handle;
 
 		pHandle->m_minEdges[axis] = static_cast<BP_FP_INT_TYPE>(limit - 1);
@@ -586,19 +586,19 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::removeHandle(BP_FP_INT_TYPE handle,bt
 	{
 		Edge* pEdges = m_pEdges[axis];
 		BP_FP_INT_TYPE max = pHandle->m_maxEdges[axis];
-		pEdges[max].m_pos = m_handleSentinel;
+		pEdges[max].m_position = m_handleSentinel;
 
 		sortMaxUp(axis,max,dispatcher,false);
 
 
 		BP_FP_INT_TYPE i = pHandle->m_minEdges[axis];
-		pEdges[i].m_pos = m_handleSentinel;
+		pEdges[i].m_position = m_handleSentinel;
 
 
 		sortMinUp(axis,i,dispatcher,false);
 
 		pEdges[limit-1].m_handle = 0;
-		pEdges[limit-1].m_pos = m_handleSentinel;
+		pEdges[limit-1].m_position = m_handleSentinel;
 		
 #ifdef DEBUG_BROADPHASE
 			debugPrintAxis(axis,false);
@@ -771,11 +771,11 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::updateHandle(BP_FP_INT_TYPE handle, c
 		BP_FP_INT_TYPE emin = pHandle->m_minEdges[axis];
 		BP_FP_INT_TYPE emax = pHandle->m_maxEdges[axis];
 
-		int dmin = (int)min[axis] - (int)m_pEdges[axis][emin].m_pos;
-		int dmax = (int)max[axis] - (int)m_pEdges[axis][emax].m_pos;
+		int dmin = (int)min[axis] - (int)m_pEdges[axis][emin].m_position;
+		int dmax = (int)max[axis] - (int)m_pEdges[axis][emax].m_position;
 
-		m_pEdges[axis][emin].m_pos = min[axis];
-		m_pEdges[axis][emax].m_pos = max[axis];
+		m_pEdges[axis][emin].m_position = min[axis];
+		m_pEdges[axis][emax].m_position = max[axis];
 
 		// expand (only adds overlaps)
 		if (dmin < 0)
@@ -811,7 +811,7 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::sortMinDown(int axis, BP_FP_INT_TYPE 
 	Edge* pPrev = pEdge - 1;
 	Handle* pHandleEdge = getHandle(pEdge->m_handle);
 
-	while (pEdge->m_pos < pPrev->m_pos)
+	while (pEdge->m_position < pPrev->m_position)
 	{
 		Handle* pHandlePrev = getHandle(pPrev->m_handle);
 
@@ -862,7 +862,7 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::sortMinUp(int axis, BP_FP_INT_TYPE ed
 	Edge* pNext = pEdge + 1;
 	Handle* pHandleEdge = getHandle(pEdge->m_handle);
 
-	while (pNext->m_handle && (pEdge->m_pos >= pNext->m_pos))
+	while (pNext->m_handle && (pEdge->m_position >= pNext->m_position))
 	{
 		Handle* pHandleNext = getHandle(pNext->m_handle);
 
@@ -919,7 +919,7 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::sortMaxDown(int axis, BP_FP_INT_TYPE 
 	Edge* pPrev = pEdge - 1;
 	Handle* pHandleEdge = getHandle(pEdge->m_handle);
 
-	while (pEdge->m_pos < pPrev->m_pos)
+	while (pEdge->m_position < pPrev->m_position)
 	{
 		Handle* pHandlePrev = getHandle(pPrev->m_handle);
 
@@ -981,7 +981,7 @@ void btAxisSweep3Internal<BP_FP_INT_TYPE>::sortMaxUp(int axis, BP_FP_INT_TYPE ed
 	Edge* pNext = pEdge + 1;
 	Handle* pHandleEdge = getHandle(pEdge->m_handle);
 
-	while (pNext->m_handle && (pEdge->m_pos >= pNext->m_pos))
+	while (pNext->m_handle && (pEdge->m_position >= pNext->m_position))
 	{
 		Handle* pHandleNext = getHandle(pNext->m_handle);
 

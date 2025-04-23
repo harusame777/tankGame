@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "TankMovingComponent.h"
 
-namespace TankMoveConstant
+namespace TankTurretConstant
 {
 	//誤差込み数値、小さい値の比較は誤差を考慮して「闘値以下」で判断
 	static const float EQSILON = 0.001f;
@@ -43,30 +43,33 @@ void TankMovingComponent::InitTankMoveingData(
 }
 
 //計算値を取得する
-void TankMovingComponent::CalcValueAndModelUpdate()
+const Vector3& TankMovingComponent::CalcValueAndModelUpdate()
 {
+	//最終的な位置座標
+	Vector3 finalPosition = Vector3::Zero; 
+
 	//回転方向を判定する
-	RotDetermination();
+	m_moveLRModeState = RotDetermination();
 
 	//まずは前進させるか後退させるかを判定する
-	MoveDetermination();
+	m_moveFRModeState = MoveDetermination();
 
 	//回転計算
 	RotateCalc();
 
 	//移動計算
-	MoveCalc();
+	finalPosition = MoveCalc();
+
+	return finalPosition;
 }
 
 //前進させるか後退させるかを判定
-void TankMovingComponent::MoveDetermination()
+const TankMovingComponent::EnFrontRearMoveMode TankMovingComponent::MoveDetermination()
 {
 	//入力方向が定数以下であれば移動しない
-	if (m_moveDirection->LengthSq() < TankMoveConstant::NO_MOVE_DISTANSE)
+	if (m_moveDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
 	{
-		m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
-
-		return;
+		return EnFrontRearMoveMode::en_neutralFR;
 	}
 
 	//正面ベクトル
@@ -84,36 +87,27 @@ void TankMovingComponent::MoveDetermination()
 	//正面角度以下であれば前進する
 	if (dot > forwardThershold)
 	{
-		m_moveFRModeState = EnFrontRearMoveMode::en_moveForward;
-
-		return;
+		return EnFrontRearMoveMode::en_moveForward;
 	}
 	//背面角度以上であれば後進する
 	else if(dot < -forwardThershold)
 	{
-		m_moveFRModeState = EnFrontRearMoveMode::en_moveBackward;
-
-		return;
-	}
-	else
-	{
-		//いちおうここでも設定
-		m_moveFRModeState = EnFrontRearMoveMode::en_neutralFR;
-
-		return;
+		return EnFrontRearMoveMode::en_moveBackward;
 	}
 
+	//いちおうここでも設定
+	return EnFrontRearMoveMode::en_neutralFR;
 }
 
 //回転方向を判定
-void TankMovingComponent::RotDetermination()
+const TankMovingComponent::EnLeftRightMoveMode TankMovingComponent::RotDetermination()
 {
 	//入力方向が定数以下であれば回転しない
-	if (m_moveDirection->LengthSq() < TankMoveConstant::NO_MOVE_DISTANSE)
+	if (m_moveDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
 	{
-		m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
+		return EnLeftRightMoveMode::en_neutralLR;
 
-		return;
+	
 	}
 
 	//正面ベクトル
@@ -148,20 +142,17 @@ void TankMovingComponent::RotDetermination()
 	if (cross > 0.1f)
 	{
 		//左にズレがある
-		m_moveLRModeState = aimToForward ? 
+		return aimToForward ?
 			EnLeftRightMoveMode::en_trunLeftForward : EnLeftRightMoveMode::en_trunLeftBackward;
 	}
 	else if (cross < -0.1f)
 	{
 		//左にズレがある
-		m_moveLRModeState = aimToForward ?
+		return aimToForward ?
 			EnLeftRightMoveMode::en_trunRightForward : EnLeftRightMoveMode::en_trunRightBackward;
 	}
-	else
-	{
-		m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
-	}
-
+		
+	return EnLeftRightMoveMode::en_neutralLR;
 }
 
 //回転計算
@@ -212,7 +203,7 @@ void TankMovingComponent::RotateCalc()
 }
 
 //移動計算
-void TankMovingComponent::MoveCalc()
+const Vector3& TankMovingComponent::MoveCalc()
 {
 	//移動方向
 	Vector3 moveDirection = Vector3::Zero;
@@ -255,4 +246,6 @@ void TankMovingComponent::MoveCalc()
 
 	//モデル更新
 	m_rotModel->SetPosition(finalPosition);
+
+	return finalPosition;
 }

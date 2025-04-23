@@ -1,6 +1,7 @@
 #pragma once
 
 class TankMovingComponent;
+class TankTurretMovingComponent;
 
 class GamePlayer : public IGameObject
 {
@@ -40,12 +41,30 @@ private:
 	/// 戦車移動コンポーネント
 	/// </summary>
 	TankMovingComponent* m_tankMovingComponent = nullptr;
-
-	Vector3 m_pos = Vector3::AxisZ;
+	/// <summary>
+	/// 戦車砲塔コンポーネント
+	/// </summary>
+	TankTurretMovingComponent* m_tankTurretMovingComponent = nullptr;
+	/// <summary>
+	/// 履帯位置
+	/// </summary>
+	Vector3 m_position = Vector3::AxisZ;
+	/// <summary>
+	/// 砲塔位置
+	/// </summary>
+	Vector3 m_turretPosition = Vector3::Zero;
+	/// <summary>
+	/// 正面ベクトル
+	/// </summary>
 	Vector3 m_forward = Vector3::AxisZ;
+	/// <summary>
+	/// 砲塔正面ベクトル
+	/// </summary>
+	Vector3 m_turretForward = Vector3::AxisZ;
 
 	//移動テスト
-	Vector3 padVector;
+	Vector3 padLVector;
+	Vector3 padRVector;
 	float maxMoveSpeed = 100.0f;
 	float acceleration = 5.0f;
 	float deceleration = 4.0f;

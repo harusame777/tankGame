@@ -59,6 +59,9 @@
     <ClCompile Include="TankMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
+    <ClCompile Include="TankTurretMovingComponent.cpp">
+      <Filter>TankComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="TankMovingComponent.h">
+      <Filter>TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="TankTurretMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
   </ItemGroup>

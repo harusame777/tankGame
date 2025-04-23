@@ -63,7 +63,7 @@ public:
 	/// 計算とモデル更新を行う
 	/// </summary>
 	/// <returns></returns>
-	void CalcValueAndModelUpdate();
+	const Vector3& CalcValueAndModelUpdate();
 	/// <summary>
 	/// 現在速度を返す
 	/// </summary>
@@ -76,15 +76,15 @@ private:
 	/// <summary>
 	/// どう移動するかを判定
 	/// </summary>
-	void MoveDetermination();
+	const EnFrontRearMoveMode MoveDetermination();
 	/// <summary>
 	/// どう回転するかを判定
 	/// </summary>
-	void RotDetermination();
+	const EnLeftRightMoveMode RotDetermination();
 	/// <summary>
 	/// 移動計算
 	/// </summary>
-	void MoveCalc();
+	const Vector3& MoveCalc();
 	/// <summary>
 	/// 回転計算
 	/// </summary>
