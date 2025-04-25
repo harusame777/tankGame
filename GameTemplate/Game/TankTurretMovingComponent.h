@@ -35,7 +35,6 @@ public:
 		Vector3& rotDirection,		//移動方向
 		Vector3& followPos,			//追従させる位置
 		Vector3& followForward,		//追従させるモデルの正面ベクトル
-		Vector3& turretForward,		//砲塔の正面ベクトル
 		float& turnSpeed,			//砲塔の回転スピード
 		ModelRender& trunModel		//回転させるモデル
 	);
@@ -72,6 +71,14 @@ private:
 	/// </summary>
 	Vector3 m_forward = Vector3::AxisZ;
 	/// <summary>
+	/// 自動回転時間
+	/// </summary>
+	float m_autoRotTime = 0.0f;
+	/// <summary>
+	/// 自動回転するか
+	/// </summary>
+	bool m_isAutoRot = false;
+	/// <summary>
 	/// 回転方向
 	/// </summary>
 	Vector3* m_rotDirection = nullptr;
@@ -83,10 +90,6 @@ private:
 	/// 追従正面ベクトル
 	/// </summary>
 	Vector3* m_followForward = nullptr;
-	/// <summary>
-	/// 砲塔正面ベクトル
-	/// </summary>
-	Vector3* m_turretForward = nullptr;
 	/// <summary>
 	/// 砲塔回転スピード
 	/// </summary>

@@ -14,7 +14,6 @@ void TankTurretMovingComponent::InitTankTurretMovingData(
 	Vector3& rotDirection,		//移動方向
 	Vector3& followPos,			//追従させる位置
 	Vector3& followForward,		//追従させるモデルの正面ベクトル
-	Vector3& turretForward,		//砲塔の正面ベクトル
 	float& turnSpeed,			//砲塔の回転スピード
 	ModelRender& trunModel		//回転させるモデル
 )
@@ -25,8 +24,6 @@ void TankTurretMovingComponent::InitTankTurretMovingData(
 	m_followPosition = &followPos;
 	//追従させるモデルの正面ベクトルのアドレスを取得
 	m_followForward = &followForward;
-	//砲塔の正面ベクトルのアドレスを取得
-	m_turretForward = &turretForward;
 	//砲塔の回転スピードのアドレスを取得
 	m_trunSpeed = &turnSpeed;
 	//回転させるモデルのアドレスを取得
@@ -53,32 +50,66 @@ const Vector3& TankTurretMovingComponent::CalcValueAndModelUpdate()
 //回転方向決定関数
 const TankTurretMovingComponent::EnLeftRightMoveMode TankTurretMovingComponent::RotDetermination()
 {
+	//自動回転タイマー
+	if (m_autoRotTime < 0.0f)
+	{
+		m_isAutoRot = true;
+	}
+	else
+	{
+		m_autoRotTime -= g_gameTime->GetFrameDeltaTime();
+	}
+
 	//入力方向が定数以下であれば回転しない
 	if (m_rotDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
 	{
-		return EnLeftRightMoveMode::en_neutralLR;
+		//自動回転していないなら回転しない
+		if (m_isAutoRot == false)
+		{
+			return EnLeftRightMoveMode::en_neutralLR;
+		}
+	}
+	else
+	{
+		//自動回転しないようにする
+		m_autoRotTime = 5.0f;
+		m_isAutoRot = false;
 	}
 
 	//正面ベクトル
-	Vector3 normForwardVec = *m_followForward;
+	Vector3 normForwardVec = m_forward;
 	normForwardVec.Normalize();
 	//移動方向ベクトル
-	Vector3 normMoveDirection = *m_rotDirection;
+	Vector3 normMoveDirection = m_isAutoRot ? *m_followForward : *m_rotDirection;
 	normMoveDirection.Normalize();
+
+	normForwardVec.y = 0.0f;
+	normMoveDirection.y = 0.0f;
+
+	const float angle = acos(
+		btClamped(Dot(normForwardVec, normMoveDirection), -1.0f, 1.0f));
+
+	//一致で停止する
+	if (angle < 0.1f)
+	{
+		m_forward = *m_rotDirection;
+
+		return EnLeftRightMoveMode::en_neutralLR;
+	}
 
 	//クロス積を計算してY値角度を出す
 	float cross = normForwardVec.x * normMoveDirection.z - normForwardVec.z * normMoveDirection.x;
 
-	if (cross > 0.1f)
+	if (cross > 0.0f)
 	{
+
 		return EnLeftRightMoveMode::en_trunLeft;
 	}
-	else if(cross < -0.1f)
+	else 
 	{
 		return EnLeftRightMoveMode::en_trunRight;
 	}
 
-	return EnLeftRightMoveMode::en_neutralLR;
 }
 
 const Vector3& TankTurretMovingComponent::PositionUpdete()
@@ -114,20 +145,17 @@ void TankTurretMovingComponent::RotateUpdate()
 		break;
 	}
 
-	Quaternion rotCalcQua;
-	rotCalcQua.AddRotationY(180.0f);
-	const float rotationCalcY = rotCalcQua.y;
-
 	if (trunDir != 0.0f)
 	{
-		angleDelta = trunDir * rotationCalcY * *m_trunSpeed;
+		angleDelta = trunDir * *m_trunSpeed;
 
 		m_rotaiton.AddRotationDegY(angleDelta);
 
-		//回転角から新しい正面ベクトルを更新
-		m_forward = Vector3::AxisZ;
-		m_rotaiton.Apply(m_forward);
 	}
+
+	//回転角から新しい正面ベクトルを更新
+	m_forward = Vector3::AxisZ;
+	m_rotaiton.Apply(m_forward);
 
 	//モデルの回転更新
 	m_trunModel->SetRotation(m_rotaiton);

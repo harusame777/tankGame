@@ -84,7 +84,7 @@ private:
 	/// <summary>
 	/// 移動計算
 	/// </summary>
-	const Vector3& MoveCalc();
+	void MoveCalc();
 	/// <summary>
 	/// 回転計算
 	/// </summary>
@@ -105,6 +105,10 @@ private:
 	/// 現在回転値
 	/// </summary>
 	Quaternion m_rotaiton = Quaternion::Identity;
+	/// <summary>
+	/// モデル位置
+	/// </summary>
+	Vector3 m_modelPosition = Vector3::Zero;
 	/// <summary>
 	/// 移動方向
 	/// </summary>

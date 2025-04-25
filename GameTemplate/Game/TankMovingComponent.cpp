@@ -58,9 +58,9 @@ const Vector3& TankMovingComponent::CalcValueAndModelUpdate()
 	RotateCalc();
 
 	//移動計算
-	finalPosition = MoveCalc();
+	MoveCalc();
 
-	return finalPosition;
+	return m_modelPosition;
 }
 
 //前進させるか後退させるかを判定
@@ -203,7 +203,7 @@ void TankMovingComponent::RotateCalc()
 }
 
 //移動計算
-const Vector3& TankMovingComponent::MoveCalc()
+void TankMovingComponent::MoveCalc()
 {
 	//移動方向
 	Vector3 moveDirection = Vector3::Zero;
@@ -237,15 +237,10 @@ const Vector3& TankMovingComponent::MoveCalc()
 		break;
 	}
 
-	//最終的な移動座標
-	Vector3 finalPosition = Vector3::AxisZ;
-
 	//キャラコン後進
-	finalPosition = m_characterController
+	m_modelPosition = m_characterController
 		->Execute(finalMoveSpeed, g_gameTime->GetFrameDeltaTime());
 
 	//モデル更新
-	m_rotModel->SetPosition(finalPosition);
-
-	return finalPosition;
+	m_rotModel->SetPosition(m_modelPosition);
 }

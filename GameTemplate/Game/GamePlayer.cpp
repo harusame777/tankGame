@@ -51,7 +51,6 @@ bool GamePlayer::Start()
 		padRVector,
 		m_position,
 		m_forward,
-		m_turretForward,
 		rotSpeed,
 		m_tankTurret
 	);
@@ -71,7 +70,7 @@ void GamePlayer::Update()
 	m_position = m_tankMovingComponent->CalcValueAndModelUpdate();
 
 	pad_x = g_pad[0]->GetRStickXF();
-	pad_x = g_pad[0]->GetRStickYF();
+	pad_y = g_pad[0]->GetRStickYF();
 
 	padRVector.x = pad_x;
 	padRVector.z = pad_y;
