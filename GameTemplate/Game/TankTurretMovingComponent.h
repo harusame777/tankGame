@@ -43,6 +43,22 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const Vector3& CalcTurretMovingDataAndModelUpdate();
+	/// <summary>
+	/// –C’e”­ËˆÊ’u‚ğæ“¾
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetCannonFiringPosition() const
+	{
+		return m_cannonFiringPosition;
+	}
+	/// <summary>
+	/// –C“ƒ‚Ì³–ÊƒxƒNƒgƒ‹‚ğæ“¾
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetTurretForward() const
+	{
+		return m_forward;
+	}
 private:
 	/// <summary>
 	/// ‰ñ“]•ûŒüŒˆ’è
@@ -59,6 +75,11 @@ private:
 	/// </summary>
 	void RotateUpdate();
 	/// <summary>
+	/// –C’e”­ËˆÊ’uŒvZ
+	/// </summary>
+	/// <param name="turretPos"></param>
+	void CalcCannonFiringPosition(const Vector3& turretForwardVec);
+	/// <summary>
 	/// ‰ñ“]ƒXƒe[ƒg
 	/// </summary>
 	EnLeftRightMoveMode m_moveLRModeState = EnLeftRightMoveMode::en_neutralLR;
@@ -70,6 +91,10 @@ private:
 	/// –C“ƒ³–ÊƒxƒNƒgƒ‹
 	/// </summary>
 	Vector3 m_forward = Vector3::AxisZ;
+	/// <summary>
+	/// –C’e”­ËˆÊ’u
+	/// </summary>
+	Vector3 m_cannonFiringPosition = Vector3::Zero;
 	/// <summary>
 	/// ©“®‰ñ“]ŠÔ
 	/// </summary>

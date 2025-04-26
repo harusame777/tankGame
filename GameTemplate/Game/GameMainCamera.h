@@ -1,6 +1,8 @@
 #pragma once
 
-#include "GameCameraObjectBase.h"
+#include "GameCameraObjectBase.h"]
+
+class GamePlayer;
 
 class GameMainCamera : 
 	public GameCameraObjectBase
@@ -27,5 +29,9 @@ private:
 	/// カメラ更新
 	/// </summary>
 	void UpdateCamera() override;
+	/// <summary>
+	/// ゲームプレイヤー
+	/// </summary>
+	GamePlayer* m_gamePlayer = nullptr;
 };
 

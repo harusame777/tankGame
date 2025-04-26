@@ -6,6 +6,15 @@ class TankTurretMovingComponent;
 class GamePlayer : public IGameObject
 {
 public:
+	enum EnPlayerState
+	{
+		//待機
+		en_idle,
+		//移動
+		en_moving,
+		//ロード待機など
+		en_standby,
+	};
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -14,6 +23,30 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~GamePlayer() {};
+	/// <summary>
+	/// ステート変更
+	/// </summary>
+	/// <param name="changeState"></param>
+	void ChangeState(const EnPlayerState changeState)
+	{
+		m_playerState = changeState;
+	}
+	/// <summary>
+	/// ステートを取得
+	/// </summary>
+	/// <returns></returns>
+	const EnPlayerState GetState() const
+	{
+		return m_playerState;
+	}
+	/// <summary>
+	/// プレイヤーの位置座標の取得
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetPosition() const
+	{
+		return m_position;
+	}
 private:
 	/// <summary>
 	/// スタート関数
@@ -29,6 +62,10 @@ private:
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc);
+	/// <summary>
+	/// プレイヤーのステート
+	/// </summary>
+	EnPlayerState m_playerState = EnPlayerState::en_idle;
 	/// <summary>
 	/// 履帯モデル
 	/// </summary>

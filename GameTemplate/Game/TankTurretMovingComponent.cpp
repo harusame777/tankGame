@@ -3,10 +3,11 @@
 
 namespace TankTurretConstant
 {
-	//誤差込み数値、小さい値の比較は誤差を考慮して「闘値以下」で判断
-	static const float EQSILON = 0.001f;
 	// 動いてないとみなす距離の闘値
-	const float NO_MOVE_DISTANSE = 0.01f;
+	const float n_noMoveDistance = 0.01f;
+
+	const float n_cannonFiringPositionZ = 55.0;
+	const float n_cannonFiringPositionY = 35.0;
 }
 
 //アドレス設定
@@ -61,7 +62,7 @@ const TankTurretMovingComponent::EnLeftRightMoveMode TankTurretMovingComponent::
 	}
 
 	//入力方向が定数以下であれば回転しない
-	if (m_rotDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
+	if (m_rotDirection->LengthSq() < TankTurretConstant::n_noMoveDistance)
 	{
 		//自動回転していないなら回転しない
 		if (m_isAutoRot == false)
@@ -159,4 +160,21 @@ void TankTurretMovingComponent::RotateUpdate()
 
 	//モデルの回転更新
 	m_trunModel->SetRotation(m_rotaiton);
+
+	//砲弾発射位置計算
+	CalcCannonFiringPosition(m_forward);
+}
+
+void TankTurretMovingComponent::CalcCannonFiringPosition(const Vector3& turretForwardVec)
+{
+	//まずは砲塔の正面ベクトルを取得
+	Vector3 firingVec = turretForwardVec;
+	//一応正規化
+	firingVec.Normalize();
+	//そこから砲塔の弾丸発射Z値と計算し正確な発射位置を計算
+	const Vector3 firingPos = firingVec * TankTurretConstant::n_cannonFiringPositionZ;
+	//それを現在の追従位置と計算して発射位置とする
+	m_cannonFiringPosition = firingPos + *m_followPosition;
+	//Y値を修正
+	m_cannonFiringPosition.y += TankTurretConstant::n_cannonFiringPositionY;
 }

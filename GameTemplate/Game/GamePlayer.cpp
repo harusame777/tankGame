@@ -58,6 +58,12 @@ bool GamePlayer::Start()
 //アップデート関数
 void GamePlayer::Update()
 {
+	//ロード中等では動かないように
+	if (m_playerState == EnPlayerState::en_standby)
+	{
+		return;
+	}
+
 	float pad_x = g_pad[0]->GetLStickXF();
 	float pad_y = g_pad[0]->GetLStickYF();
 
@@ -75,7 +81,6 @@ void GamePlayer::Update()
 	m_turretPosition = m_tankTurretMovingComponent->CalcTurretMovingDataAndModelUpdate();
 
 	m_tankCrawkerTrack.Update();
-
 	m_tankTurret.Update();
 }
 
@@ -85,7 +90,7 @@ void GamePlayer::Render(RenderContext& rc)
 
 	//履帯描画
 	m_tankCrawkerTrack.Draw(rc);
-
+	//砲塔描画
 	m_tankTurret.Draw(rc);
 
 }
