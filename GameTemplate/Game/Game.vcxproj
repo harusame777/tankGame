@@ -223,6 +223,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Cannonball.cpp" />
+    <ClCompile Include="CannonballManager.cpp" />
     <ClCompile Include="GameMainCamera.cpp" />
     <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameIn.cpp" />
@@ -244,6 +246,9 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cannonball.h" />
+    <ClInclude Include="CannonballManager.h" />
+    <ClInclude Include="CannonballObjectBase.h" />
     <ClInclude Include="GameMainCamera.h" />
     <ClInclude Include="GameCameraManager.h" />
     <ClInclude Include="GameCameraObjectBase.h" />
@@ -256,10 +261,14 @@
     <ClInclude Include="GameTitle.h" />
     <ClInclude Include="GameLoad.h" />
     <ClInclude Include="MapObjectGeneric.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TankCrawkerMovingComponent.h" />
     <ClInclude Include="TankTurretMovingComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,6 +19,12 @@
     <Filter Include="TankComponents">
       <UniqueIdentifier>{a740cfd3-bf26-452b-88d4-bf66c56fd5d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cannonball">
+      <UniqueIdentifier>{91f7579f-c872-4532-a1e8-5af19ac4fcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cannonball\CannonballState">
+      <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -61,6 +67,12 @@
     </ClCompile>
     <ClCompile Include="TankTurretMovingComponent.cpp">
       <Filter>TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannonball.cpp">
+      <Filter>Cannonball</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonballManager.cpp">
+      <Filter>Cannonball</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,5 +120,18 @@
     <ClInclude Include="TankTurretMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Cannonball.h">
+      <Filter>Cannonball</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonballManager.h">
+      <Filter>Cannonball</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonballObjectBase.h">
+      <Filter>Cannonball</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
 </Project>
