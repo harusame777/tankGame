@@ -1,5 +1,5 @@
 #pragma once
-class TankMovingComponent
+class TankCrawkerMovingComponent
 {
 public:
 	/// <summary>
@@ -33,28 +33,24 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	TankMovingComponent() {};
+	TankCrawkerMovingComponent() {};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~TankMovingComponent() {};
+	~TankCrawkerMovingComponent() {};
 	/// <summary>
 	/// 戦車移動初期化
 	/// </summary>
 	/// <param name="moveDirection"></param>
-	/// <param name="acceleration"></param>
-	/// <param name="deceleration"></param>
-	/// <param name="friction"></param>
+	/// <param name="forward"></param>
+	/// <param name="maxMoveSpeed"></param>
 	/// <param name="characterControoler"></param>
 	/// <param name="trunSpeed"></param>
 	/// <param name="rotModel"></param>
-	void InitTankMoveingData(
+	void InitTankCrawkerMoveingData(
 		Vector3& moveDirection,						//移動方向
 		Vector3& forward,							//正面方向
 		float& maxMoveSpeed,						//最大速度
-		float& acceleration,						//加速度
-		float& deceleration,						//減速
-		float& friction,							//自然減速
 		CharacterController& characterControoler,	//キャラコン
 		float& trunSpeed,							//回転速度
 		ModelRender& rotModel						//回転させるモデル
@@ -63,7 +59,7 @@ public:
 	/// 計算とモデル更新を行う
 	/// </summary>
 	/// <returns></returns>
-	const Vector3& CalcValueAndModelUpdate();
+	const Vector3& CalcCrawkerMovingDataAndModelUpdate();
 	/// <summary>
 	/// 現在速度を返す
 	/// </summary>
@@ -121,18 +117,6 @@ private:
 	/// 最大速度
 	/// </summary>
 	float* m_maxMoveSpeed = nullptr;
-	/// <summary>
-	/// 加速度
-	/// </summary>
-	float* m_acceleration = nullptr;
-	/// <summary>
-	/// 減速度
-	/// </summary>
-	float* m_deceleration = nullptr;
-	/// <summary>
-	/// 自然減速
-	/// </summary>
-	float* m_friction = nullptr;
 	/// <summary>
 	/// キャラクターコントローラー
 	/// </summary>

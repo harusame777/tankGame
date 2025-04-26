@@ -31,7 +31,7 @@ void TankTurretMovingComponent::InitTankTurretMovingData(
 }
 
 //計算、モデル更新
-const Vector3& TankTurretMovingComponent::CalcValueAndModelUpdate()
+const Vector3& TankTurretMovingComponent::CalcTurretMovingDataAndModelUpdate()
 {
 	//最終的な位置
 	Vector3 finalPosition = Vector3::Zero;

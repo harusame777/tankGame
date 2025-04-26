@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TankMovingComponent.h"
+#include "TankCrawkerMovingComponent.h"
 
 namespace TankTurretConstant
 {
@@ -10,13 +10,10 @@ namespace TankTurretConstant
 }
 
 //コンストラクタ
-void TankMovingComponent::InitTankMoveingData(
+void TankCrawkerMovingComponent::InitTankCrawkerMoveingData(
 	Vector3& moveDirection,						//移動方向
 	Vector3& forward,							//正面方向
 	float& maxMoveSpeed,						//最大速度
-	float& acceleration,						//加速度
-	float& deceleration,						//減速
-	float& friction,							//自然減速
 	CharacterController& characterControoler,	//キャラコン
 	float& trunSpeed,							//回転速度
 	ModelRender& rotModel						//回転させるモデル
@@ -28,12 +25,6 @@ void TankMovingComponent::InitTankMoveingData(
 	m_forward = &forward;
 	//最大速度のアドレスを取得
 	m_maxMoveSpeed = &maxMoveSpeed;
-	//加速度のアドレスを取得
-	m_acceleration = &acceleration;
-	//減速のアドレスを取得
-	m_deceleration = &deceleration;
-	//自然減速のアドレスを取得
-	m_friction = &friction;
 	//キャラクターコントローラーのアドレスを取得
 	m_characterController = &characterControoler;
 	//回転速度のアドレスを取得
@@ -43,7 +34,7 @@ void TankMovingComponent::InitTankMoveingData(
 }
 
 //計算値を取得する
-const Vector3& TankMovingComponent::CalcValueAndModelUpdate()
+const Vector3& TankCrawkerMovingComponent::CalcCrawkerMovingDataAndModelUpdate()
 {
 	//最終的な位置座標
 	Vector3 finalPosition = Vector3::Zero; 
@@ -64,7 +55,7 @@ const Vector3& TankMovingComponent::CalcValueAndModelUpdate()
 }
 
 //前進させるか後退させるかを判定
-const TankMovingComponent::EnFrontRearMoveMode TankMovingComponent::MoveDetermination()
+const TankCrawkerMovingComponent::EnFrontRearMoveMode TankCrawkerMovingComponent::MoveDetermination()
 {
 	//入力方向が定数以下であれば移動しない
 	if (m_moveDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
@@ -100,14 +91,12 @@ const TankMovingComponent::EnFrontRearMoveMode TankMovingComponent::MoveDetermin
 }
 
 //回転方向を判定
-const TankMovingComponent::EnLeftRightMoveMode TankMovingComponent::RotDetermination()
+const TankCrawkerMovingComponent::EnLeftRightMoveMode TankCrawkerMovingComponent::RotDetermination()
 {
 	//入力方向が定数以下であれば回転しない
 	if (m_moveDirection->LengthSq() < TankTurretConstant::NO_MOVE_DISTANSE)
 	{
 		return EnLeftRightMoveMode::en_neutralLR;
-
-	
 	}
 
 	//正面ベクトル
@@ -127,36 +116,44 @@ const TankMovingComponent::EnLeftRightMoveMode TankMovingComponent::RotDetermina
 	//正面方向に回転させるか背面方向に回転させるかを判定
 	bool aimToForward = angleToForward < angleToBackward;
 
+	if (aimToForward == true)
+	{
+		if (angleToForward < 0.1f)
+		{
+			return EnLeftRightMoveMode::en_neutralLR;
+		}
+	}
+	else
+	{
+		if (angleToBackward < 0.1f)
+		{
+			return EnLeftRightMoveMode::en_neutralLR;
+		}
+	}
+
 	//正面方向回転か、背面方向回転かでクロス積の計算方法を変更する
 	Vector3 dirCalcVec = aimToForward ? normForwardVec : (normForwardVec * -1.0f);
 
 	//クロス積を計算してY値角度を出す
 	float cross = dirCalcVec.x * normMoveDirection.z - dirCalcVec.z * normMoveDirection.x;
 
-	//正面旋回境界角度
-	const float forwardThreshold = DirectX::XMConvertToRadians(2.0f);
-	//背面旋回境界角度
-	const float backwardThreshold = DirectX::XMConvertToRadians(178.0f);
-
 	//出した角度を使用し判定
-	if (cross > 0.1f)
+	if (cross > 0.0f)
 	{
 		//左にズレがある
 		return aimToForward ?
 			EnLeftRightMoveMode::en_trunLeftForward : EnLeftRightMoveMode::en_trunLeftBackward;
 	}
-	else if (cross < -0.1f)
+	else
 	{
 		//左にズレがある
 		return aimToForward ?
 			EnLeftRightMoveMode::en_trunRightForward : EnLeftRightMoveMode::en_trunRightBackward;
 	}
-		
-	return EnLeftRightMoveMode::en_neutralLR;
 }
 
 //回転計算
-void TankMovingComponent::RotateCalc()
+void TankCrawkerMovingComponent::RotateCalc()
 {
 	//回転方向
 	float trunDir = 0.0f;
@@ -165,16 +162,16 @@ void TankMovingComponent::RotateCalc()
 
 	switch (m_moveLRModeState)
 	{
-	case TankMovingComponent::en_neutralLR:
+	case TankCrawkerMovingComponent::en_neutralLR:
 		break;
-	case TankMovingComponent::en_trunLeftForward:
-	case TankMovingComponent::en_trunLeftBackward:
+	case TankCrawkerMovingComponent::en_trunLeftForward:
+	case TankCrawkerMovingComponent::en_trunLeftBackward:
 
 		trunDir = -1.0f;
 
 		break;
-	case TankMovingComponent::en_trunRightForward:
-	case TankMovingComponent::en_trunRightBackward:
+	case TankCrawkerMovingComponent::en_trunRightForward:
+	case TankCrawkerMovingComponent::en_trunRightBackward:
 
 		trunDir = 1.0f;
 
@@ -183,27 +180,23 @@ void TankMovingComponent::RotateCalc()
 		break;
 	}
 
-	Quaternion rotCalcQua;
-	rotCalcQua.AddRotationY(180.0f);
-	const float rotationCalcY = rotCalcQua.y;
-
 	if (trunDir != 0.0f)
 	{
-		angleDelta = trunDir * rotationCalcY * *m_trunSpeed;
+		angleDelta = trunDir * *m_trunSpeed;
 
 		m_rotaiton.AddRotationDegY(angleDelta);
-
-		//回転角から新しい正面ベクトルを更新
-		*m_forward = Vector3::AxisZ;
-		m_rotaiton.Apply(*m_forward);
 	}
+
+	//回転角から新しい正面ベクトルを更新
+	*m_forward = Vector3::AxisZ;
+	m_rotaiton.Apply(*m_forward);
 
 	//モデルの回転更新
 	m_rotModel->SetRotation(m_rotaiton);
 }
 
 //移動計算
-void TankMovingComponent::MoveCalc()
+void TankCrawkerMovingComponent::MoveCalc()
 {
 	//移動方向
 	Vector3 moveDirection = Vector3::Zero;
@@ -213,9 +206,9 @@ void TankMovingComponent::MoveCalc()
 	//移動処理
 	switch (m_moveFRModeState)
 	{
-	case TankMovingComponent::en_neutralFR:
+	case TankCrawkerMovingComponent::en_neutralFR:
 		break;
-	case TankMovingComponent::en_moveForward:
+	case TankCrawkerMovingComponent::en_moveForward:
 
 		moveDirection = *m_forward;
 
@@ -224,7 +217,7 @@ void TankMovingComponent::MoveCalc()
 		finalMoveSpeed += moveDirection * *m_maxMoveSpeed;
 
 		break;
-	case TankMovingComponent::en_moveBackward:
+	case TankCrawkerMovingComponent::en_moveBackward:
 
 		moveDirection = (*m_forward * 1.0f);
 

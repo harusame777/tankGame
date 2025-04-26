@@ -1,6 +1,6 @@
 #pragma once
 
-class TankMovingComponent;
+class TankCrawkerMovingComponent;
 class TankTurretMovingComponent;
 
 class GamePlayer : public IGameObject
@@ -40,7 +40,7 @@ private:
 	/// <summary>
 	/// 戦車移動コンポーネント
 	/// </summary>
-	TankMovingComponent* m_tankMovingComponent = nullptr;
+	TankCrawkerMovingComponent* m_tankMovingComponent = nullptr;
 	/// <summary>
 	/// 戦車砲塔コンポーネント
 	/// </summary>

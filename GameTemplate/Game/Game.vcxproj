@@ -240,7 +240,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
-    <ClCompile Include="TankMovingComponent.cpp" />
+    <ClCompile Include="TankCrawkerMovingComponent.cpp" />
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -258,7 +258,7 @@
     <ClInclude Include="MapObjectGeneric.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
-    <ClInclude Include="TankMovingComponent.h" />
+    <ClInclude Include="TankCrawkerMovingComponent.h" />
     <ClInclude Include="TankTurretMovingComponent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

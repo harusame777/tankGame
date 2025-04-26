@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GamePlayer.h"
 
-#include "TankMovingComponent.h"
+#include "TankCrawkerMovingComponent.h"
 #include "TankTurretMovingComponent.h"
 
 namespace GamePlayerTankConstant 
@@ -29,19 +29,16 @@ bool GamePlayer::Start()
 		ModelRender::en_usuallyShader
 	);
 
-	m_tankMovingComponent = new TankMovingComponent;
+	m_tankMovingComponent = new TankCrawkerMovingComponent;
 
 	m_tankTurretMovingComponent = new TankTurretMovingComponent;
 
 	characterController.Init(5.0f, 5.0f, m_position);
 
-	m_tankMovingComponent->InitTankMoveingData(
+	m_tankMovingComponent->InitTankCrawkerMoveingData(
 		padLVector,
 		m_forward,
 		maxMoveSpeed,
-		acceleration,
-		deceleration,
-		friction,
 		characterController,
 		rotSpeed,
 		m_tankCrawkerTrack
@@ -67,7 +64,7 @@ void GamePlayer::Update()
 	padLVector.x = pad_x;
 	padLVector.z = pad_y;
 
-	m_position = m_tankMovingComponent->CalcValueAndModelUpdate();
+	m_position = m_tankMovingComponent->CalcCrawkerMovingDataAndModelUpdate();
 
 	pad_x = g_pad[0]->GetRStickXF();
 	pad_y = g_pad[0]->GetRStickYF();
@@ -75,7 +72,7 @@ void GamePlayer::Update()
 	padRVector.x = pad_x;
 	padRVector.z = pad_y;
 
-	m_turretPosition = m_tankTurretMovingComponent->CalcValueAndModelUpdate();
+	m_turretPosition = m_tankTurretMovingComponent->CalcTurretMovingDataAndModelUpdate();
 
 	m_tankCrawkerTrack.Update();
 

@@ -42,7 +42,7 @@ public:
 	/// 計算、モデル更新
 	/// </summary>
 	/// <returns></returns>
-	const Vector3& CalcValueAndModelUpdate();
+	const Vector3& CalcTurretMovingDataAndModelUpdate();
 private:
 	/// <summary>
 	/// 回転方向決定

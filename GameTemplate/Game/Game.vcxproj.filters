@@ -56,7 +56,7 @@
       <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="GamePlayer.cpp" />
-    <ClCompile Include="TankMovingComponent.cpp">
+    <ClCompile Include="TankCrawkerMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
     <ClCompile Include="TankTurretMovingComponent.cpp">
@@ -102,7 +102,7 @@
       <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="GamePlayer.h" />
-    <ClInclude Include="TankMovingComponent.h">
+    <ClInclude Include="TankCrawkerMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
     <ClInclude Include="TankTurretMovingComponent.h">
