@@ -68,10 +68,16 @@
     <ClCompile Include="TankTurretMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
-    <ClCompile Include="Cannonball.cpp">
+    <ClCompile Include="CannonballEntity.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
     <ClCompile Include="CannonballManager.cpp">
+      <Filter>Cannonball</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonballObjectBase.cpp">
+      <Filter>Cannonball</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonballStateBase.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,13 +127,19 @@
       <Filter>TankComponents</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Cannonball.h">
+    <ClInclude Include="CannonballEntity.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
     <ClInclude Include="CannonballManager.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
     <ClInclude Include="CannonballObjectBase.h">
+      <Filter>Cannonball</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonballStateBase.h">
+      <Filter>Cannonball</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonballCommonState.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
   </ItemGroup>

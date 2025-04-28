@@ -31,7 +31,7 @@ bool GamePlayer::Start()
 
 	m_tankMovingComponent = new TankCrawkerMovingComponent;
 
-	m_tankTurretMovingCiomponent = new TankTurretMovingComponent;
+	m_tankTurretMovingComponent = new TankTurretMovingComponent;
 
 	characterController.Init(5.0f, 5.0f, m_position);
 

@@ -1,44 +1,12 @@
 #pragma once
 
-class CannonballStateBase
-{
-public:
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	CannonballStateBase() {};
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~CannonballStateBase() {};
-	/// <summary>
-	/// 純粋仮想関数、ステート初期化
-	/// </summary>
-	virtual void InitState() = 0;
-	/// <summary>
-	/// 純粋仮想関数、ステート更新
-	/// </summary>
-	virtual void UpdateState() = 0;
-	/// <summary>
-	/// 純粋仮想関数、ステート終了
-	/// </summary>
-	virtual void EndState() = 0;
-};
+#include "CannonballCommonState.h"
+
+class CannonballStateBase;
 
 class CannonballObjectBase
 {
 public:
-	enum EnCannonballState
-	{
-		//初期化
-		en_init,
-		//
-		en_moving,
-
-		en_end,
-
-		en_stateNum,
-	};
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
@@ -48,25 +16,13 @@ public:
 	/// </summary>
 	virtual ~CannonballObjectBase() {};
 	/// <summary>
+	/// 初期化
+	/// </summary>
+	virtual void Init() = 0;
+	/// <summary>
 	/// ステート更新関数
 	/// </summary>
-	void UpdateCannonballState()
-	{
-		
-		//ステート更新
-		m_cannonballStateList[m_currentState]->UpdateState();
-
-		//ステートの変更判定
-		if (m_currentState != m_requestState)
-		{
-			//ステートが終了する時の処理を実行
-			m_cannonballStateList[m_currentState]->EndState();
-			//ステート変更
-			m_currentState = m_requestState;
-			//ステートの初期化処理
-			m_cannonballStateList[m_currentState]->InitState();
-		}
-	}
+	void UpdateCannonballState();
 	/// <summary>
 	/// ステートを変更する
 	/// </summary>
@@ -75,10 +31,11 @@ public:
 	{
 		m_requestState = changeState;
 	}
+private:
 	/// <summary>
 	/// ステート配列
 	/// </summary>
-	CannonballStateBase* m_cannonballStateList[EnCannonballState::en_stateNum] = {nullptr};
+	CannonballStateBase* m_cannonballStateList[EnCannonballState::en_stateNum] = { nullptr };
 	/// <summary>
 	/// 現在のステート
 	/// </summary>
