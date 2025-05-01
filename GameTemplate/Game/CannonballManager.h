@@ -1,11 +1,13 @@
 #pragma once
 
+#include "CannonballAttribute.h"
+
 namespace CannonballManagerConstant {
 	const int maxCannonball = 100;
 }
 
 class CannonballEntity;
-class CannonballObjectBase;
+class CannonballAttributeBase;
 
 class CannonballManager : public IGameObject
 {
@@ -22,40 +24,34 @@ public:
 	/// 砲弾を発射し、発射した砲弾のアドレスを取得する関数
 	/// </summary>
 	/// <returns></returns>
-	const std::unique_ptr<CannonballEntity>& FiringCannonball();
+	std::shared_ptr<CannonballEntity> RequestFiringCannonball(const EnCannonballAttribute cannonballAttribute);
 private:
-	/// <summary>
-	/// 砲弾のリストデータ構造体
-	/// </summary>
-	struct CannonballListData
+	struct CannonballData
 	{
-	private:
+	public:
 		/// <summary>
-		/// 使用中か
+		/// 砲弾のポインタ
+		/// </summary>
+		std::shared_ptr<CannonballEntity> m_cannonballPtr = nullptr;
+		/// <summary>
+		/// 砲弾生存時間
+		/// </summary>
+		float m_timer = 0.0f;
+		/// <summary>
+		/// 使用中か否か
 		/// </summary>
 		bool m_isUse = false;
-		/// <summary>
-		/// 砲弾
-		/// </summary>
-		std::unique_ptr<CannonballEntity> m_cannonballObject = nullptr;
-	public:
-
-		const bool IsDataUse() const
-		{
-			return m_isUse;
-		}
-
 	};
 	/// <summary>
-	/// 砲弾リストに空きがあるかどうか調べる関数
-	/// 未使用の砲弾があるとtrueを返す
+	/// 新しい砲弾を作成する
 	/// </summary>
 	/// <returns></returns>
-	bool IsThereSpaceOnList();
+	std::shared_ptr<CannonballEntity> CreateNewCannonball(const EnCannonballAttribute cannonballAttribute);
 	/// <summary>
-	/// 新しい砲弾を作成し、そのアドレスを取得する
+	/// 砲弾の種類から計算方法を取得
 	/// </summary>
-	const std::unique_ptr<CannonballEntity>& CreateNewCannonballAndGetAddress();
+	/// <returns></returns>
+	CannonballAttributeBase* GetCannonballCalc(const EnCannonballAttribute cannonballAttribute);
 	/// <summary>
 	/// スタート関数
 	/// </summary>
@@ -68,6 +64,6 @@ private:
 	/// <summary>
 	/// 砲弾のリスト
 	/// </summary>
-	std::vector<CannonballListData> m_cannonballList;
+	std::vector<CannonballData> m_cannonballList;
 };
 

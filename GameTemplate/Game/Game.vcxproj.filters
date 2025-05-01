@@ -74,11 +74,14 @@
     <ClCompile Include="CannonballManager.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballObjectBase.cpp">
+    <ClCompile Include="CannonballAttributeBase.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballStateBase.cpp">
+    <ClCompile Include="CannonballAttributeRegistry.cpp">
       <Filter>Cannonball</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannonball_001_Normal.cpp">
+      <Filter>Cannonball\CannonballState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,14 +136,17 @@
     <ClInclude Include="CannonballManager.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballObjectBase.h">
+    <ClInclude Include="CannonballAttributeBase.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballStateBase.h">
+    <ClInclude Include="CannonballAttributeRegistry.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballCommonState.h">
+    <ClInclude Include="CannonballAttribute.h">
       <Filter>Cannonball</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannonball_001_Normal.h">
+      <Filter>Cannonball\CannonballState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
