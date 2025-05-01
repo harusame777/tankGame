@@ -8,6 +8,7 @@ namespace CannonballManagerConstant {
 
 class CannonballEntity;
 class CannonballAttributeBase;
+class CannonballAttributeRegistry;
 
 class CannonballManager : public IGameObject
 {
@@ -24,7 +25,7 @@ public:
 	/// –C’e‚ğ”­Ë‚µA”­Ë‚µ‚½–C’e‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚éŠÖ”
 	/// </summary>
 	/// <returns></returns>
-	std::shared_ptr<CannonballEntity> RequestFiringCannonball(const EnCannonballAttribute cannonballAttribute);
+	void RequestFiringCannonball(const EnCannonballAttribute cannonballAttribute);
 private:
 	struct CannonballData
 	{
@@ -32,7 +33,7 @@ private:
 		/// <summary>
 		/// –C’e‚Ìƒ|ƒCƒ“ƒ^
 		/// </summary>
-		std::shared_ptr<CannonballEntity> m_cannonballPtr = nullptr;
+		CannonballEntity* m_cannonballPtr = nullptr;
 		/// <summary>
 		/// –C’e¶‘¶ŠÔ
 		/// </summary>
@@ -46,7 +47,7 @@ private:
 	/// V‚µ‚¢–C’e‚ğì¬‚·‚é
 	/// </summary>
 	/// <returns></returns>
-	std::shared_ptr<CannonballEntity> CreateNewCannonball(const EnCannonballAttribute cannonballAttribute);
+	void CreateNewCannonball(const EnCannonballAttribute cannonballAttribute);
 	/// <summary>
 	/// –C’e‚Ìí—Ş‚©‚çŒvZ•û–@‚ğæ“¾
 	/// </summary>

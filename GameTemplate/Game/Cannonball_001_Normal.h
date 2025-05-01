@@ -12,11 +12,15 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="cannonball"></param>
-	Cannonball_001_Normal(CannonballEntity* cannonball) : CannonballAttributeBase(cannonball){}
+	Cannonball_001_Normal() {};
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void InitData() override;
 	/// <summary>
 	/// 移動計算
 	/// </summary>
-	void Calc() override;
+	void MoveCalc() override;
 	/// <summary>
 	/// 衝突時アクション
 	/// </summary>
@@ -26,14 +30,5 @@ private:
 	/// 変数登録実行用
 	/// </summary>
 	static bool m_attributeRegistered;
-	/// <summary>
-	/// 初期化関数登録処理
-	/// </summary>
-	bool m_attributeRegistered = [] {
-		CannonballAttributeRegistry::registerFactory(EnCannonballAttribute::en_normal, []() {
-			return std::make_unique<Cannonball_001_Normal>();
-		});	
-		return true;
-	}();
 };
 

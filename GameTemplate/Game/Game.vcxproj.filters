@@ -22,7 +22,7 @@
     <Filter Include="Cannonball">
       <UniqueIdentifier>{91f7579f-c872-4532-a1e8-5af19ac4fcaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cannonball\CannonballState">
+    <Filter Include="Cannonball\CannonballAttribute">
       <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -74,14 +74,14 @@
     <ClCompile Include="CannonballManager.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballAttributeBase.cpp">
-      <Filter>Cannonball</Filter>
-    </ClCompile>
     <ClCompile Include="CannonballAttributeRegistry.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
     <ClCompile Include="Cannonball_001_Normal.cpp">
-      <Filter>Cannonball\CannonballState</Filter>
+      <Filter>Cannonball\CannonballAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonballAttributeBase.cpp">
+      <Filter>Cannonball\CannonballAttribute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,9 +136,6 @@
     <ClInclude Include="CannonballManager.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballAttributeBase.h">
-      <Filter>Cannonball</Filter>
-    </ClInclude>
     <ClInclude Include="CannonballAttributeRegistry.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
@@ -146,7 +143,10 @@
       <Filter>Cannonball</Filter>
     </ClInclude>
     <ClInclude Include="Cannonball_001_Normal.h">
-      <Filter>Cannonball\CannonballState</Filter>
+      <Filter>Cannonball\CannonballAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonballAttributeBase.h">
+      <Filter>Cannonball\CannonballAttribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
