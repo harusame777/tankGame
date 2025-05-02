@@ -3,6 +3,8 @@
 
 #include "TankCrawkerMovingComponent.h"
 #include "TankTurretMovingComponent.h"
+#include "TankShellsManager.h"
+#include "TankShellsAttribute.h"
 
 namespace GamePlayerTankConstant 
 {
@@ -32,6 +34,8 @@ bool GamePlayer::Start()
 	m_tankMovingComponent = new TankCrawkerMovingComponent;
 
 	m_tankTurretMovingComponent = new TankTurretMovingComponent;
+
+	m_tankShellsManager = FindGO<TankShellsManager>("tankShellsManager");
 
 	characterController.Init(5.0f, 5.0f, m_position);
 
@@ -79,6 +83,15 @@ void GamePlayer::Update()
 	padRVector.z = pad_y;
 
 	m_turretPosition = m_tankTurretMovingComponent->CalcTurretMovingDataAndModelUpdate();
+
+	if (g_pad[0]->IsTrigger(enButtonB))
+	{
+		m_tankShellsManager->RequestFiringTankShells(
+			EnTankShellsAttribute::en_normal,
+			m_tankTurretMovingComponent->GetCannonFiringPosition(),
+			m_tankTurretMovingComponent->GetTurretForward()
+		);
+	}
 
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();

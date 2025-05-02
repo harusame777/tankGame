@@ -6,7 +6,25 @@
 //スタート関数
 bool TankShellsEntity::Start()
 {
+	//モデル設定
+	m_tankShellsModel.Init(
+		"Assets/modelData/tankShellsModel/tankShellsModelV1.tkm", 
+		nullptr,
+		0,
+		enModelUpAxisZ,
+		ModelRender::en_usuallyShader
+	);
+
+	//初期モデル位置回転設定
+	m_tankShellsModel.SetPosition(m_position);
+
+	float angle = atan2f(m_forward.x, m_forward.z);
+
+	m_rotation.AddRotationY(angle);
 	
+	m_tankShellsModel.SetRotation(m_rotation);
+
+	m_tankShellsModel.Update();
 
 	m_tankShellsAttributePtr->InitData();
 
@@ -29,6 +47,8 @@ void TankShellsEntity::Update()
 	m_tankShellsModel.SetPosition(m_position);
 	//弾丸回転処理
 	m_tankShellsModel.SetRotation(m_rotation);
+
+	m_tankShellsModel.Update();
 }
 
 //レンダリング関数

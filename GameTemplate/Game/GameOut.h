@@ -8,6 +8,8 @@ class GameMapManager;
 class GameCameraManager;
 class GamePlayer;
 
+class TankShellsManager;
+
 class GameOut : public GameMainStateClass
 {
 public: 
@@ -59,6 +61,10 @@ private:
 	/// ゲームプレイヤー
 	/// </summary>
 	GamePlayer* m_gamePlayer = nullptr;
+	/// <summary>
+	/// 砲弾のマネージャー
+	/// </summary>
+	TankShellsManager* m_tankShellsManager = nullptr;
 
 };
 

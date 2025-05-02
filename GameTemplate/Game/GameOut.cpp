@@ -6,6 +6,7 @@
 
 #include "GameMapManager.h"
 #include "GameCameraManager.h"
+#include "TankShellsManager.h"
 #include "GamePlayer.h"
 
 //ゲームステート初期化
@@ -73,5 +74,7 @@ void GameOut::LoadGameObject()
 	m_gameMapManager = NewGO<GameMapManager>(0, "gameMapManager");
 	//ゲームプレイヤーを作成
 	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
+	//砲弾マネージャーを作成
+	m_tankShellsManager = NewGO<TankShellsManager>(0, "tankShellsManager");
 
 }

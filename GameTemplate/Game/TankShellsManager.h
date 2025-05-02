@@ -2,13 +2,15 @@
 
 #include "TankShellsAttribute.h"
 
-namespace CannonballManagerConstant {
+namespace TankShellsManagerConstant {
 	const int maxCannonball = 100;
 }
 
 class TankShellsEntity;
 class TankShellsAttributeBase;
 class TankShellsAttributeRegistry;
+
+class GamePlayer;
 
 class TankShellsManager : public IGameObject
 {
@@ -25,7 +27,19 @@ public:
 	/// 砲弾を発射し、発射した砲弾のアドレスを取得する関数
 	/// </summary>
 	/// <returns></returns>
-	void RequestFiringTankShells(const EnTankShellsAttribute tankShellsAttribute);
+	void RequestFiringTankShells(
+		const EnTankShellsAttribute tankShellsAttribute,
+		const Vector3& firingPosition,
+		const Vector3& firingForward
+	);
+	/// <summary>
+	/// プレイヤーのポインタを取得
+	/// </summary>
+	/// <returns></returns>
+	GamePlayer* GetPlayerPtr() const
+	{
+		return m_player;
+	}
 private:
 	struct TankShellsData
 	{
@@ -47,7 +61,11 @@ private:
 	/// 新しい砲弾を作成する
 	/// </summary>
 	/// <returns></returns>
-	void CreateNewTankShells(const EnTankShellsAttribute tankShellsAttribute);
+	void CreateNewTankShells(
+		const EnTankShellsAttribute tankShellsAttribute,
+		const Vector3& firingPosition,
+		const Vector3& firingForward
+	);
 	/// <summary>
 	/// スタート関数
 	/// </summary>
@@ -61,5 +79,10 @@ private:
 	/// 砲弾のリスト
 	/// </summary>
 	std::vector<TankShellsData> m_cannonballList;
+	/// <summary>
+	///	ゲームプレイヤーのインスタンス
+	/// </summary>
+	GamePlayer* m_player = nullptr;
+
 };
 
