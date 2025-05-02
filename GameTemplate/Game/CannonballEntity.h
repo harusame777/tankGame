@@ -57,6 +57,22 @@ public:
 		m_forward = forward;
 	}
 	/// <summary>
+	/// 回転を設定
+	/// </summary>
+	/// <param name="rotation"></param>
+	void SetRotation(const Quaternion& rotation)
+	{
+		m_rotation = rotation;
+	}
+	/// <summary>
+	/// 回転を取得
+	/// </summary>
+	/// <returns></returns>
+	const Quaternion& GetRotation() const
+	{
+		return m_rotation;
+	}
+	/// <summary>
 	/// 正面ベクトルを取得
 	/// </summary>
 	/// <returns></returns>
@@ -82,7 +98,11 @@ private:
 	/// <summary>
 	/// 位置
 	/// </summary>
-	Vector3 m_position;
+	Vector3 m_position = Vector3::Zero;
+	/// <summary>
+	/// 回転
+	/// </summary>
+	Quaternion m_rotation = Quaternion::Identity;
 	/// <summary>
 	/// 正面ベクトル
 	/// </summary>

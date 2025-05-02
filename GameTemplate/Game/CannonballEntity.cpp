@@ -6,7 +6,9 @@
 //スタート関数
 bool CannonballEntity::Start()
 {
+	
 
+	m_cannonballAttributePtr->InitData();
 
 	return true;
 }
@@ -20,12 +22,18 @@ void CannonballEntity::Update()
 		return;
 	}
 
-	m_cannonballAttributePtr;
+	//移動計算
+	m_cannonballAttributePtr->MoveCalc();
 
+	//弾丸座標移動処理
+	m_cannonballModel.SetPosition(m_position);
+	//弾丸回転処理
+	m_cannonballModel.SetRotation(m_rotation);
 }
 
 //レンダリング関数
 void CannonballEntity::Render(RenderContext& rc)
 {
-
+	//描画処理
+	m_cannonballModel.Draw(rc);
 }
