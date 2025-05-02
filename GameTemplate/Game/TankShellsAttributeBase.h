@@ -1,26 +1,26 @@
 #pragma once
 
-class CannonballEntity;
+class TankShellsEntity;
 
 
-class CannonballAttributeBase
+class TankShellsAttributeBase
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CannonballAttributeBase(){};
+	TankShellsAttributeBase(){};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual~CannonballAttributeBase() {};
+	virtual~TankShellsAttributeBase() {};
 	/// <summary>
 	/// この属性を持っている砲弾のポインタを設定
 	/// </summary>
-	/// <param name="hostCannonball"></param>
-	void SetHostPtr(CannonballEntity* hostCannonball)
+	/// <param name="hostTankShells"></param>
+	void SetHostPtr(TankShellsEntity* hostTankShells)
 	{
-		m_hostCannonballPtr = hostCannonball;
+		m_hostTankShellsPtr = hostTankShells;
 	}
 	/// <summary>
 	/// データ設定
@@ -42,6 +42,6 @@ private:
 	/// <summary>
 	/// この属性を持っている砲弾本体
 	/// </summary>
-	CannonballEntity* m_hostCannonballPtr = nullptr;
+	TankShellsEntity* m_hostTankShellsPtr = nullptr;
 };
 

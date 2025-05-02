@@ -68,19 +68,19 @@
     <ClCompile Include="TankTurretMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballEntity.cpp">
+    <ClCompile Include="TankShellsEntity.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballManager.cpp">
+    <ClCompile Include="TankShellsManager.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballAttributeRegistry.cpp">
+    <ClCompile Include="TankShellsAttributeRegistry.cpp">
       <Filter>Cannonball</Filter>
     </ClCompile>
-    <ClCompile Include="Cannonball_001_Normal.cpp">
+    <ClCompile Include="TankShells_001_Normal.cpp">
       <Filter>Cannonball\CannonballAttribute</Filter>
     </ClCompile>
-    <ClCompile Include="CannonballAttributeBase.cpp">
+    <ClCompile Include="TankShellsAttributeBase.cpp">
       <Filter>Cannonball\CannonballAttribute</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,22 +130,22 @@
       <Filter>TankComponents</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="CannonballEntity.h">
+    <ClInclude Include="TankShellsEntity.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballManager.h">
+    <ClInclude Include="TankShellsManager.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballAttributeRegistry.h">
+    <ClInclude Include="TankShellsAttributeRegistry.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballAttribute.h">
+    <ClInclude Include="TankShellsAttribute.h">
       <Filter>Cannonball</Filter>
     </ClInclude>
-    <ClInclude Include="Cannonball_001_Normal.h">
+    <ClInclude Include="TankShells_001_Normal.h">
       <Filter>Cannonball\CannonballAttribute</Filter>
     </ClInclude>
-    <ClInclude Include="CannonballAttributeBase.h">
+    <ClInclude Include="TankShellsAttributeBase.h">
       <Filter>Cannonball\CannonballAttribute</Filter>
     </ClInclude>
   </ItemGroup>

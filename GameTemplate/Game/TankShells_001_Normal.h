@@ -1,18 +1,18 @@
 #pragma once
 
-#include "CannonballAttributeBase.h"
-#include "CannonballAttribute.h"
+#include "TankShellsAttributeBase.h"
+#include "TankShellsAttribute.h"
 
-class CannonballAttributeRegistry;
+class TankShellsAttributeRegistry;
 
-class Cannonball_001_Normal : public CannonballAttributeBase
+class TankShells_001_Normal : public TankShellsAttributeBase
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	/// <param name="cannonball"></param>
-	Cannonball_001_Normal() {};
+	TankShells_001_Normal() {};
 	/// <summary>
 	/// 初期化
 	/// </summary>

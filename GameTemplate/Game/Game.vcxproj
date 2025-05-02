@@ -223,11 +223,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CannonballAttributeRegistry.cpp" />
-    <ClCompile Include="CannonballEntity.cpp" />
-    <ClCompile Include="CannonballManager.cpp" />
-    <ClCompile Include="CannonballAttributeBase.cpp" />
-    <ClCompile Include="Cannonball_001_Normal.cpp" />
+    <ClCompile Include="TankShellsAttributeRegistry.cpp" />
+    <ClCompile Include="TankShellsEntity.cpp" />
+    <ClCompile Include="TankShellsManager.cpp" />
+    <ClCompile Include="TankShellsAttributeBase.cpp" />
+    <ClCompile Include="TankShells_001_Normal.cpp" />
     <ClCompile Include="GameMainCamera.cpp" />
     <ClCompile Include="GameCameraManager.cpp" />
     <ClCompile Include="GameIn.cpp" />
@@ -249,12 +249,12 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CannonballAttribute.h" />
-    <ClInclude Include="CannonballAttributeRegistry.h" />
-    <ClInclude Include="CannonballEntity.h" />
-    <ClInclude Include="CannonballManager.h" />
-    <ClInclude Include="CannonballAttributeBase.h" />
-    <ClInclude Include="Cannonball_001_Normal.h" />
+    <ClInclude Include="TankShellsAttribute.h" />
+    <ClInclude Include="TankShellsAttributeRegistry.h" />
+    <ClInclude Include="TankShellsEntity.h" />
+    <ClInclude Include="TankShellsManager.h" />
+    <ClInclude Include="TankShellsAttributeBase.h" />
+    <ClInclude Include="TankShells_001_Normal.h" />
     <ClInclude Include="GameMainCamera.h" />
     <ClInclude Include="GameCameraManager.h" />
     <ClInclude Include="GameCameraObjectBase.h" />

@@ -1,39 +1,39 @@
 #pragma once
 
-#include "CannonballAttribute.h"
+#include "TankShellsAttribute.h"
 
 namespace CannonballManagerConstant {
 	const int maxCannonball = 100;
 }
 
-class CannonballEntity;
-class CannonballAttributeBase;
-class CannonballAttributeRegistry;
+class TankShellsEntity;
+class TankShellsAttributeBase;
+class TankShellsAttributeRegistry;
 
-class CannonballManager : public IGameObject
+class TankShellsManager : public IGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CannonballManager() {};
+	TankShellsManager() {};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CannonballManager() {};
+	~TankShellsManager() {};
 	/// <summary>
 	/// 砲弾を発射し、発射した砲弾のアドレスを取得する関数
 	/// </summary>
 	/// <returns></returns>
-	void RequestFiringCannonball(const EnCannonballAttribute cannonballAttribute);
+	void RequestFiringTankShells(const EnTankShellsAttribute tankShellsAttribute);
 private:
-	struct CannonballData
+	struct TankShellsData
 	{
 	public:
 		/// <summary>
 		/// 砲弾のポインタ
 		/// </summary>
-		CannonballEntity* m_cannonballPtr = nullptr;
+		TankShellsEntity* m_tankShellsPtr = nullptr;
 		/// <summary>
 		/// 砲弾生存時間
 		/// </summary>
@@ -47,12 +47,7 @@ private:
 	/// 新しい砲弾を作成する
 	/// </summary>
 	/// <returns></returns>
-	void CreateNewCannonball(const EnCannonballAttribute cannonballAttribute);
-	/// <summary>
-	/// 砲弾の種類から計算方法を取得
-	/// </summary>
-	/// <returns></returns>
-	CannonballAttributeBase* GetCannonballCalc(const EnCannonballAttribute cannonballAttribute);
+	void CreateNewTankShells(const EnTankShellsAttribute tankShellsAttribute);
 	/// <summary>
 	/// スタート関数
 	/// </summary>
@@ -65,6 +60,6 @@ private:
 	/// <summary>
 	/// 砲弾のリスト
 	/// </summary>
-	std::vector<CannonballData> m_cannonballList;
+	std::vector<TankShellsData> m_cannonballList;
 };
 

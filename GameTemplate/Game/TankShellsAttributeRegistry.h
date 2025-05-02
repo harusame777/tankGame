@@ -1,22 +1,22 @@
 #pragma once
 
-#include "CannonballAttribute.h"
+#include "TankShellsAttribute.h"
 
-class CannonballAttributeBase;
+class TankShellsAttributeBase;
 
-class CannonballAttributeRegistry
+class TankShellsAttributeRegistry
 {
 public:
 	/// <summary>
 	/// 移動計算関数
 	/// </summary>
-	using CannonballMoveCalcFunc = std::function<std::shared_ptr<CannonballAttributeBase>()>;
+	using TankShellsAttributeFunc = std::function<std::shared_ptr<TankShellsAttributeBase>()>;
 	/// <summary>
 	/// 初期化登録
 	/// </summary>
 	/// <param name="attribute"></param>
 	/// <param name="func"></param>
-	static void registerFactory(EnCannonballAttribute attribute, CannonballMoveCalcFunc func)
+	static void registerFactory(EnTankShellsAttribute attribute, TankShellsAttributeFunc func)
 	{
 		GetAttributeMap()[attribute] = std::move(func);
 	}
@@ -25,7 +25,7 @@ public:
 	/// </summary>
 	/// <param name="attribute"></param>
 	/// <returns></returns>
-	static std::shared_ptr<CannonballAttributeBase> CreateAttribute(EnCannonballAttribute attribute)
+	static std::shared_ptr<TankShellsAttributeBase> CreateAttribute(EnTankShellsAttribute attribute)
 	{
 		//ハッシュマップを取得する
 		auto& map = GetAttributeMap();
@@ -45,9 +45,9 @@ private:
 	/// 移動計算関数のハッシュマップの作成
 	/// </summary>
 	/// <returns></returns>
-	static std::unordered_map<EnCannonballAttribute, CannonballMoveCalcFunc>& GetAttributeMap()
+	static std::unordered_map<EnTankShellsAttribute, TankShellsAttributeFunc>& GetAttributeMap()
 	{
-		static std::unordered_map<EnCannonballAttribute, CannonballMoveCalcFunc> map;
+		static std::unordered_map<EnTankShellsAttribute, TankShellsAttributeFunc> map;
 		return map;
 	}
 };

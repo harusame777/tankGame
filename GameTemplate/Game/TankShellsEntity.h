@@ -1,36 +1,25 @@
 #pragma once
 
-class CannonballAttributeBase;
+class TankShellsAttributeBase;
 
-class CannonballEntity : public IGameObject
+class TankShellsEntity : public IGameObject
 {
 public:
-	enum EnCannonballState
-	{
-		//初期化
-		en_init,
-		//弾道計算
-		en_trajectoryCalc,
-		//移動処理
-		en_move,
-		//削除処理
-		en_delete
-	};
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	CannonballEntity() {};
+	TankShellsEntity() {};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~CannonballEntity() {};
+	~TankShellsEntity() {};
 	/// <summary>
 	/// 砲弾の移動計算クラスのインスタンスを設定
 	/// </summary>
 	/// <param name="calcPtr"></param>
-	void SetCannonballAttribute(std::shared_ptr<CannonballAttributeBase> attributePtr)
+	void SetTankShellsAttribute(std::shared_ptr<TankShellsAttributeBase> attributePtr)
 	{
-		m_cannonballAttributePtr = attributePtr;
+		m_tankShellsAttributePtr = attributePtr;
 	}
 	/// <summary>
 	/// 位置設定
@@ -108,16 +97,12 @@ private:
 	/// </summary>
 	Vector3 m_forward = Vector3::AxisZ;
 	/// <summary>
-	/// ステート
-	/// </summary>
-	EnCannonballState m_cannonballState = EnCannonballState::en_init;
-	/// <summary>
 	/// 砲弾移動計算
 	/// </summary>
-	std::shared_ptr<CannonballAttributeBase> m_cannonballAttributePtr = nullptr;
+	std::shared_ptr<TankShellsAttributeBase> m_tankShellsAttributePtr = nullptr;
 	/// <summary>
 	/// 砲弾のモデル
 	/// </summary>
-	ModelRender m_cannonballModel;
+	ModelRender m_tankShellsModel;
 };
 
