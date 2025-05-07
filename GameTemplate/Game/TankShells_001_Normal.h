@@ -32,6 +32,10 @@ public:
 	/// 衝突時アクション
 	/// </summary>
 	void HitAction() override;
+	/// <summary>
+	/// 削除時処理
+	/// </summary>
+	void DeleteTankShellsAttributeAction() override;
 private:
 	/// <summary>
 	/// 変数登録実行用

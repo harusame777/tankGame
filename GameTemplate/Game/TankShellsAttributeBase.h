@@ -37,6 +37,10 @@ public:
 	/// ÚG‚Ì‚Ó‚é‚Ü‚¢
 	/// </summary>
 	virtual void HitAction() = 0;
+	/// <summary>
+	/// íœˆ—
+	/// </summary>
+	virtual void DeleteTankShellsAttributeAction() = 0;
 protected:
 	/// <summary>
 	/// ‚±‚Ì‘®«‚ğ‚Á‚Ä‚¢‚é–C’e–{‘Ì

@@ -36,3 +36,9 @@ void TankShells_001_Normal::HitAction()
 {
 
 }
+
+//íœˆ—
+void TankShells_001_Normal::DeleteTankShellsAttributeAction()
+{
+
+}

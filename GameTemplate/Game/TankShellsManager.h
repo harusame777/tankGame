@@ -76,6 +76,10 @@ private:
 	/// </summary>
 	void Update();
 	/// <summary>
+	/// –C’e‚ÌŠÔíœˆ—
+	/// </summary>
+	void DeleteTankShellsIsTime();
+	/// <summary>
 	/// –C’e‚ÌƒŠƒXƒg
 	/// </summary>
 	std::vector<TankShellsData> m_cannonballList;

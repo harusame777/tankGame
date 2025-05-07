@@ -57,3 +57,12 @@ void TankShellsEntity::Render(RenderContext& rc)
 	//•`‰æˆ—
 	m_tankShellsModel.Draw(rc);
 }
+
+//íœŠÖ”
+void TankShellsEntity::DeleteGOTankShells()
+{
+	//‘®«‚²‚Æ‚ÌíœŽž‚Ìˆ—‚ðŽÀs
+	m_tankShellsAttributePtr->DeleteTankShellsAttributeAction();
+
+	DeleteGO(this);
+}

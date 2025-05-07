@@ -69,6 +69,10 @@ public:
 	{
 		return m_forward;
 	}
+	/// <summary>
+	/// 削除処理
+	/// </summary>
+	void DeleteGOTankShells();
 private:
 	/// <summary>
 	/// スタート関数

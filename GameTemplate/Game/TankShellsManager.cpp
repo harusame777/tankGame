@@ -64,6 +64,34 @@ bool TankShellsManager::Start()
 void TankShellsManager::Update()
 {
 
-	
+	//砲弾の時間削除処理
+	DeleteTankShellsIsTime();
+
+}
+
+//砲弾の時間削除関数
+void TankShellsManager::DeleteTankShellsIsTime()
+{
+
+	//for文をvector配列のイテレータを取得して処理
+	//イテレータが配列の末尾であれば終了
+	for (auto it = m_cannonballList.begin(); it != m_cannonballList.end();)
+	{
+		//砲弾の残り生存時間を減らす
+		it->m_timer -= g_gameTime->GetFrameDeltaTime();
+
+		//現在処理中のイテレータの残り生存時間が0.0f以下だったら削除処理
+		if (it->m_timer < 0.0f)
+		{
+			//砲弾の削除処理を実行
+			it->m_tankShellsPtr->DeleteGOTankShells();
+			//配列から削除
+			it = m_cannonballList.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
 
 }
