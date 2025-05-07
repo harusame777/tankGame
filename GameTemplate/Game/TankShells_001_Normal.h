@@ -5,6 +5,13 @@
 
 class TankShellsAttributeRegistry;
 
+namespace TankShells_001_Constant
+{
+	
+	const float speed = 50.0f;
+
+}
+
 class TankShells_001_Normal : public TankShellsAttributeBase
 {
 public:

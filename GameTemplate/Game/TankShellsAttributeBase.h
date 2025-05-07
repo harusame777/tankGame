@@ -1,7 +1,6 @@
 #pragma once
 
-class TankShellsEntity;
-
+#include "TankShellsEntity.h"
 
 class TankShellsAttributeBase
 {
@@ -38,7 +37,7 @@ public:
 	/// ÚG‚Ì‚Ó‚é‚Ü‚¢
 	/// </summary>
 	virtual void HitAction() = 0;
-private:
+protected:
 	/// <summary>
 	/// ‚±‚Ì‘®«‚ğ‚Á‚Ä‚¢‚é–C’e–{‘Ì
 	/// </summary>

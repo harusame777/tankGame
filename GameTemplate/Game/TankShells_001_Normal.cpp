@@ -3,7 +3,6 @@
 
 #include "TankShellsAttributeRegistry.h"
 
-
 //初期化関数登録処理
 bool TankShells_001_Normal::m_attributeRegistered = [] {
 	TankShellsAttributeRegistry::registerFactory(EnTankShellsAttribute::en_normal, []() {
@@ -21,7 +20,15 @@ void TankShells_001_Normal::InitData()
 //計算
 void TankShells_001_Normal::MoveCalc()
 {
-	
+	Vector3 newPosition = Vector3::Zero;
+
+	const Vector3 modelForward = m_hostTankShellsPtr->GetForward();
+
+	const Vector3 modelPosition = m_hostTankShellsPtr->GetPosition();
+
+	newPosition = modelPosition + modelForward * TankShells_001_Constant::speed * g_gameTime->GetFrameDeltaTime();
+
+	m_hostTankShellsPtr->SetPosition(newPosition);
 }
 
 //衝突時アクション
