@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TankShellsEntity.h"
 
+#include "TankShellsManager.h"
 #include "TankShellsAttributeBase.h"
 #include "GameCollisionManager.h"
 
@@ -52,9 +53,9 @@ void TankShellsEntity::Update()
 	m_tankShellsAttributePtr->MoveCalc();
 
 	if (GameCollisionManager::GetCollisionManagerInstance()
-		->Is_A_ColisionHits_B_Colision(m_collision.get(), "testName"));
+		->IsAColisionHitsBColision(m_collision.get(), "DummyCollision") == true)
 	{
-
+		TankShellsManager::GetCollisionManagerInstance()->HitTankShells(this);
 	}
 
 	//’eŠÛÀ•WˆÚ“®ˆ—

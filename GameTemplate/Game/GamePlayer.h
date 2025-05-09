@@ -2,7 +2,6 @@
 
 class TankCrawkerMovingComponent;
 class TankTurretMovingComponent;
-class TankShellsManager;
 
 class GamePlayer : public IGameObject
 {
@@ -83,10 +82,6 @@ private:
 	/// 戦車砲塔コンポーネント
 	/// </summary>
 	TankTurretMovingComponent* m_tankTurretMovingComponent = nullptr;
-	/// <summary>
-	/// 砲弾マネージャー
-	/// </summary>
-	TankShellsManager* m_tankShellsManager = nullptr;
 	/// <summary>
 	/// 履帯位置
 	/// </summary>

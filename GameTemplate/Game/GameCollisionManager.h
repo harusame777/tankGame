@@ -58,14 +58,25 @@ public:
 		const char* str = "nullName"
 	);
 	/// <summary>
-	/// AのアドレスのコリジョンがBの名前のコリジョンに当たったかどうか
+	/// AのアドレスのコリジョンがBの名前のコリジョンに接触したかどうか
 	/// </summary>
-	/// <param name="A_ColisionAddress"></param>
-	/// <param name="B_ColisionName"></param>
+	/// <param name="AColisionAddress"></param>
+	/// <param name="BColisionName"></param>
 	/// <returns></returns>
-	const bool Is_A_ColisionHits_B_Colision(
-		CollisionObject* A_ColisionAddress,
-		const char* B_ColisionName);
+	const bool IsAColisionHitsBColision(
+		CollisionObject* AColisionAddress,
+		const char* BColisionName
+	);
+	/// <summary>
+	/// AのアドレスのキャラコンがBの名前のコリジョンに接触したかどうか
+	/// </summary>
+	/// <param name="ACharacon"></param>
+	/// <param name="BColisionName"></param>
+	/// <returns></returns>
+	const bool IsACharaconHitsBColision(
+		CharacterController* ACharacon,
+		const char* BColisionName
+	);
 private:
 	/// <summary>
 	/// コリジョンのリストデータ
@@ -116,6 +127,6 @@ private:
 	/// <summary>
 	/// コリジョンのマップ型配列
 	/// </summary>
-	std::unordered_map<uint32_t,GameCollisionListData> m_collisionMap;
+	std::multimap<uint32_t,GameCollisionListData> m_collisionMap;
 };
 

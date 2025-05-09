@@ -89,6 +89,9 @@
     <ClCompile Include="GameCollisionManager.cpp">
       <Filter>GameCollision</Filter>
     </ClCompile>
+    <ClCompile Include="MapObjectEnemyDummy.cpp">
+      <Filter>GameMap\MapObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="GameCollisionManager.h">
       <Filter>GameCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjectEnemyDummy.h">
+      <Filter>GameMap\MapObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

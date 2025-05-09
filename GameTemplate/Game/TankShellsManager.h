@@ -12,17 +12,54 @@ class TankShellsAttributeRegistry;
 
 class GamePlayer;
 
-class TankShellsManager : public IGameObject
+class TankShellsManager
 {
-public:
+private:
+	/// <summary>
+	/// インスタンス
+	/// </summary>
+	static TankShellsManager* m_tankShellsManagerInstance;
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	TankShellsManager() {};
 	/// <summary>
+	/// コピー禁止
+	/// </summary>
+	/// <param name=""></param>
+	TankShellsManager(const TankShellsManager&) = delete;
+	/// <summary>
+	/// 代入禁止
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	TankShellsManager& operator = (const TankShellsManager&) = delete;
+public:
+	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	~TankShellsManager() {};
+	/// <summary>
+	/// インスタンス作成、または取得
+	/// </summary>
+	/// <returns></returns>
+	static TankShellsManager* GetCollisionManagerInstance()
+	{
+		if (m_tankShellsManagerInstance == nullptr)
+		{
+			m_tankShellsManagerInstance = new TankShellsManager();
+		}
+
+		return m_tankShellsManagerInstance;
+	}
+	/// <summary>
+	/// 砲弾マネージャー初期化
+	/// </summary>
+	void InitTankShellsManager();
+	/// <summary>
+	/// 砲弾マネージャークラス更新
+	/// </summary>
+	void UpdateTankShellsManager();
 	/// <summary>
 	/// 砲弾を発射し、発射した砲弾のアドレスを取得する関数
 	/// </summary>
@@ -32,6 +69,10 @@ public:
 		const Vector3& firingPosition,
 		const Vector3& firingForward
 	);
+	/// <summary>
+	/// 砲弾が何かに当たった時の処理
+	/// </summary>
+	void HitTankShells(TankShellsEntity* hitShells);
 	/// <summary>
 	/// プレイヤーのポインタを取得
 	/// </summary>
@@ -56,6 +97,10 @@ private:
 		/// 使用中か否か
 		/// </summary>
 		bool m_isUse = false;
+		/// <summary>
+		/// 消去フラグ
+		/// </summary>
+		bool m_deleteFlag = false;
 	};
 	/// <summary>
 	/// 新しい砲弾を作成する
@@ -67,18 +112,9 @@ private:
 		const Vector3& firingForward
 	);
 	/// <summary>
-	/// スタート関数
-	/// </summary>
-	/// <returns></returns>
-	bool Start();
-	/// <summary>
-	/// アップデート関数
-	/// </summary>
-	void Update();
-	/// <summary>
 	/// 砲弾の時間削除処理
 	/// </summary>
-	void DeleteTankShellsIsTime();
+	void DeleteTankShells();
 	/// <summary>
 	/// 砲弾のリスト
 	/// </summary>

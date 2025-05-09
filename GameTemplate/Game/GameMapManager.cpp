@@ -3,6 +3,7 @@
 
 //ここからオブジェクトのインクルード
 #include "MapObjectGeneric.h"
+#include "MapObjectEnemyDummy.h"
 
 //スタート関数
 bool GameMapManager::Start()
@@ -13,7 +14,7 @@ bool GameMapManager::Start()
 
 	//レベルから位置などを取得してオブジェクトを作成
 	MapObjectLevelRender.Init
-	("Assets/levelData/testLevel/testLevelV1.tkl",
+	("Assets/levelData/testLevel/testLevelV2.tkl",
 	[&](LevelObjectData_Render& objData)
 	{
 		//床生成
@@ -32,6 +33,20 @@ bool GameMapManager::Start()
 			//オブジェクトをリストに登録
 			SetObjectList(objectFloor);
 			return true;
+		}
+		else if (objData.ForwardMatchName(L"Dummy") == true)
+		{
+			MapObjectEnemyDummy* objectDummy = nullptr;
+
+			objectDummy = NewGO<MapObjectEnemyDummy>(0, "mapObject");
+
+			objectDummy->SetFilePath("Assets/modelData/tankModel/tankModelV1_crawlerTrack.tkm");
+
+			objectDummy->SetModelUseShader(ModelRender::en_usuallyShader);
+
+			objectDummy->SetPosition(objData.m_position);
+
+			SetObjectList(objectDummy);
 		}
 		return true;
 	});

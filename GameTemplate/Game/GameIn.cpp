@@ -50,7 +50,7 @@ void GameIn::LoadGameObject()
 	//ゲームプレイヤーを作成
 	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
 	//砲弾マネージャーを作成
-	m_tankShellsManager = NewGO<TankShellsManager>(0, "tankShellsManager");
+	TankShellsManager::GetCollisionManagerInstance()->InitTankShellsManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 }
@@ -58,6 +58,8 @@ void GameIn::LoadGameObject()
 //ゲームアップデート
 void GameIn::GameUpdate()
 {
+
+	TankShellsManager::GetCollisionManagerInstance()->UpdateTankShellsManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
 

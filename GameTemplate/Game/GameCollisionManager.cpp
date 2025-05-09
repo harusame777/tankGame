@@ -23,7 +23,7 @@ std::shared_ptr<CollisionObject> GameCollisionManager::CreateSphereCollision(
 	//ハッシュ値を計算
 	uint32_t hashNum = GetHashNum(str);
 	//配列に代入
-	m_collisionMap[hashNum] = newCollisionData;
+	m_collisionMap.insert({ hashNum,newCollisionData });
 	
 	return newCollision;
 }
@@ -44,18 +44,38 @@ constexpr uint32_t GameCollisionManager::GetHashNum(const char* str)
 	return hash;
 }
 
-const bool GameCollisionManager::Is_A_ColisionHits_B_Colision(
-	CollisionObject* A_ColisionAddress,
-	const char* B_CollisionName
+const bool GameCollisionManager::IsAColisionHitsBColision(
+	CollisionObject* AColisionAddress,
+	const char* BCollisionName
 )
 {
 	//名前が一致するコリジョンを探す
-	const auto& findCollisionList = FindListCollisionObjects(B_CollisionName);
+	const auto& findCollisionList = FindListCollisionObjects(BCollisionName);
 
 	for (auto listPtr : findCollisionList)
 	{
 		//コリジョンが接触していたらtrue
-		if (listPtr->IsHit(A_ColisionAddress))
+		if (listPtr->IsHit(AColisionAddress))
+		{
+			return true;
+		}
+	}
+	//していないならfalse
+	return false;
+}
+
+const bool GameCollisionManager::IsACharaconHitsBColision(
+	CharacterController* ACharaconAddress,
+	const char* BCollisionName
+)
+{
+	//名前が一致するコリジョンを探す
+	const auto& findCollisionList = FindListCollisionObjects(BCollisionName);
+
+	for (auto listPtr : findCollisionList)
+	{
+		//キャラコンが接触していたらtrue
+		if (listPtr->IsHit(*ACharaconAddress))
 		{
 			return true;
 		}

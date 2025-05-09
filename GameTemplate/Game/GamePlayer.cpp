@@ -37,8 +37,6 @@ bool GamePlayer::Start()
 
 	m_tankTurretMovingComponent = new TankTurretMovingComponent;
 
-	m_tankShellsManager = FindGO<TankShellsManager>("tankShellsManager");
-
 	characterController.Init(5.0f, 5.0f, m_position);
 
 	m_tankMovingComponent->InitTankCrawkerMoveingData(
@@ -88,19 +86,11 @@ void GamePlayer::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
-		m_tankShellsManager->RequestFiringTankShells(
+		TankShellsManager::GetCollisionManagerInstance()->RequestFiringTankShells(
 			EnTankShellsAttribute::en_normal,
 			m_tankTurretMovingComponent->GetCannonFiringPosition(),
 			m_tankTurretMovingComponent->GetTurretForward()
 		);
-	}
-
-	CollisionObject test;
-
-	if (GameCollisionManager::GetCollisionManagerInstance()
-		->GetCollisionManagerInstance()->Is_A_ColisionHits_B_Colision(&test,"testCol"))
-	{
-
 	}
 
 	m_tankCrawkerTrack.Update();
