@@ -4,10 +4,6 @@
 #include "GameIn.h"
 #include "GameLoad.h"
 
-#include "GameMapManager.h"
-#include "GameCameraManager.h"
-#include "GamePlayer.h"
-
 //ゲームステート初期化
 void GameOut::InitGameState()
 {
@@ -40,38 +36,15 @@ void GameOut::UpdateGameState()
 				return;
 
 			m_gameMain->ChangeContextListState(
-				GameMain::en_outGame,
-				GameOut::en_objectLoad
+				GameMain::en_inGame,
+				GameIn::en_objectLoad
 			);
 
 		}
 
 		break;
-	case GameOut::en_objectLoad:
-
-		LoadGameObject();
-
-		m_gameLoad->LoadExecutionFadeIn();
-
-		m_gameMain->ChangeContextListState(
-			GameMain::en_inGame,
-			GameIn::en_gameUpdate);
-
-		break;
 	default:
 		break;
 	}
-
-}
-
-//オブジェクトロード
-void GameOut::LoadGameObject()
-{
-	//ゲームカメラのマネージャーを作成
-	m_gameCameraManager = NewGO<GameCameraManager>(0, "gameCamManager");
-	//ゲームマップのマネージャーを作成
-	m_gameMapManager = NewGO<GameMapManager>(0, "gameMapManager");
-	//ゲームプレイヤーを作成
-	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
 
 }

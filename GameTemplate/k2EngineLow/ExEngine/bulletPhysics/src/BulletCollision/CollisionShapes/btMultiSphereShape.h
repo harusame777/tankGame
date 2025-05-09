@@ -76,7 +76,7 @@ public:
 
 struct	btPositionAndRadius
 {
-	btVector3FloatData	m_pos;
+	btVector3FloatData	m_position;
 	float		m_radius;
 };
 

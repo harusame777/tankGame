@@ -19,6 +19,15 @@
     <Filter Include="TankComponents">
       <UniqueIdentifier>{a740cfd3-bf26-452b-88d4-bf66c56fd5d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TankShells">
+      <UniqueIdentifier>{91f7579f-c872-4532-a1e8-5af19ac4fcaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TankShells\CannonballAttribute">
+      <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCollision">
+      <UniqueIdentifier>{920fe0d1-05bd-4374-969d-e71ed453f1b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -56,8 +65,32 @@
       <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="GamePlayer.cpp" />
-    <ClCompile Include="TankMovingComponent.cpp">
+    <ClCompile Include="TankCrawkerMovingComponent.cpp">
       <Filter>TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="TankTurretMovingComponent.cpp">
+      <Filter>TankComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="TankShellsEntity.cpp">
+      <Filter>TankShells</Filter>
+    </ClCompile>
+    <ClCompile Include="TankShellsManager.cpp">
+      <Filter>TankShells</Filter>
+    </ClCompile>
+    <ClCompile Include="TankShellsAttributeRegistry.cpp">
+      <Filter>TankShells</Filter>
+    </ClCompile>
+    <ClCompile Include="TankShells_001_Normal.cpp">
+      <Filter>TankShells\CannonballAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="TankShellsAttributeBase.cpp">
+      <Filter>TankShells\CannonballAttribute</Filter>
+    </ClCompile>
+    <ClCompile Include="GameCollisionManager.cpp">
+      <Filter>GameCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="MapObjectEnemyDummy.cpp">
+      <Filter>GameMap\MapObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,8 +132,39 @@
       <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="GamePlayer.h" />
-    <ClInclude Include="TankMovingComponent.h">
+    <ClInclude Include="TankCrawkerMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
+    <ClInclude Include="TankTurretMovingComponent.h">
+      <Filter>TankComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="TankShellsEntity.h">
+      <Filter>TankShells</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShellsManager.h">
+      <Filter>TankShells</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShellsAttributeRegistry.h">
+      <Filter>TankShells</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShellsAttribute.h">
+      <Filter>TankShells</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShells_001_Normal.h">
+      <Filter>TankShells\CannonballAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShellsAttributeBase.h">
+      <Filter>TankShells\CannonballAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCollisionManager.h">
+      <Filter>GameCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObjectEnemyDummy.h">
+      <Filter>GameMap\MapObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
   </ItemGroup>
 </Project>

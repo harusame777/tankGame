@@ -7,6 +7,7 @@ namespace nsK2EngineLow {
 	class CollisionObject : public IGameObject
 	{
 	public:
+
 		//コンストラクタ
 		CollisionObject();
 		//デストラクタ
@@ -120,6 +121,21 @@ namespace nsK2EngineLow {
 		void SetIsEnableAutoDelete(bool isFlag)
 		{
 			m_isEnableAutoDelete = isFlag;
+		}
+		/// <summary>
+		/// 追加:コリジョンオブジェクト同士の当たり判定。
+		/// </summary>
+		/// <param name="collisionObject">衝突判定したいコリジョンオブジェクト。</param>
+		/// <returns>衝突したらtrue。</returns>
+		const bool IsHit(CollisionObject* collisionObject) const
+		{
+			bool isCollision = false;
+			PhysicsWorld::GetInstance()->ContactTest(&collisionObject->GetCollisionObject(), [&](const btCollisionObject& contactObject) {
+				if (m_psysicsGhostObject.IsSelf(contactObject) == true) {
+					isCollision = true;
+				}
+				});
+			return isCollision;
 		}
 		/// <summary>
 		/// コリジョンオブジェクトとキャラコンの当たり判定。

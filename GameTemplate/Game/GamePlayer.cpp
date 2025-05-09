@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "GamePlayer.h"
 
-#include "TankMovingComponent.h"
+#include "TankCrawkerMovingComponent.h"
+#include "TankTurretMovingComponent.h"
+#include "TankShellsManager.h"
+#include "TankShellsAttribute.h"
+
+#include "GameCollisionManager.h"
 
 namespace GamePlayerTankConstant 
 {
@@ -28,22 +33,27 @@ bool GamePlayer::Start()
 		ModelRender::en_usuallyShader
 	);
 
-	m_tankMovingComponent = new TankMovingComponent;
+	m_tankMovingComponent = new TankCrawkerMovingComponent;
 
-	characterController.Init(5.0f, 5.0f, m_pos);
+	m_tankTurretMovingComponent = new TankTurretMovingComponent;
 
-	
+	characterController.Init(5.0f, 5.0f, m_position);
 
-	m_tankMovingComponent->InitTankMoveingData(
-		padVector,
+	m_tankMovingComponent->InitTankCrawkerMoveingData(
+		padLVector,
 		m_forward,
 		maxMoveSpeed,
-		acceleration,
-		deceleration,
-		friction,
 		characterController,
 		rotSpeed,
 		m_tankCrawkerTrack
+	);
+
+	m_tankTurretMovingComponent->InitTankTurretMovingData(
+		padRVector,
+		m_position,
+		m_forward,
+		rotSpeed,
+		m_tankTurret
 	);
 
 	return true;
@@ -52,15 +62,39 @@ bool GamePlayer::Start()
 //アップデート関数
 void GamePlayer::Update()
 {
+	//ロード中等では動かないように
+	if (m_playerState == EnPlayerState::en_standby)
+	{
+		return;
+	}
+
 	float pad_x = g_pad[0]->GetLStickXF();
 	float pad_y = g_pad[0]->GetLStickYF();
 
-	padVector.x = pad_x;
-	padVector.z = pad_y;
+	padLVector.x = pad_x;
+	padLVector.z = pad_y;
 
-	m_tankMovingComponent->CalcValueAndModelUpdate();
+	m_position = m_tankMovingComponent->CalcCrawkerMovingDataAndModelUpdate();
+
+	pad_x = g_pad[0]->GetRStickXF();
+	pad_y = g_pad[0]->GetRStickYF();
+
+	padRVector.x = pad_x;
+	padRVector.z = pad_y;
+
+	m_turretPosition = m_tankTurretMovingComponent->CalcTurretMovingDataAndModelUpdate();
+
+	if (g_pad[0]->IsTrigger(enButtonB))
+	{
+		TankShellsManager::GetCollisionManagerInstance()->RequestFiringTankShells(
+			EnTankShellsAttribute::en_normal,
+			m_tankTurretMovingComponent->GetCannonFiringPosition(),
+			m_tankTurretMovingComponent->GetTurretForward()
+		);
+	}
 
 	m_tankCrawkerTrack.Update();
+	m_tankTurret.Update();
 }
 
 //レンダリング関数
@@ -69,5 +103,7 @@ void GamePlayer::Render(RenderContext& rc)
 
 	//履帯描画
 	m_tankCrawkerTrack.Draw(rc);
+	//砲塔描画
+	m_tankTurret.Draw(rc);
 
 }
