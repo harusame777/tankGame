@@ -2,6 +2,7 @@
 #include "TankShellsEntity.h"
 
 #include "TankShellsAttributeBase.h"
+#include "GameCollisionManager.h"
 
 //ƒXƒ^[ƒgŠÖ”
 bool TankShellsEntity::Start()
@@ -28,6 +29,13 @@ bool TankShellsEntity::Start()
 
 	m_tankShellsAttributePtr->InitData();
 
+	m_collision = GameCollisionManager::GetCollisionManagerInstance()->CreateSphereCollision(
+		m_position,
+		m_rotation,
+		7.0f,
+		"testName"
+	);
+
 	return true;
 }
 
@@ -43,10 +51,20 @@ void TankShellsEntity::Update()
 	//ˆÚ“®ŒvŽZ
 	m_tankShellsAttributePtr->MoveCalc();
 
+	if (GameCollisionManager::GetCollisionManagerInstance()
+		->Is_A_ColisionHits_B_Colision(m_collision.get(), "testName"));
+	{
+
+	}
+
 	//’eŠÛÀ•WˆÚ“®ˆ—
 	m_tankShellsModel.SetPosition(m_position);
 	//’eŠÛ‰ñ“]ˆ—
 	m_tankShellsModel.SetRotation(m_rotation);
+
+	m_collision->SetPosition(m_position);
+
+	m_collision->Update();
 
 	m_tankShellsModel.Update();
 }

@@ -223,6 +223,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameCollisionManager.cpp" />
     <ClCompile Include="TankShellsAttributeRegistry.cpp" />
     <ClCompile Include="TankShellsEntity.cpp" />
     <ClCompile Include="TankShellsManager.cpp" />
@@ -249,6 +250,7 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameCollisionManager.h" />
     <ClInclude Include="TankShellsAttribute.h" />
     <ClInclude Include="TankShellsAttributeRegistry.h" />
     <ClInclude Include="TankShellsEntity.h" />

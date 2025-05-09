@@ -1,6 +1,9 @@
 #pragma once
 
+#include "GameCollisionManager.h"
+
 class TankShellsAttributeBase;
+class GameCollisionManager;
 
 class TankShellsEntity : public IGameObject
 {
@@ -108,5 +111,9 @@ private:
 	/// –C’e‚Ìƒ‚ƒfƒ‹
 	/// </summary>
 	ModelRender m_tankShellsModel;
+	/// <summary>
+	/// –C’eƒRƒŠƒWƒ‡ƒ“
+	/// </summary>
+	std::shared_ptr<CollisionObject> m_collision;
 };
 

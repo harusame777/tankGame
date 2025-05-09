@@ -4,19 +4,11 @@
 class GameTitle;
 class GameLoad;
 
-class GameMapManager;
-class GameCameraManager;
-class GamePlayer;
-
-class TankShellsManager;
-
 class GameOut : public GameMainStateClass
 {
 public: 
 	enum GameOutState {
 		en_title,
-
-		en_objectLoad,
 
 		enum_Num
 	};
@@ -38,10 +30,6 @@ public:
 	void UpdateGameState() override;
 private:
 	/// <summary>
-	/// ゲームのオブジェクトをロードする
-	/// </summary>
-	void LoadGameObject();
-	/// <summary>
 	/// ゲームタイトルのインスタンス
 	/// </summary>
 	GameTitle* m_gameTitle = nullptr;
@@ -49,22 +37,5 @@ private:
 	/// ロード画面
 	/// </summary>
 	GameLoad* m_gameLoad = nullptr;
-	/// <summary>
-	/// ゲームカメラのマネージャー
-	/// </summary>
-	GameCameraManager* m_gameCameraManager = nullptr;	
-	/// <summary>
-	/// ゲームマップのマネージャー
-	/// </summary>
-	GameMapManager* m_gameMapManager = nullptr;
-	/// <summary>
-	/// ゲームプレイヤー
-	/// </summary>
-	GamePlayer* m_gamePlayer = nullptr;
-	/// <summary>
-	/// 砲弾のマネージャー
-	/// </summary>
-	TankShellsManager* m_tankShellsManager = nullptr;
-
 };
 

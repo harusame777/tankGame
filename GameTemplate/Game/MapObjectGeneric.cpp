@@ -17,6 +17,8 @@ bool MapObjectGeneric::Start()
 	//ƒ‚ƒfƒ‹XV
 	UpdateModel(m_modelRender);
 
+	PhysicsWorld::GetInstance()->EnableDrawDebugWireFrame();
+
 	return true;
 }
 

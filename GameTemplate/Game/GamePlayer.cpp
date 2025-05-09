@@ -6,6 +6,8 @@
 #include "TankShellsManager.h"
 #include "TankShellsAttribute.h"
 
+#include "GameCollisionManager.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -91,6 +93,14 @@ void GamePlayer::Update()
 			m_tankTurretMovingComponent->GetCannonFiringPosition(),
 			m_tankTurretMovingComponent->GetTurretForward()
 		);
+	}
+
+	CollisionObject test;
+
+	if (GameCollisionManager::GetCollisionManagerInstance()
+		->GetCollisionManagerInstance()->Is_A_ColisionHits_B_Colision(&test,"testCol"))
+	{
+
 	}
 
 	m_tankCrawkerTrack.Update();

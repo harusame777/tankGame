@@ -7,7 +7,7 @@
 
 #include "GamePlayer.h"
 
-//–C’e‚ğ”­Ë‚µA”­Ë‚µ‚½–C’e‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚é
+//–C’e‚ğ”­Ë‚·‚é
 void TankShellsManager::RequestFiringTankShells(
 	const EnTankShellsAttribute tankShellsAttribute,
 	const Vector3& firingPosition,
