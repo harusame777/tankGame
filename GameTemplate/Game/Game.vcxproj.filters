@@ -28,6 +28,12 @@
     <Filter Include="GameCollision">
       <UniqueIdentifier>{920fe0d1-05bd-4374-969d-e71ed453f1b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EnemyTank">
+      <UniqueIdentifier>{ba87b36f-bd9f-4799-9336-723d6e2ba8b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachineComponents">
+      <UniqueIdentifier>{dd414c71-a159-4cbd-8f28-b5fc1353d0e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -91,6 +97,12 @@
     </ClCompile>
     <ClCompile Include="MapObjectEnemyDummy.cpp">
       <Filter>GameMap\MapObject</Filter>
+    </ClCompile>
+    <ClCompile Include="StateBase.cpp">
+      <Filter>StateMachineComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachineBase.cpp">
+      <Filter>StateMachineComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,6 +174,12 @@
     </ClInclude>
     <ClInclude Include="MapObjectEnemyDummy.h">
       <Filter>GameMap\MapObject</Filter>
+    </ClInclude>
+    <ClInclude Include="StateBase.h">
+      <Filter>StateMachineComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineBase.h">
+      <Filter>StateMachineComponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
