@@ -5,8 +5,11 @@
 #include "MapObjectGeneric.h"
 #include "MapObjectEnemyDummy.h"
 
+//インスタンスを初期化
+GameMapManager* GameMapManager::m_gameMapManagerInstance = nullptr;
+
 //スタート関数
-bool GameMapManager::Start()
+void GameMapManager::InitGameMapManager()
 {
 	//今のところはメンバ変数にする利点が分からないので
 	//ローカル変数として作成
@@ -50,11 +53,11 @@ bool GameMapManager::Start()
 		}
 		return true;
 	});
-	return true;
+
 }
 
 //アップデート関数
-void GameMapManager::Update()
+void GameMapManager::UpdateGameMapManager()
 {
 
 }

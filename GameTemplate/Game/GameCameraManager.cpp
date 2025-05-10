@@ -5,8 +5,11 @@
 #include "GameMainCamera.h"
 #include "GameCameraObjectBase.h"
 
+//インスタンスを初期化
+GameCameraManager* GameCameraManager::m_gameCameraManagerInstance = nullptr;
+
 //スタート関数
-bool GameCameraManager::Start()
+void GameCameraManager::InitGameCameraManager()
 {
 	//カメラのインスタンス化とリスト登録
 	//メインカメラ
@@ -18,12 +21,10 @@ bool GameCameraManager::Start()
 	{
 		listPtr->InitCamera();
 	}
-
-	return true;
 }
 
 //アップデート関数
-void GameCameraManager::Update()
+void GameCameraManager::UpdateGameCameraManager()
 {
 	//ステートによって座標等を更新する
 	m_gameCameraList[m_cameraModeState]->UpdateCamera();

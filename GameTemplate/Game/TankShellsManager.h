@@ -43,7 +43,7 @@ public:
 	/// インスタンス作成、または取得
 	/// </summary>
 	/// <returns></returns>
-	static TankShellsManager* GetCollisionManagerInstance()
+	static TankShellsManager* GetTankShellsManagerInstance()
 	{
 		if (m_tankShellsManagerInstance == nullptr)
 		{

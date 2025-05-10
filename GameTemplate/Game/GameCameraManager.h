@@ -2,8 +2,28 @@
 
 class GameCameraObjectBase;
 
-class GameCameraManager : public IGameObject
+class GameCameraManager
 {
+private:
+	/// <summary>
+	/// インスタンス
+	/// </summary>
+	static GameCameraManager* m_gameCameraManagerInstance;
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	GameCameraManager() {};
+	/// <summary>
+	/// コピー禁止
+	/// </summary>
+	/// <param name=""></param>
+	GameCameraManager(const GameCameraManager&) = delete;
+	/// <summary>
+	/// 代入禁止
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	GameCameraManager& operator = (const GameCameraManager&) = delete;
 public:
 	/// <summary>
 	/// カメラデータ構造体
@@ -34,13 +54,22 @@ public:
 		en_cameraMain,
 	};
 	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	GameCameraManager() {};
-	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	~GameCameraManager() {};
+	/// <summary>
+	/// インスタンス作成、または取得
+	/// </summary>
+	/// <returns></returns>
+	static GameCameraManager* GetGameCameraManagerInstance()
+	{
+		if (m_gameCameraManagerInstance == nullptr)
+		{
+			m_gameCameraManagerInstance = new GameCameraManager();
+		}
+
+		return m_gameCameraManagerInstance;
+	}
 	/// <summary>
 	/// ゲームカメラリストにカメラベースを継承しているオブジェクトを追加
 	/// </summary>
@@ -49,16 +78,15 @@ public:
 	{
 		m_gameCameraList.push_back(addCamera);
 	}
-private:
 	/// <summary>
-	/// スタート関数
+	/// 初期化
 	/// </summary>
-	/// <returns></returns>
-	bool Start();
+	void InitGameCameraManager();
 	/// <summary>
 	/// アップデート関数
 	/// </summary>
-	void Update();
+	void UpdateGameCameraManager();
+private:
 	/// <summary>
 	/// カメラデータ
 	/// </summary>
