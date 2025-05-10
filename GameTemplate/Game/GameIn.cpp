@@ -43,24 +43,24 @@ void GameIn::UpdateGameState()
 //オブジェクトロード
 void GameIn::LoadGameObject()
 {
-	//ゲームカメラのマネージャーを作成
-	m_gameCameraManager = NewGO<GameCameraManager>(0, "gameCamManager");
-	//ゲームマップのマネージャーを作成
-	m_gameMapManager = NewGO<GameMapManager>(0, "gameMapManager");
 	//ゲームプレイヤーを作成
 	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
+	//ゲームカメラのマネージャーを作成
+	GameCameraManager::GetGameCameraManagerInstance()->InitGameCameraManager();
+	//ゲームマップのマネージャーを作成
+	GameMapManager::GetCollisionManagerInstance()->InitGameMapManager();
 	//砲弾マネージャーを作成
-	TankShellsManager::GetCollisionManagerInstance()->InitTankShellsManager();
-
+	TankShellsManager::GetTankShellsManagerInstance()->InitTankShellsManager();
+	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 }
 
 //ゲームアップデート
 void GameIn::GameUpdate()
 {
+	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
 
-	TankShellsManager::GetCollisionManagerInstance()->UpdateTankShellsManager();
+	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
-
 }

@@ -1,23 +1,55 @@
 #pragma once
 #include "GameMapObjectBase.h"
 
-class GameMapManager : public IGameObject
+class GameMapManager
 {
-public:
+private:
+	/// <summary>
+	/// インスタンス
+	/// </summary>
+	static GameMapManager* m_gameMapManagerInstance;
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	GameMapManager() {};
 	/// <summary>
+	/// コピー禁止
+	/// </summary>
+	/// <param name=""></param>
+	GameMapManager(const GameMapManager&) = delete;
+	/// <summary>
+	/// 代入禁止
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
+	GameMapManager& operator = (const GameMapManager&) = delete;
+public:
+	/// <summary>
+	/// インスタンス作成、または取得
+	/// </summary>
+	/// <returns></returns>
+	static GameMapManager* GetCollisionManagerInstance()
+	{
+		if (m_gameMapManagerInstance == nullptr)
+		{
+			m_gameMapManagerInstance = new GameMapManager();
+		}
+
+		return m_gameMapManagerInstance;
+	}
+	/// <summary>
 	/// デストラクタ
 	/// </summary>
 	~GameMapManager() {};
-private:
 	/// <summary>
-	/// スタート関数
+	/// 初期化
 	/// </summary>
-	/// <returns></returns>
-	bool Start();
+	void InitGameMapManager();
+	/// <summary>
+	/// アップデート関数
+	/// </summary>
+	void UpdateGameMapManager();
+private:
 	/// <summary>
 	/// アップデート関数
 	/// </summary>
@@ -34,10 +66,5 @@ private:
 	{
 		m_gameMapObjectList.push_back(object);
 	}
-
-	//テスト用
-	//PointLight m_testPointLig;
-	//
-	//DirectionalLight sunDirectionalLight;
 };
 

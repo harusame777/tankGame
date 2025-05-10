@@ -86,7 +86,7 @@ void GamePlayer::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonB))
 	{
-		TankShellsManager::GetCollisionManagerInstance()->RequestFiringTankShells(
+		TankShellsManager::GetTankShellsManagerInstance()->RequestFiringTankShells(
 			EnTankShellsAttribute::en_normal,
 			m_tankTurretMovingComponent->GetCannonFiringPosition(),
 			m_tankTurretMovingComponent->GetTurretForward()

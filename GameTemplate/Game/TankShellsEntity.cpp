@@ -55,7 +55,7 @@ void TankShellsEntity::Update()
 	if (GameCollisionManager::GetCollisionManagerInstance()
 		->IsAColisionHitsBColision(m_collision.get(), "DummyCollision") == true)
 	{
-		TankShellsManager::GetCollisionManagerInstance()->HitTankShells(this);
+		TankShellsManager::GetTankShellsManagerInstance()->HitTankShells(this);
 	}
 
 	//’eŠÛÀ•WˆÚ“®ˆ—

@@ -5,7 +5,6 @@
 class GameLoad;
 
 class GameMapManager;
-class GameCameraManager;
 class GamePlayer;
 class TankShellsManager;
 
@@ -49,10 +48,6 @@ private:
 	/// ロード画面
 	/// </summary>
 	GameLoad* m_gameLoad = nullptr;
-	/// <summary>
-	/// ゲームカメラのマネージャー
-	/// </summary>
-	GameCameraManager* m_gameCameraManager = nullptr;
 	/// <summary>
 	/// ゲームマップのマネージャー
 	/// </summary>
