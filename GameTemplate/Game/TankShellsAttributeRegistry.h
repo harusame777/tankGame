@@ -38,6 +38,7 @@ public:
 			return it->second();
 		}
 		//“o˜^‚³‚ê‚Ä‚¢‚È‚¯‚ê‚Î
+		K2_ASSERT(false, "‘z’èŠO");
 		return nullptr;
 	}
 private:

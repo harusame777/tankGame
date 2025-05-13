@@ -62,11 +62,7 @@ private:
 	/// </summary>
 	/// <param name="rc"></param>
 	void Render(RenderContext& rc);
-	/// <summary>
-	/// プレイヤーのステート
-	/// </summary>
-	EnPlayerState m_playerState = EnPlayerState::en_idle;
-	/// <summary>
+	/// <summary>	/// <summary>
 	/// 履帯モデル
 	/// </summary>
 	ModelRender m_tankCrawkerTrack;
@@ -74,6 +70,10 @@ private:
 	/// 砲塔モデル
 	/// </summary>
 	ModelRender m_tankTurret;
+	/// </summary>
+	/// プレイヤーのステート
+	/// </summary>
+	EnPlayerState m_playerState = EnPlayerState::en_idle;
 	/// <summary>
 	/// 戦車移動コンポーネント
 	/// </summary>

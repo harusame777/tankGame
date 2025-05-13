@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="system">
-      <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{c9e29f71-795a-4dac-8c77-4cfcf27a0120}</UniqueIdentifier>
     </Filter>
@@ -34,11 +31,20 @@
     <Filter Include="StateMachineComponents">
       <UniqueIdentifier>{dd414c71-a159-4cbd-8f28-b5fc1353d0e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TankShells\system">
+      <UniqueIdentifier>{22dd8095-74f9-46df-81a1-36675a040b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EnemyTank\StateMachine">
+      <UniqueIdentifier>{3889d162-3566-47d2-a000-3418d3ba678e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EnemyTank\State">
+      <UniqueIdentifier>{28f614eb-05fb-4e7d-82a7-cd1b6e2e58a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="system\system.cpp">
-      <Filter>system</Filter>
+      <Filter>TankShells\system</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Main</Filter>
@@ -104,11 +110,23 @@
     <ClCompile Include="StateMachineBase.cpp">
       <Filter>StateMachineComponents</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTankEntity.cpp">
+      <Filter>EnemyTank</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankManager.cpp">
+      <Filter>EnemyTank</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankStateMachine.cpp">
+      <Filter>EnemyTank\StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankStateMoveUpdate.cpp">
+      <Filter>EnemyTank\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h">
-      <Filter>system</Filter>
+      <Filter>TankShells\system</Filter>
     </ClInclude>
     <ClInclude Include="GameMain.h">
       <Filter>Main</Filter>
@@ -180,6 +198,18 @@
     </ClInclude>
     <ClInclude Include="StateMachineBase.h">
       <Filter>StateMachineComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankEntity.h">
+      <Filter>EnemyTank</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankManager.h">
+      <Filter>EnemyTank</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankStateMachine.h">
+      <Filter>EnemyTank\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankStateMoveUpdate.h">
+      <Filter>EnemyTank\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

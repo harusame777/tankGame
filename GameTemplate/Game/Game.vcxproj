@@ -223,6 +223,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyTankEntity.cpp" />
+    <ClCompile Include="EnemyTankManager.cpp" />
+    <ClCompile Include="EnemyTankStateMachine.cpp" />
+    <ClCompile Include="EnemyTankStateMoveUpdate.cpp" />
     <ClCompile Include="GameCollisionManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
     <ClCompile Include="StateBase.cpp" />
@@ -253,6 +257,10 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyTankEntity.h" />
+    <ClInclude Include="EnemyTankManager.h" />
+    <ClInclude Include="EnemyTankStateMachine.h" />
+    <ClInclude Include="EnemyTankStateMoveUpdate.h" />
     <ClInclude Include="GameCollisionManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />
     <ClInclude Include="StateBase.h" />
