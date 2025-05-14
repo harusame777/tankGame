@@ -32,6 +32,14 @@ public:
 	{
 		m_targetForward = direction;
 	}
+	/// <summary>
+	/// 位置取得
+	/// </summary>
+	/// <returns></returns>
+	const Vector3& GetPosition() const
+	{
+		return m_position;
+	}
 private:
 	/// <summary>
 	/// スタート関数

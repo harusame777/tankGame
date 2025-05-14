@@ -6,8 +6,6 @@
 //コンストラクタ
 EnemyTankStateMoveUpdate::EnemyTankStateMoveUpdate(EnemyTankEntity* hostEnemyTank)
 {
-
-
 	m_hostEnemyTankEntity = hostEnemyTank;
 }
 

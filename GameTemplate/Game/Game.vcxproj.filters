@@ -40,6 +40,9 @@
     <Filter Include="EnemyTank\State">
       <UniqueIdentifier>{28f614eb-05fb-4e7d-82a7-cd1b6e2e58a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EnemyTank\AttackPoint">
+      <UniqueIdentifier>{f8678101-8597-48a5-98a1-12b8f390e176}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -121,6 +124,12 @@
     </ClCompile>
     <ClCompile Include="EnemyTankStateMoveUpdate.cpp">
       <Filter>EnemyTank\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackPointManager.cpp">
+      <Filter>EnemyTank\AttackPoint</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackPoint.cpp">
+      <Filter>EnemyTank\AttackPoint</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +219,12 @@
     </ClInclude>
     <ClInclude Include="EnemyTankStateMoveUpdate.h">
       <Filter>EnemyTank\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackPointManager.h">
+      <Filter>EnemyTank\AttackPoint</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackPoint.h">
+      <Filter>EnemyTank\AttackPoint</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

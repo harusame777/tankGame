@@ -223,6 +223,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyAttackPoint.cpp" />
+    <ClCompile Include="EnemyAttackPointManager.cpp" />
     <ClCompile Include="EnemyTankEntity.cpp" />
     <ClCompile Include="EnemyTankManager.cpp" />
     <ClCompile Include="EnemyTankStateMachine.cpp" />
@@ -257,6 +259,8 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyAttackPoint.h" />
+    <ClInclude Include="EnemyAttackPointManager.h" />
     <ClInclude Include="EnemyTankEntity.h" />
     <ClInclude Include="EnemyTankManager.h" />
     <ClInclude Include="EnemyTankStateMachine.h" />

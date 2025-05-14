@@ -8,6 +8,8 @@
 
 #include "GameCollisionManager.h"
 
+#include "EnemyAttackPointManager.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -56,6 +58,12 @@ bool GamePlayer::Start()
 		m_tankTurret
 	);
 
+	EnemyAttackPointManager::GetTankShellsManagerInstance()->CreateEnemyAttackPoints(
+		m_position,
+		200.0f,
+		15
+	);
+
 	return true;
 }
 
@@ -95,6 +103,9 @@ void GamePlayer::Update()
 
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
+
+	EnemyAttackPointManager::GetTankShellsManagerInstance()->UpdateEnemyAttackPoints();
+
 }
 
 //ƒŒƒ“ƒ_ƒŠƒ“ƒOŠÖ”
