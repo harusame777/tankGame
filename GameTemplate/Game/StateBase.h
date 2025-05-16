@@ -1,4 +1,9 @@
 #pragma once
+#include "CRC32.h"
+
+#define appState(name)	\
+public:\
+	static constexpr uint32_t ID() { return Hash32(#name); }
 
 class StateBase
 {

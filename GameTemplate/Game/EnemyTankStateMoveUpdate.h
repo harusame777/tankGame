@@ -6,11 +6,15 @@ class EnemyTankEntity;
 
 class EnemyTankStateMoveUpdate : public StateBase
 {
+	appState(EnemyTankStateMoveUpdate);
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTankStateMoveUpdate(EnemyTankEntity* hostEnemyTank);
+	EnemyTankStateMoveUpdate(EnemyTankEntity* hostEnemyTank)
+	{
+		m_hostEnemyTankEntity = hostEnemyTank;
+	};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -33,10 +37,18 @@ public:
 	/// <param name="request"></param>
 	/// <returns></returns>
 	bool RequestState(uint32_t& request) override;
+	/// <summary>
+	/// ホストエネミーを登録
+	/// </summary>
+	/// <param name="hostEnemyTank"></param>
+	void SetHostEnemyTank(EnemyTankEntity* hostEnemyTank)
+	{
+		m_hostEnemyTankEntity = hostEnemyTank;
+	}
 private:
 	/// <summary>
 	/// このステートを保持しているエネミータンク
 	/// </summary>
-	EnemyTankEntity* m_hostEnemyTankEntity;
+	EnemyTankEntity* m_hostEnemyTankEntity = nullptr;
 };
 

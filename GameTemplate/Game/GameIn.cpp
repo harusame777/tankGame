@@ -6,6 +6,7 @@
 #include "TankShellsManager.h"
 #include "GamePlayer.h"
 #include "GameCollisionManager.h"
+#include "EnemyTankManager.h"
 
 //ゲームステート初期化
 void GameIn::InitGameState()
@@ -51,8 +52,12 @@ void GameIn::LoadGameObject()
 	GameMapManager::GetCollisionManagerInstance()->InitGameMapManager();
 	//砲弾マネージャーを作成
 	TankShellsManager::GetTankShellsManagerInstance()->InitTankShellsManager();
+	//エネミータンクマネージャークラスを作成
+	EnemyTankManager::GetEnemyTankManagerInstance()->InitEnemyTankManager();
 	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
+
+	EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank({ 400.0f,0.0f,400.0f });
 }
 
 //ゲームアップデート
@@ -61,6 +66,8 @@ void GameIn::GameUpdate()
 	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
 
 	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
+
+	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
 }

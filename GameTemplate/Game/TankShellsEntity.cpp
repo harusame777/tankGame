@@ -34,7 +34,7 @@ bool TankShellsEntity::Start()
 		m_position,
 		m_rotation,
 		7.0f,
-		"testName"
+		"shellsCollision"
 	);
 
 	return true;
@@ -53,7 +53,7 @@ void TankShellsEntity::Update()
 	m_tankShellsAttributePtr->MoveCalc();
 
 	if (GameCollisionManager::GetCollisionManagerInstance()
-		->IsAColisionHitsBColision(m_collision.get(), "DummyCollision") == true)
+		->IsAColisionHitsBColision(m_collision.get(), "EnemyCollision") == true)
 	{
 		TankShellsManager::GetTankShellsManagerInstance()->HitTankShells(this);
 	}

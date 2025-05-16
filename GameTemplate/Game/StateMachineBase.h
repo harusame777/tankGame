@@ -1,4 +1,5 @@
 #pragma once
+#include "CRC32.h"
 
 class StateBase;
 
@@ -50,14 +51,14 @@ public:
 	/// 純粋仮想関数、更新関数
 	/// </summary>
 	virtual void Update() = 0;
-private:
+public:
 	/// <summary>
 	/// ステートマップに登録
 	/// </summary>
-	template<typename T>
-	inline void RegisterState()
+	template<typename T, typename... Args>
+	inline void RegisterState(Args&&... args)
 	{
-		m_stateMap.insert(StatePair(T::ID, new T()));
+		m_stateMap.insert(StatePair(T::ID(), new T(std::forward<Args>(args)...)));
 	}
 	/// <summary>
 	/// ステート初期化

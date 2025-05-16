@@ -181,7 +181,8 @@ void GameCollisionManager::UpdateCollisionManager()
 void GameCollisionManager::DeleteList()
 {
 	//マップの要素分回す
-	for (auto it = m_collisionMap.begin();it != m_collisionMap.end();)
+	for (auto it = m_collisionMap.begin();
+		it != m_collisionMap.end();)
 	{
 		//要素内のコリジョンが有効かどうかを調べる
 		if (nullptr == it->second.m_collisionPtr.lock())

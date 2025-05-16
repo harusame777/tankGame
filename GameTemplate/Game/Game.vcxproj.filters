@@ -226,6 +226,9 @@
     <ClInclude Include="EnemyAttackPoint.h">
       <Filter>EnemyTank\AttackPoint</Filter>
     </ClInclude>
+    <ClInclude Include="CRC32.h">
+      <Filter>StateMachineComponents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

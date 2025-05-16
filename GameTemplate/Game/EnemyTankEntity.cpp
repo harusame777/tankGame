@@ -6,6 +6,14 @@
 #include "TankCrawkerMovingComponent.h"
 #include "TankTurretMovingComponent.h"
 #include "GameCollisionManager.h"
+#include "EnemyTankManager.h"
+
+#include "EnemyTankStateMoveUpdate.h"
+
+//コンストラクタ
+EnemyTankEntity::EnemyTankEntity()
+{
+}
 
 //スタート関数
 bool EnemyTankEntity::Start()
@@ -29,11 +37,18 @@ bool EnemyTankEntity::Start()
 	);
 
 	//ステートマシン生成
-	m_stateMashine = new EnemyTankStateMachine(this);
+	m_stateMashine = new EnemyTankStateMachine;
+	//ステートマシン登録
+	m_stateMashine->SetHostEnemyTank(this);
+
+	m_stateMashine->RegisterState<EnemyTankStateMoveUpdate>(this);
+	m_stateMashine->InitilizeState<EnemyTankStateMoveUpdate>();
 	//履帯コンポーネント生成
 	m_tankCrawkerMovingCom = new TankCrawkerMovingComponent;
 	//砲塔コンポーネント生成
 	m_tankTurretMovingCom = new TankTurretMovingComponent;
+
+	characterController.Init(5.0f, 5.0f, m_position);
 
 	//履帯コンポーネント設定
 	m_tankCrawkerMovingCom->InitTankCrawkerMoveingData(
@@ -58,7 +73,7 @@ bool EnemyTankEntity::Start()
 	m_collision = GameCollisionManager::GetCollisionManagerInstance()->CreateSphereCollision(
 		m_position,
 		m_rotation,
-		1.0f,
+		30.0f,
 		"EnemyCollision"
 	);
 
@@ -72,16 +87,25 @@ void EnemyTankEntity::Update()
 	m_stateMashine->Update();
 
 	//履帯移動更新
-	m_tankCrawkerMovingCom->CalcCrawkerMovingDataAndModelUpdate();
+	m_position = m_tankCrawkerMovingCom->CalcCrawkerMovingDataAndModelUpdate();
 	//砲塔移動更新
-	m_tankTurretMovingCom->CalcTurretMovingDataAndModelUpdate();
+	m_turretPosition = m_tankTurretMovingCom->CalcTurretMovingDataAndModelUpdate();
+
+	//消去処理
+	if (GameCollisionManager::GetCollisionManagerInstance()
+		->IsAColisionHitsBColision(m_collision.get(), "shellsCollision") == true)
+	{
+		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(this);
+	}
 	
 	//モデル更新
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
 
 	//当たり判定位置更新
-	m_collision->SetPosition(m_position);
+	Vector3 colPos = m_position;
+	colPos.y += 35.0f;
+	m_collision->SetPosition(colPos);
 	m_collision->Update();
 }
 
@@ -91,4 +115,11 @@ void EnemyTankEntity::Render(RenderContext& rc)
 	m_tankCrawkerTrack.Draw(rc);
 
 	m_tankTurret.Draw(rc);
+}
+
+void EnemyTankEntity::DeleteGOEnemyTank()
+{
+
+
+	DeleteGO(this);
 }

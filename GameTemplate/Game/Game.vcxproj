@@ -259,6 +259,7 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CRC32.h" />
     <ClInclude Include="EnemyAttackPoint.h" />
     <ClInclude Include="EnemyAttackPointManager.h" />
     <ClInclude Include="EnemyTankEntity.h" />

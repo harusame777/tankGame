@@ -68,6 +68,11 @@ void EnemyAttackPointManager::UpdateEnemyAttackPoints()
 
 EnemyAttackPoint* EnemyAttackPointManager::GetEnemyNearAttackPoint(EnemyTankEntity* searchEnemyTank)
 {
+	if (searchEnemyTank == nullptr)
+	{
+		return nullptr;
+	}
+
 	//ƒŠƒXƒg‚ª‹ó‚¾‚Á‚½‚ç
 	if (m_enemyAttackPointList.empty() == true)
 	{

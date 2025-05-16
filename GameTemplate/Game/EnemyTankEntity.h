@@ -11,11 +11,16 @@ public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTankEntity() {};
+	EnemyTankEntity();
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyTankEntity() {};
+	~EnemyTankEntity() 
+	{
+		delete m_stateMashine;
+		delete m_tankCrawkerMovingCom;
+		delete m_tankTurretMovingCom;
+	};
 	/// <summary>
 	/// 移動方向設定
 	/// </summary>
@@ -33,6 +38,14 @@ public:
 		m_targetForward = direction;
 	}
 	/// <summary>
+	/// 位置設定
+	/// </summary>
+	/// <param name="setPos"></param>
+	void SetPosition(const Vector3& setPos)
+	{
+		m_position = setPos;
+	}
+	/// <summary>
 	/// 位置取得
 	/// </summary>
 	/// <returns></returns>
@@ -40,6 +53,10 @@ public:
 	{
 		return m_position;
 	}
+	/// <summary>
+	/// エネミータンク削除実行
+	/// </summary>
+	void DeleteGOEnemyTank();
 private:
 	/// <summary>
 	/// スタート関数
@@ -109,8 +126,8 @@ private:
 	std::shared_ptr<CollisionObject> m_collision;
 
 	
-	float m_moveSpeed = 100.0f;
-	float maxMoveSpeed = 100.0f;
+	float m_moveSpeed = 50.0f;
+	float maxMoveSpeed = 50.0f;
 	CharacterController characterController;
 	float rotSpeed = 10.0f;
 };

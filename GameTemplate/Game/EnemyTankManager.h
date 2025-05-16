@@ -35,6 +35,10 @@ public:
 		/// デリートフラグ
 		/// </summary>
 		bool m_deleteFlag = false;
+		/// <summary>
+		/// 削除遅延
+		/// </summary>
+		float m_deleteDelayTime = 0.1f;
 	};
 	/// <summary>
 	/// デストラクタ
@@ -44,7 +48,7 @@ public:
 	/// インスタンス作成、または取得	
 	/// </summary>
 	/// <returns></returns>
-	static EnemyTankManager* GetTankShellsManagerInstance()
+	static EnemyTankManager* GetEnemyTankManagerInstance()
 	{
 		if (m_enemyTankManagerInstance == nullptr)
 		{
@@ -62,7 +66,32 @@ public:
 	/// </summary>
 	void UpdateEnemyTankManager();
 
-	void CreateNewEnemyTank();
+	void CreateNewEnemyTank(
+		const Vector3& createPos
+	);
+	/// <summary>
+	/// 削除フラグを有効にする
+	/// </summary>
+	void ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank);
+private:
+	/// <summary>
+	/// リスト削除
+	/// </summary>
+	void DeleteList();
+	/// <summary>
+	/// データが削除条件を満たしているかどうか
+	/// </summary>
+	/// <param name="listData"></param>
+	/// <returns></returns>
+	const bool IsDataDelteConditions(EnemyTankData* listData)
+	{
+		//削除条件判定
+		if (listData->m_deleteFlag == true)
+		{
+			return true;
+		}
+		return false;
+	}
 	/// <summary>
 	/// 敵タンクリスト
 	/// </summary>

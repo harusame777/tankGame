@@ -10,6 +10,8 @@
 
 #include "EnemyAttackPointManager.h"
 
+#include "EnemyTankManager.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -106,6 +108,10 @@ void GamePlayer::Update()
 
 	EnemyAttackPointManager::GetTankShellsManagerInstance()->UpdateEnemyAttackPoints();
 
+	if (g_pad[0]->IsTrigger(enButtonDown))
+	{
+		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank({ 400.0f,0.0f,400.0f });
+	}
 }
 
 //ƒŒƒ“ƒ_ƒŠƒ“ƒOŠÖ”
