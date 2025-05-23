@@ -2,8 +2,9 @@
 
 class StateMachineBase;
 class EnemyTankStateMachine;
+class GamePlayer;
 class TankCrawkerMovingComponent;
-class TankTurretMovingComponent;	
+class TankTurretMovingComponent;
 
 class EnemyTankEntity : public IGameObject
 {
@@ -57,6 +58,14 @@ public:
 	/// エネミータンク削除実行
 	/// </summary>
 	void DeleteGOEnemyTank();
+	/// <summary>
+	/// ゲームプレイヤーのインスタンスを設定
+	/// </summary>
+	/// <param name="playerPtr"></param>
+	void SetGamePlayerInstance(GamePlayer* playerPtr)
+	{
+		m_player = playerPtr;
+	}
 private:
 	/// <summary>
 	/// スタート関数
@@ -124,7 +133,10 @@ private:
 	/// 当たり判定
 	/// </summary>
 	std::shared_ptr<CollisionObject> m_collision;
-
+	/// <summary>
+	/// ゲームプレイヤーのインスタンス
+	/// </summary>
+	GamePlayer* m_player;
 	
 	float m_moveSpeed = 50.0f;
 	float maxMoveSpeed = 50.0f;

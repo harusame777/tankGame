@@ -7,12 +7,15 @@
 #include "TankTurretMovingComponent.h"
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
+#include "GamePlayer.h"
 
 #include "EnemyTankStateMoveUpdate.h"
+#include "EnemyTankStateAttackMoveUpdate.h"
 
 //コンストラクタ
 EnemyTankEntity::EnemyTankEntity()
 {
+
 }
 
 //スタート関数
@@ -41,7 +44,8 @@ bool EnemyTankEntity::Start()
 	//ステートマシン登録
 	m_stateMashine->SetHostEnemyTank(this);
 
-	m_stateMashine->RegisterState<EnemyTankStateMoveUpdate>(this);
+	m_stateMashine->RegisterState<EnemyTankStateMoveUpdate>(this,m_player);
+	m_stateMashine->RegisterState<EnemyTankStateAttackMoveUpdate>(this, m_player);
 	m_stateMashine->InitilizeState<EnemyTankStateMoveUpdate>();
 	//履帯コンポーネント生成
 	m_tankCrawkerMovingCom = new TankCrawkerMovingComponent;

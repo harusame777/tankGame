@@ -12,6 +12,7 @@ EnemyAttackPointManager* EnemyAttackPointManager::m_enemyAttackPointManagerInsta
 void EnemyAttackPointManager::CreateEnemyAttackPoints(
 	Vector3& followCenterPoint,
 	float pointTarGetDistance,
+	float pointAttackRadius,
 	int pointNum
 )
 {
@@ -45,6 +46,8 @@ void EnemyAttackPointManager::CreateEnemyAttackPoints(
 		newData.m_attackPointPtr->SetPosition(setPosition);
 		//設置方向を設定
 		newData.m_attackPointPtr->SetDirection(setDirection);
+		//攻撃開始範囲を設定
+		newData.m_attackPointPtr->SetRadius(pointAttackRadius);
 		//リストに設定
 		m_enemyAttackPointList.push_back(newData);
 		//回転
@@ -84,7 +87,7 @@ EnemyAttackPoint* EnemyAttackPointManager::GetEnemyNearAttackPoint(EnemyTankEnti
 	Vector3 enemyTankPos = searchEnemyTank->GetPosition();
 
 	//比較用ポインタ
-	EnemyAttackPoint* closestAttackPoint = nullptr;
+	EnemyAttackPointData* closestAttackPoint = nullptr;
 	//比較用距離
 	float closestLen = 0.0f;
 	
@@ -109,7 +112,7 @@ EnemyAttackPoint* EnemyAttackPointManager::GetEnemyNearAttackPoint(EnemyTankEnti
 		//比較用のポインタがNULLだったら代入する
 		if (closestAttackPoint == nullptr)
 		{
-			closestAttackPoint = attackPoint.m_attackPointPtr.get();
+			closestAttackPoint = &attackPoint;
 
 			closestLen = EnemyToAttackPointLen;
 
@@ -120,7 +123,7 @@ EnemyAttackPoint* EnemyAttackPointManager::GetEnemyNearAttackPoint(EnemyTankEnti
 		if (EnemyToAttackPointLen < closestLen)
 		{
 			//もし真であれば入れ替え処理を行う
-			closestAttackPoint = attackPoint.m_attackPointPtr.get();
+			closestAttackPoint = &attackPoint;
 			closestLen = EnemyToAttackPointLen;
 		}
 	}
@@ -132,7 +135,32 @@ EnemyAttackPoint* EnemyAttackPointManager::GetEnemyNearAttackPoint(EnemyTankEnti
 		return nullptr;
 	}
 
-	return closestAttackPoint;
+	//選択されたアタックポイントに使用中のエネミーを設定
+	closestAttackPoint->m_enemyTankEntityPtr = searchEnemyTank;
+
+	return closestAttackPoint->m_attackPointPtr.get();
+}
+
+//同じエネミータンクのアドレスを持っているアタックポイントを取得する
+EnemyAttackPoint* EnemyAttackPointManager::GetSameEnemyAddressAttackPoint(EnemyTankEntity* searchEnemyTank)
+{
+
+	EnemyAttackPoint* attackPoint = nullptr;
+
+	for (auto& listPtr : m_enemyAttackPointList)
+	{
+		if (listPtr.m_enemyTankEntityPtr == searchEnemyTank)
+		{
+			attackPoint = listPtr.m_attackPointPtr.get();
+		}
+	}
+
+	if (attackPoint == nullptr)
+	{
+		return nullptr;
+	}
+
+	return attackPoint;
 }
 
 //アタックポイントの使用終了を知らせる関数

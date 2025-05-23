@@ -2,6 +2,7 @@
 #include "EnemyTankManager.h"
 
 #include "EnemyTankEntity.h"
+#include "GamePlayer.h"
 
 //インスタンス初期化
 EnemyTankManager* EnemyTankManager::m_enemyTankManagerInstance = nullptr;
@@ -15,6 +16,8 @@ void EnemyTankManager::CreateNewEnemyTank(
 	EnemyTankEntity* newTankPtr = NewGO<EnemyTankEntity>(0, "enemyTank");
 
 	newTankPtr->SetPosition(createPos);
+
+	newTankPtr->SetGamePlayerInstance(m_player);
 
 	newData.m_enemyTankPtr = newTankPtr;
 
@@ -35,7 +38,7 @@ void EnemyTankManager::ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank)
 //初期化
 void EnemyTankManager::InitEnemyTankManager()
 {
-
+	m_player = FindGO<GamePlayer>("gamePlayer");
 }
 
 //更新

@@ -60,10 +60,11 @@ bool GamePlayer::Start()
 		m_tankTurret
 	);
 
-	EnemyAttackPointManager::GetTankShellsManagerInstance()->CreateEnemyAttackPoints(
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
 		m_position,
-		200.0f,
-		15
+		100.0f,
+		150.0f,
+		100
 	);
 
 	return true;
@@ -106,7 +107,7 @@ void GamePlayer::Update()
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
 
-	EnemyAttackPointManager::GetTankShellsManagerInstance()->UpdateEnemyAttackPoints();
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateEnemyAttackPoints();
 
 	if (g_pad[0]->IsTrigger(enButtonDown))
 	{

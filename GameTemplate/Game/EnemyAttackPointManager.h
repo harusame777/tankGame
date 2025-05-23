@@ -37,7 +37,7 @@ public:
 	/// インスタンス作成、または取得	
 	/// </summary>
 	/// <returns></returns>
-	static EnemyAttackPointManager* GetTankShellsManagerInstance()
+	static EnemyAttackPointManager* GetEnemyAttackPointManagerInstance()
 	{
 		if (m_enemyAttackPointManagerInstance == nullptr)
 		{
@@ -55,6 +55,7 @@ public:
 	void CreateEnemyAttackPoints(
 		Vector3& followCenterPoint,
 		float pointTarGetDistance,
+		float pointAttackRadius,
 		int pointNum
 	);
 	/// <summary>
@@ -75,6 +76,12 @@ public:
 	/// <param name="searchEnemyTank"></param>
 	/// <returns></returns>
 	EnemyAttackPoint* GetEnemyNearAttackPoint(EnemyTankEntity* searchEnemyTank);
+	/// <summary>
+	/// 同じエネミータンクのアドレスを持っているアタックポイントを取得する
+	/// </summary>
+	/// <param name="searchEnemyTank"></param>
+	/// <returns></returns>
+	EnemyAttackPoint* GetSameEnemyAddressAttackPoint(EnemyTankEntity* searchEnemyTank);
 	/// <summary>
 	/// アタックポイントの使用終了を知らせる
 	/// </summary>

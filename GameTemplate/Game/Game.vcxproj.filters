@@ -131,6 +131,9 @@
     <ClCompile Include="EnemyAttackPoint.cpp">
       <Filter>EnemyTank\AttackPoint</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTankStateAttackMoveUpdate.cpp">
+      <Filter>EnemyTank\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -228,6 +231,12 @@
     </ClInclude>
     <ClInclude Include="CRC32.h">
       <Filter>StateMachineComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankStateAttackMoveUpdate.h">
+      <Filter>EnemyTank\State</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankAttribute.h">
+      <Filter>EnemyTank</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

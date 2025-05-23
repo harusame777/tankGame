@@ -1,6 +1,12 @@
 #pragma once
 
+namespace TankManagerConstant
+{
+	const float initDeleteDelayTime = 0.1f;
+}
+
 class EnemyTankEntity;
+class GamePlayer;
 
 class EnemyTankManager
 {
@@ -38,7 +44,7 @@ public:
 		/// <summary>
 		/// 削除遅延
 		/// </summary>
-		float m_deleteDelayTime = 0.1f;
+		float m_deleteDelayTime = TankManagerConstant::initDeleteDelayTime;
 	};
 	/// <summary>
 	/// デストラクタ
@@ -96,5 +102,9 @@ private:
 	/// 敵タンクリスト
 	/// </summary>
 	std::vector<EnemyTankData> m_enemyTankList;
+	/// <summary>
+	/// プレイヤーのインスタンス
+	/// </summary>
+	GamePlayer* m_player = nullptr;
 };
 

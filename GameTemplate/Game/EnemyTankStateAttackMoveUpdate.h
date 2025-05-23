@@ -3,17 +3,22 @@
 #include "StateBase.h"
 
 class EnemyTankEntity;
-class EnemyAttackPoint;
 class GamePlayer;
+class EnemyAttackPoint;
 
-class EnemyTankStateMoveUpdate : public StateBase
+namespace Const
 {
-	appState(EnemyTankStateMoveUpdate);
+	const float temporarySpeed = 50.0f;
+}
+
+class EnemyTankStateAttackMoveUpdate : public StateBase
+{
+	appState(EnemyTankStateAttackMoveUpdate);
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTankStateMoveUpdate(
+	EnemyTankStateAttackMoveUpdate(
 		EnemyTankEntity* hostEnemyTank,
 		GamePlayer* gamePlayerPtr
 	)
@@ -21,11 +26,11 @@ public:
 		m_hostEnemyTankEntity = hostEnemyTank;
 
 		m_player = gamePlayerPtr;
-	};
+	}
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyTankStateMoveUpdate() {};
+	~EnemyTankStateAttackMoveUpdate() {};
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -34,11 +39,6 @@ public:
 	/// 更新
 	/// </summary>
 	void Update() override;
-	/// <summary>
-	/// アタックポイントの範囲内に入っているかどうか
-	/// </summary>
-	/// <returns></returns>
-	bool IsAttackPointInRadius();
 	/// <summary>
 	/// 終了
 	/// </summary>
@@ -50,22 +50,31 @@ public:
 	/// <returns></returns>
 	bool RequestState(uint32_t& request) override;
 	/// <summary>
-	/// ホストエネミーを登録
+	/// 範囲移動計算
 	/// </summary>
-	/// <param name="hostEnemyTank"></param>
-	void SetHostEnemyTank(EnemyTankEntity* hostEnemyTank)
-	{
-		m_hostEnemyTankEntity = hostEnemyTank;
-	}
+	/// <param name="attackPointRadius"></param>
+	/// <param name="enemyToAttackPointRadius"></param>
+	/// <returns></returns>
+	const Vector3& RangeMoveCalc(
+		float attackPointRadius,
+		float enemyToAttackPointRadius
+	);
 private:
+	enum class CrossState
+	{
+		//横切り計算
+		en_crossCalc,
+		//横切り更新
+		en_crossUpdate,
+	};
 	/// <summary>
-	/// アタックポイントの範囲内に入ったかどうか
+	/// 範囲から外れた秒数
 	/// </summary>
-	bool m_isAttackPointInRadius = false;
+	float m_rangeOutTime = 0.0f;
 	/// <summary>
-	/// 個のエネミーが取得したアタックポイント
+	/// 移動方向
 	/// </summary>
-	EnemyAttackPoint* m_attackPoint = nullptr;
+	Vector3 m_moveDir = Vector3::Zero;
 	/// <summary>
 	/// このステートを保持しているエネミータンク
 	/// </summary>
@@ -74,5 +83,13 @@ private:
 	/// ゲームプレイヤーのインスタンス
 	/// </summary>
 	GamePlayer* m_player = nullptr;
+	/// <summary>
+	/// 現在追っているアタックポイント
+	/// </summary>
+	EnemyAttackPoint* m_attackPoint = nullptr;
+	/// <summary>
+	/// 横切り計算
+	/// </summary>
+	CrossState m_crossState = CrossState::en_crossCalc;
 };
 
