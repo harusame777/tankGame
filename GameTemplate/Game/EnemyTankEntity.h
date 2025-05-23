@@ -3,6 +3,7 @@
 class StateMachineBase;
 class EnemyTankStateMachine;
 class GamePlayer;
+class EnemyTankAttributeBase;
 class TankCrawkerMovingComponent;
 class TankTurretMovingComponent;
 
@@ -65,6 +66,14 @@ public:
 	void SetGamePlayerInstance(GamePlayer* playerPtr)
 	{
 		m_player = playerPtr;
+	}
+	/// <summary>
+	/// 属性を設定
+	/// </summary>
+	/// <param name="setAttribute"></param>
+	void SetAttribute(std::shared_ptr<EnemyTankAttributeBase> setAttribute)
+	{
+		m_enemyTankAttribute = setAttribute;
 	}
 private:
 	/// <summary>
@@ -129,6 +138,14 @@ private:
 	/// 砲塔モデル
 	/// </summary>
 	ModelRender m_tankTurret;
+	/// <summary>
+	/// デリートフラグ
+	/// </summary>
+	bool m_isDeleteFlag = false;
+	/// <summary>
+	/// このエネミータンクの属性
+	/// </summary>
+	std::shared_ptr<EnemyTankAttributeBase> m_enemyTankAttribute = nullptr;
 	/// <summary>
 	/// 当たり判定
 	/// </summary>

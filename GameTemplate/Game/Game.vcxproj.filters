@@ -43,6 +43,9 @@
     <Filter Include="EnemyTank\AttackPoint">
       <UniqueIdentifier>{f8678101-8597-48a5-98a1-12b8f390e176}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EnemyTank\Attribute">
+      <UniqueIdentifier>{e5ba45b7-47a4-49c7-8ff0-e95fce1a5ee2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -133,6 +136,12 @@
     </ClCompile>
     <ClCompile Include="EnemyTankStateAttackMoveUpdate.cpp">
       <Filter>EnemyTank\State</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankAttributeRegistry.cpp">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTank_001_Normal.cpp">
+      <Filter>EnemyTank\Attribute</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,8 +244,17 @@
     <ClInclude Include="EnemyTankStateAttackMoveUpdate.h">
       <Filter>EnemyTank\State</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyTankAttributeBase.h">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankAttributeRegistry.h">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClInclude>
     <ClInclude Include="EnemyTankAttribute.h">
       <Filter>EnemyTank</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTank_001_Normal.h">
+      <Filter>EnemyTank\Attribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

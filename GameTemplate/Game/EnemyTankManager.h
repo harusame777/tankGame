@@ -5,6 +5,9 @@ namespace TankManagerConstant
 	const float initDeleteDelayTime = 0.1f;
 }
 
+#include "EnemyTankAttribute.h"
+
+class EnemyTankAttribute;
 class EnemyTankEntity;
 class GamePlayer;
 
@@ -73,6 +76,7 @@ public:
 	void UpdateEnemyTankManager();
 
 	void CreateNewEnemyTank(
+		EnEnemyTankAttribute attribute,
 		const Vector3& createPos
 	);
 	/// <summary>

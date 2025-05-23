@@ -9,6 +9,7 @@
 #include "EnemyTankManager.h"
 #include "GamePlayer.h"
 
+#include "EnemyTankAttributeBase.h"
 #include "EnemyTankStateMoveUpdate.h"
 #include "EnemyTankStateAttackMoveUpdate.h"
 
@@ -21,6 +22,9 @@ EnemyTankEntity::EnemyTankEntity()
 //スタート関数
 bool EnemyTankEntity::Start()
 {
+	//属性初期化
+	m_enemyTankAttribute->InitEnemyTankAttributeData();
+
 	//履帯モデル設定
 	m_tankCrawkerTrack.Init(
 		"Assets/modelData/tankModel/tankModelV1_crawlerTrack.tkm",
@@ -58,7 +62,7 @@ bool EnemyTankEntity::Start()
 	m_tankCrawkerMovingCom->InitTankCrawkerMoveingData(
 		m_moveForward,
 		m_forward,
-		maxMoveSpeed,
+		m_enemyTankAttribute->m_maxTankSpeed,
 		characterController,
 		rotSpeed,
 		m_tankCrawkerTrack
@@ -87,6 +91,9 @@ bool EnemyTankEntity::Start()
 //アップデート関数
 void EnemyTankEntity::Update()
 {
+	//属性固有処理
+	m_enemyTankAttribute->EnemyTankUniqueProcessing();
+
 	//ステートマシン更新
 	m_stateMashine->Update();
 
@@ -97,8 +104,14 @@ void EnemyTankEntity::Update()
 
 	//消去処理
 	if (GameCollisionManager::GetCollisionManagerInstance()
-		->IsAColisionHitsBColision(m_collision.get(), "shellsCollision") == true)
+		->IsAColisionHitsBColision(m_collision.get(), "shellsCollision") == true 
+		&& m_isDeleteFlag == false)
 	{
+		//エンティティ内の削除フラグ
+		m_isDeleteFlag = true;
+		//属性ごとの削除処理
+		m_enemyTankAttribute->EnemyTankDeleteProcessing();
+		//マネージャーに削除フラグを送る
 		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(this);
 	}
 	

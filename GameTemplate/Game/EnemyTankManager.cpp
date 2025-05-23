@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "EnemyTankManager.h"
 
+#include "EnemyTankAttributeBase.h"
+#include "EnemyTankAttributeRegistry.h"
 #include "EnemyTankEntity.h"
 #include "GamePlayer.h"
 
@@ -8,19 +10,31 @@
 EnemyTankManager* EnemyTankManager::m_enemyTankManagerInstance = nullptr;
 
 void EnemyTankManager::CreateNewEnemyTank(
+	EnEnemyTankAttribute attribute,
 	const Vector3& createPos
 )
 {
+	//属性を作成、取得
+	std::shared_ptr<EnemyTankAttributeBase> newAttribute
+		= EnemyTankAttributeRegistry::CreateEnemyTankAttribute(attribute);
+	//ヌルだったら作成しない
+	if (newAttribute == nullptr)
+	{
+		return;
+	}
+	//配列登録変数
 	EnemyTankData newData;
-
+	//新しいエネミータンク
 	EnemyTankEntity* newTankPtr = NewGO<EnemyTankEntity>(0, "enemyTank");
-
+	//位置を設定
 	newTankPtr->SetPosition(createPos);
-
+	//プレイヤーのインスタンスを設定
 	newTankPtr->SetGamePlayerInstance(m_player);
-
+	//属性を設定
+	newTankPtr->SetAttribute(newAttribute);
+	//配列登録変数に設定
 	newData.m_enemyTankPtr = newTankPtr;
-
+	//配列登録
 	m_enemyTankList.push_back(newData);
 }
 

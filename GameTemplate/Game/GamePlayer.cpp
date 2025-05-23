@@ -12,6 +12,8 @@
 
 #include "EnemyTankManager.h"
 
+#include "EnemyTankAttribute.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -111,7 +113,10 @@ void GamePlayer::Update()
 
 	if (g_pad[0]->IsTrigger(enButtonDown))
 	{
-		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank({ 400.0f,0.0f,400.0f });
+		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
+			EnEnemyTankAttribute::en_tankNormal,
+			{ 400.0f,0.0f,400.0f }
+		);
 	}
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 
-enum class EnemyTankAttribute
+enum class EnEnemyTankAttribute
 {
-	en_zako
+	en_tankNormal
 };

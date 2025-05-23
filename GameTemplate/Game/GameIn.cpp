@@ -56,8 +56,6 @@ void GameIn::LoadGameObject()
 	EnemyTankManager::GetEnemyTankManagerInstance()->InitEnemyTankManager();
 	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
-
-	EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank({ 400.0f,0.0f,400.0f });
 }
 
 //ゲームアップデート

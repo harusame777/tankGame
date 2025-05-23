@@ -24,9 +24,7 @@ void EnemyTankStateMoveUpdate::Update()
 {
 	if (m_attackPoint == nullptr)
 	{
-		//アタックポイントを取得
-		m_attackPoint = EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
-			->GetEnemyNearAttackPoint(m_hostEnemyTankEntity);
+		return;
 	}
 
 	//アタックポイントの座標と自身の座標で方向を計算
@@ -47,6 +45,13 @@ void EnemyTankStateMoveUpdate::Exit()
 //ステート遷移
 bool EnemyTankStateMoveUpdate::RequestState(uint32_t& request)
 {
+	if (m_attackPoint == nullptr)
+	{
+		//アタックポイントを取得
+		m_attackPoint = EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
+			->GetEnemyNearAttackPoint(m_hostEnemyTankEntity);
+	}
+
 	if (IsAttackPointInRadius() == true)
 	{
 		request = EnemyTankStateAttackMoveUpdate::ID();
