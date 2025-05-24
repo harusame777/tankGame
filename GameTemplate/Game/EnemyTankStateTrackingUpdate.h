@@ -3,29 +3,30 @@
 #include "StateBase.h"
 
 class EnemyTankEntity;
+class EnemyTankAttributeBase;
 class EnemyAttackPoint;
 class GamePlayer;
 
-class EnemyTankStateMoveUpdate : public StateBase
+class EnemyTankStateTrackingUpdate : public StateBase
 {
-	appState(EnemyTankStateMoveUpdate);
+	appState(EnemyTankStateTrackingUpdate);
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTankStateMoveUpdate(
+	EnemyTankStateTrackingUpdate(
 		EnemyTankEntity* hostEnemyTank,
-		GamePlayer* gamePlayerPtr
+		EnemyTankAttributeBase* attribute
 	)
 	{
 		m_hostEnemyTankEntity = hostEnemyTank;
 
-		m_player = gamePlayerPtr;
+		m_enemyTankAttribute = attribute;
 	};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyTankStateMoveUpdate() {};
+	~EnemyTankStateTrackingUpdate() {};
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -34,11 +35,6 @@ public:
 	/// 更新
 	/// </summary>
 	void Update() override;
-	/// <summary>
-	/// アタックポイントの範囲内に入っているかどうか
-	/// </summary>
-	/// <returns></returns>
-	bool IsAttackPointInRadius();
 	/// <summary>
 	/// 終了
 	/// </summary>
@@ -59,20 +55,16 @@ public:
 	}
 private:
 	/// <summary>
-	/// アタックポイントの範囲内に入ったかどうか
+	/// エネミータンクの属性
 	/// </summary>
-	bool m_isAttackPointInRadius = false;
+	EnemyTankAttributeBase* m_enemyTankAttribute = nullptr;
 	/// <summary>
-	/// 個のエネミーが取得したアタックポイント
+	/// エネミーのアタックポイント
 	/// </summary>
 	EnemyAttackPoint* m_attackPoint = nullptr;
 	/// <summary>
 	/// このステートを保持しているエネミータンク
 	/// </summary>
 	EnemyTankEntity* m_hostEnemyTankEntity = nullptr;
-	/// <summary>
-	/// ゲームプレイヤーのインスタンス
-	/// </summary>
-	GamePlayer* m_player = nullptr;
 };
 

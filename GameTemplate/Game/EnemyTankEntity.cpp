@@ -10,7 +10,7 @@
 #include "GamePlayer.h"
 
 #include "EnemyTankAttributeBase.h"
-#include "EnemyTankStateMoveUpdate.h"
+#include "EnemyTankStateTrackingUpdate.h"
 #include "EnemyTankStateAttackMoveUpdate.h"
 
 //コンストラクタ
@@ -23,7 +23,7 @@ EnemyTankEntity::EnemyTankEntity()
 bool EnemyTankEntity::Start()
 {
 	//属性初期化
-	m_enemyTankAttribute->InitEnemyTankAttributeData();
+	m_enemyTankAttribute->InitEnemyTankAttributeData(m_player,this);
 
 	//履帯モデル設定
 	m_tankCrawkerTrack.Init(
@@ -48,9 +48,11 @@ bool EnemyTankEntity::Start()
 	//ステートマシン登録
 	m_stateMashine->SetHostEnemyTank(this);
 
-	m_stateMashine->RegisterState<EnemyTankStateMoveUpdate>(this,m_player);
-	m_stateMashine->RegisterState<EnemyTankStateAttackMoveUpdate>(this, m_player);
-	m_stateMashine->InitilizeState<EnemyTankStateMoveUpdate>();
+	m_stateMashine->RegisterState<EnemyTankStateTrackingUpdate>
+		(this,m_enemyTankAttribute.get());
+	m_stateMashine->RegisterState<EnemyTankStateAttackMoveUpdate>
+		(this,m_enemyTankAttribute.get());
+	m_stateMashine->InitilizeState<EnemyTankStateTrackingUpdate>();
 	//履帯コンポーネント生成
 	m_tankCrawkerMovingCom = new TankCrawkerMovingComponent;
 	//砲塔コンポーネント生成
@@ -92,8 +94,8 @@ bool EnemyTankEntity::Start()
 void EnemyTankEntity::Update()
 {
 	//属性固有処理
-	m_enemyTankAttribute->EnemyTankUniqueProcessing();
-
+	m_enemyTankAttribute->UniqueProcessing();
+	
 	//ステートマシン更新
 	m_stateMashine->Update();
 
@@ -110,7 +112,7 @@ void EnemyTankEntity::Update()
 		//エンティティ内の削除フラグ
 		m_isDeleteFlag = true;
 		//属性ごとの削除処理
-		m_enemyTankAttribute->EnemyTankDeleteProcessing();
+		m_enemyTankAttribute->DeleteProcessing();
 		//マネージャーに削除フラグを送る
 		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(this);
 	}

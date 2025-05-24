@@ -3,6 +3,7 @@
 #include "StateBase.h"
 
 class EnemyTankEntity;
+class EnemyTankAttributeBase;
 class GamePlayer;
 class EnemyAttackPoint;
 
@@ -20,12 +21,12 @@ public:
 	/// </summary>
 	EnemyTankStateAttackMoveUpdate(
 		EnemyTankEntity* hostEnemyTank,
-		GamePlayer* gamePlayerPtr
+		EnemyTankAttributeBase* attribute
 	)
 	{
 		m_hostEnemyTankEntity = hostEnemyTank;
 
-		m_player = gamePlayerPtr;
+		m_enemyTankAttribute = attribute;
 	}
 	/// <summary>
 	/// デストラクタ
@@ -60,36 +61,13 @@ public:
 		float enemyToAttackPointRadius
 	);
 private:
-	enum class CrossState
-	{
-		//横切り計算
-		en_crossCalc,
-		//横切り更新
-		en_crossUpdate,
-	};
 	/// <summary>
-	/// 範囲から外れた秒数
+	/// エネミータンクの属性
 	/// </summary>
-	float m_rangeOutTime = 0.0f;
-	/// <summary>
-	/// 移動方向
-	/// </summary>
-	Vector3 m_moveDir = Vector3::Zero;
+	EnemyTankAttributeBase* m_enemyTankAttribute = nullptr;
 	/// <summary>
 	/// このステートを保持しているエネミータンク
 	/// </summary>
 	EnemyTankEntity* m_hostEnemyTankEntity = nullptr;
-	/// <summary>
-	/// ゲームプレイヤーのインスタンス
-	/// </summary>
-	GamePlayer* m_player = nullptr;
-	/// <summary>
-	/// 現在追っているアタックポイント
-	/// </summary>
-	EnemyAttackPoint* m_attackPoint = nullptr;
-	/// <summary>
-	/// 横切り計算
-	/// </summary>
-	CrossState m_crossState = CrossState::en_crossCalc;
 };
 

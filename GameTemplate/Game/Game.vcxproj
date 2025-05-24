@@ -225,12 +225,13 @@
   <ItemGroup>
     <ClCompile Include="EnemyAttackPoint.cpp" />
     <ClCompile Include="EnemyAttackPointManager.cpp" />
+    <ClCompile Include="EnemyTankAttributeBase.cpp" />
     <ClCompile Include="EnemyTankAttributeRegistry.cpp" />
     <ClCompile Include="EnemyTankEntity.cpp" />
     <ClCompile Include="EnemyTankManager.cpp" />
     <ClCompile Include="EnemyTankStateAttackMoveUpdate.cpp" />
     <ClCompile Include="EnemyTankStateMachine.cpp" />
-    <ClCompile Include="EnemyTankStateMoveUpdate.cpp" />
+    <ClCompile Include="EnemyTankStateTrackingUpdate.cpp" />
     <ClCompile Include="EnemyTank_001_Normal.cpp" />
     <ClCompile Include="GameCollisionManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
@@ -272,7 +273,7 @@
     <ClInclude Include="EnemyTankManager.h" />
     <ClInclude Include="EnemyTankStateAttackMoveUpdate.h" />
     <ClInclude Include="EnemyTankStateMachine.h" />
-    <ClInclude Include="EnemyTankStateMoveUpdate.h" />
+    <ClInclude Include="EnemyTankStateTrackingUpdate.h" />
     <ClInclude Include="EnemyTank_001_Normal.h" />
     <ClInclude Include="GameCollisionManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />

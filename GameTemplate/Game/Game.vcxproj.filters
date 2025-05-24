@@ -125,7 +125,7 @@
     <ClCompile Include="EnemyTankStateMachine.cpp">
       <Filter>EnemyTank\StateMachine</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyTankStateMoveUpdate.cpp">
+    <ClCompile Include="EnemyTankStateTrackingUpdate.cpp">
       <Filter>EnemyTank\State</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackPointManager.cpp">
@@ -141,6 +141,9 @@
       <Filter>EnemyTank\Attribute</Filter>
     </ClCompile>
     <ClCompile Include="EnemyTank_001_Normal.cpp">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyTankAttributeBase.cpp">
       <Filter>EnemyTank\Attribute</Filter>
     </ClCompile>
   </ItemGroup>
@@ -229,7 +232,7 @@
     <ClInclude Include="EnemyTankStateMachine.h">
       <Filter>EnemyTank\StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyTankStateMoveUpdate.h">
+    <ClInclude Include="EnemyTankStateTrackingUpdate.h">
       <Filter>EnemyTank\State</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackPointManager.h">
