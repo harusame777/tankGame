@@ -17,6 +17,10 @@ public:
 		EnemyTankEntity* hostTank
 	) override;
 	/// <summary>
+	/// 射撃処理
+	/// </summary>
+	void FireProcessing() override;
+	/// <summary>
 	/// 削除処理関数
 	/// </summary>
 	void DeleteProcessing() override;
@@ -78,7 +82,7 @@ public:
 	/// <summary>
 	/// 範囲
 	/// </summary>
-	bool IsAttackPointInRadius();
+	bool IsAttackPointInRadius(float radius = 100.0f);
 private:
 	/// <summary>
 	/// 登録実行用
@@ -88,5 +92,9 @@ private:
 	/// 移動方向
 	/// </summary>
 	Vector3 m_moveDirection = Vector3::Zero;
+	/// <summary>
+	/// 射撃クールタイム
+	/// </summary>
+	float m_fireCoolTime = 0.0f; 
 };
 

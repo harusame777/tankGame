@@ -33,6 +33,10 @@ public:
 		EnemyTankEntity* hostTank
 	) = 0;
 	/// <summary>
+	/// ËŒ‚ˆ—
+	/// </summary>
+	virtual void FireProcessing() = 0;
+	/// <summary>
 	/// íœˆ—ŠÖ”
 	/// </summary>
 	virtual void DeleteProcessing() = 0;

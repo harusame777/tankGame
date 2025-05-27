@@ -8,6 +8,10 @@
 #include "EnemyTankStateTrackingUpdate.h"
 #include "EnemyTankStateAttackMoveUpdate.h"
 
+#include "TankShellsManager.h"
+#include "TankTurretMovingComponent.h"
+#include "GamePlayer.h"
+
 //初期化関数登録処理
 bool EnemyTank_001_Normal::m_attributeRegistered = [] {
 	EnemyTankAttributeRegistry::EnemyTankRegisterFactory(EnEnemyTankAttribute::en_tankNormal, []() {
@@ -31,6 +35,42 @@ void EnemyTank_001_Normal::InitEnemyTankAttributeData(
 	m_hostEnemyTankPtr = hostTank;
 }
 
+//射撃処理
+void EnemyTank_001_Normal::FireProcessing()
+{
+	Vector3 hostEnemyTankPos = m_hostEnemyTankPtr->GetPosition();
+	Vector3 playerPos = m_player->GetPosition();
+
+	Vector3 turretMoveDir = playerPos - hostEnemyTankPos;
+
+	m_hostEnemyTankPtr->SetAttackTargetDirection(turretMoveDir);
+
+	//プレイヤーが砲塔正面にいれば射撃処理を行う
+	if (m_hostEnemyTankPtr->GetTurretCompornentAddress().
+		IsTurretForwardToAPosSameAngle(m_player->GetPosition()) == false) 
+	{
+		return;
+	}
+
+	//クールタイムが残っている場合は射撃しない
+	if (m_fireCoolTime >= 0.0f)
+	{
+		m_fireCoolTime -= g_gameTime->GetFrameDeltaTime();
+
+		return;
+	}
+
+	//クールタイムをリセット
+	m_fireCoolTime = 5.0f;
+	//砲弾発射
+	TankShellsManager::GetTankShellsManagerInstance()->
+		RequestFiringTankShells(
+		m_shellsUsed,
+		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetCannonFiringPosition(),
+		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetTurretForward()
+	);
+}
+
 //削除処理
 void EnemyTank_001_Normal::DeleteProcessing()
 {
@@ -42,6 +82,8 @@ void EnemyTank_001_Normal::DeleteProcessing()
 //追跡処理初期化
 void EnemyTank_001_Normal::EnterTracking()
 {
+	m_hostEnemyTankPtr->SetFireFlag(false);
+
 	if (m_attackPoint == nullptr)
 	{
 		m_attackPoint = EnemyAttackPointManager::
@@ -82,12 +124,12 @@ void EnemyTank_001_Normal::EndTracking()
 //攻撃動作初期化
 void EnemyTank_001_Normal::EnterAttackMove()
 {
+	m_hostEnemyTankPtr->SetFireFlag(true);
+
 	//攻撃ポイントを取得
-	if (m_attackPoint == nullptr)
-	{
-		m_attackPoint = EnemyAttackPointManager::
-			GetEnemyAttackPointManagerInstance()->GetEnemyNearAttackPoint(m_hostEnemyTankPtr);
-	}
+	m_attackPoint = EnemyAttackPointManager::
+		GetEnemyAttackPointManagerInstance()->GetSameEnemyAddressAttackPoint(m_hostEnemyTankPtr);
+
 }
 
 //攻撃動作
@@ -98,7 +140,7 @@ const Vector3& EnemyTank_001_Normal::UpdateAttackMove()
 
 bool EnemyTank_001_Normal::RequestStateAttackMove(uint32_t& request)
 {
-	if (IsAttackPointInRadius() == false)
+	if (IsAttackPointInRadius(m_attackPoint->GetRadiusSq()) == false)
 	{
 		request = EnemyTankStateTrackingUpdate::ID();
 
@@ -110,6 +152,9 @@ bool EnemyTank_001_Normal::RequestStateAttackMove(uint32_t& request)
 
 void EnemyTank_001_Normal::EndAttackMove()
 {
+	EnemyAttackPointManager::
+		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(m_hostEnemyTankPtr);
+
 	m_attackPoint = nullptr;
 }
 
@@ -142,9 +187,8 @@ void EnemyTank_001_Normal::EndUnique()
 //その他関数など
 
 //アタックポイント内にホストタンクが入っているかどうか
-bool EnemyTank_001_Normal::IsAttackPointInRadius()
+bool EnemyTank_001_Normal::IsAttackPointInRadius(float radius)
 {
-	const float attackPointRadiusSq = m_attackPoint->GetRadiusSq();
 
 	//ホストタンクのポジション
 	const Vector3 hostEnemyTankPos = m_hostEnemyTankPtr->GetPosition();
@@ -156,7 +200,7 @@ bool EnemyTank_001_Normal::IsAttackPointInRadius()
 	//ホストタンクとプレイヤーの半径
 	const float hostEnemyTankToAttackPointRangeSq = distX * distX + distY * distY;
 
-	if (attackPointRadiusSq >= hostEnemyTankToAttackPointRangeSq)
+	if (radius >= hostEnemyTankToAttackPointRangeSq)
 	{
 		return true;
 	}

@@ -83,6 +83,14 @@ public:
 	{
 		m_fireFlag = isFire;
 	}
+	/// <summary>
+	/// 戦車の砲塔移動コンポーネントへの参照を取得します。
+	/// </summary>
+	/// <returns>TankTurretMovingComponent オブジェクトへの定数参照。</returns>
+	TankTurretMovingComponent& GetTurretCompornentAddress() const
+	{
+		return *m_tankTurretMovingCom;
+	}
 private:
 	/// <summary>
 	/// スタート関数

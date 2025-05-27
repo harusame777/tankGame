@@ -15,6 +15,7 @@ void TankTurretMovingComponent::InitTankTurretMovingData(
 	Vector3& rotDirection,		//移動方向
 	Vector3& followPos,			//追従させる位置
 	Vector3& followForward,		//追従させるモデルの正面ベクトル
+	Vector3& crawkerMoveDirection,//履帯の移動方向	
 	float& turnSpeed,			//砲塔の回転スピード
 	ModelRender& trunModel		//回転させるモデル
 )
@@ -25,6 +26,8 @@ void TankTurretMovingComponent::InitTankTurretMovingData(
 	m_followPosition = &followPos;
 	//追従させるモデルの正面ベクトルのアドレスを取得
 	m_followForward = &followForward;
+	//履帯の移動方向のアドレスを取得
+	m_crawlerMoveDirection = &crawkerMoveDirection;
 	//砲塔の回転スピードのアドレスを取得
 	m_trunSpeed = &turnSpeed;
 	//回転させるモデルのアドレスを取得
@@ -51,10 +54,27 @@ const Vector3& TankTurretMovingComponent::CalcTurretMovingDataAndModelUpdate()
 //回転方向決定関数
 const TankTurretMovingComponent::EnLeftRightMoveMode TankTurretMovingComponent::RotDetermination()
 {
+	Vector3 autoRotDir = Vector3::Zero;
+
 	//自動回転タイマー
 	if (m_autoRotTime < 0.0f)
 	{
 		m_isAutoRot = true;
+
+		Vector3 autoRotDirForward = *m_followForward;
+		Vector3 autoRotDirBackward = *m_followForward * -1.0f;
+
+		float dotForward = Dot(*m_crawlerMoveDirection, autoRotDirForward);
+		float dotBackward = Dot(*m_crawlerMoveDirection, autoRotDirBackward);
+
+		if (dotForward > dotBackward)
+		{
+				autoRotDir = autoRotDirForward;
+		}
+		else
+		{
+			autoRotDir = autoRotDirBackward;
+		}
 	}
 	else
 	{
@@ -82,6 +102,16 @@ const TankTurretMovingComponent::EnLeftRightMoveMode TankTurretMovingComponent::
 	normForwardVec.Normalize();
 	//移動方向ベクトル
 	Vector3 normMoveDirection = m_isAutoRot ? *m_followForward : *m_rotDirection;
+
+	if (m_isAutoRot == false)
+	{
+		normMoveDirection = *m_rotDirection;
+	}
+	else
+	{
+		normMoveDirection = autoRotDir;
+	}
+
 	normMoveDirection.Normalize();
 
 	normForwardVec.y = 0.0f;
@@ -103,7 +133,6 @@ const TankTurretMovingComponent::EnLeftRightMoveMode TankTurretMovingComponent::
 
 	if (cross > 0.0f)
 	{
-
 		return EnLeftRightMoveMode::en_trunLeft;
 	}
 	else 
@@ -177,4 +206,21 @@ void TankTurretMovingComponent::CalcCannonFiringPosition(const Vector3& turretFo
 	m_cannonFiringPosition = firingPos + *m_followPosition;
 	//Y値を修正
 	m_cannonFiringPosition.y += TankTurretConstant::n_cannonFiringPositionY;
+}
+
+bool TankTurretMovingComponent::IsTurretForwardToAPosSameAngle(const Vector3& aPos)
+{
+	//引数の位置と追従位置のベクトルを計算
+	Vector3 turretToAPosVec = aPos - *m_followPosition;
+	//砲塔の正面ベクトルを取得
+	Vector3 turretForwardVec = m_forward;
+	turretForwardVec.Normalize();
+	//引数のベクトルを正規化
+	Vector3 aVecNorm = turretToAPosVec;
+	aVecNorm.Normalize();
+	//角度を計算
+	const float angle = acos(
+		btClamped(Dot(turretForwardVec, aVecNorm), -1.0f, 1.0f));
+	//角度が一定以下ならtrue
+	return angle < 0.1f;
 }

@@ -80,6 +80,7 @@ bool EnemyTankEntity::Start()
 		m_targetForward,
 		m_position,
 		m_forward,
+		m_moveForward,
 		rotSpeed,
 		m_tankTurret
 	);
@@ -107,7 +108,7 @@ void EnemyTankEntity::Update()
 	//–CŒ‚ˆ—
 	if (m_fireFlag)
 	{
-		
+		m_enemyTankAttribute->FireProcessing();
 	}
 
 	//–C“ƒˆÚ“®XV

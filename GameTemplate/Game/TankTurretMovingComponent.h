@@ -35,6 +35,7 @@ public:
 		Vector3& rotDirection,		//移動方向
 		Vector3& followPos,			//追従させる位置
 		Vector3& followForward,		//追従させるモデルの正面ベクトル
+		Vector3& crawkerMoveDirection,//履帯の移動方向	
 		float& turnSpeed,			//砲塔の回転スピード
 		ModelRender& trunModel		//回転させるモデル
 	);
@@ -43,6 +44,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	const Vector3& CalcTurretMovingDataAndModelUpdate();
+	/// <summary>
+	/// 砲塔の正面ベクトルと座標Aベクトルが同じ角度かどうかを判定
+	/// </summary>
+	/// <param name="aVec"></param>
+	/// <returns></returns>
+	bool IsTurretForwardToAPosSameAngle(const Vector3& aPos);
 	/// <summary>
 	/// 砲弾発射位置を取得
 	/// </summary>
@@ -115,6 +122,10 @@ private:
 	/// 追従正面ベクトル
 	/// </summary>
 	Vector3* m_followForward = nullptr;
+	/// <summary>
+	/// 履帯の移動方向
+	/// </summary>
+	Vector3* m_crawlerMoveDirection = nullptr;
 	/// <summary>
 	/// 砲塔回転スピード
 	/// </summary>

@@ -58,15 +58,16 @@ bool GamePlayer::Start()
 		padRVector,
 		m_position,
 		m_forward,
+		padLVector,
 		rotSpeed,
 		m_tankTurret
 	);
 
 	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
 		m_position,
-		100.0f,
-		150.0f,
-		100
+		200.0f,
+		200.0f,
+		20
 	);
 
 	return true;
