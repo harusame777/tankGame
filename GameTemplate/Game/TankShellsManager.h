@@ -109,7 +109,8 @@ private:
 	void CreateNewTankShells(
 		const EnTankShellsAttribute tankShellsAttribute,
 		const Vector3& firingPosition,
-		const Vector3& firingForward
+		const Vector3& firingForward,
+		EnFireAttribute irePlayerOrEnemy
 	);
 	/// <summary>
 	/// –C’e‚ÌŠÔíœˆ—

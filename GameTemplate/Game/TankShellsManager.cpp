@@ -24,7 +24,8 @@ void TankShellsManager::RequestFiringTankShells(
 void TankShellsManager::CreateNewTankShells(
 	const EnTankShellsAttribute tankShellsAttribute,
 	const Vector3& firingPosition,
-	const Vector3& firingForward
+	const Vector3& firingForward,
+	EnFireAttribute FirePlayerOrEnemy
 )
 {
 	//属性を作成、取得
@@ -48,6 +49,15 @@ void TankShellsManager::CreateNewTankShells(
 	newtankShellsData.m_timer = 10.0f;
 	//属性を設定
 	newTankShellsPtr->SetTankShellsAttribute(calcClass);
+	//プレイヤーか敵かの属性を設定
+	if(FirePlayerOrEnemy == EnFireAttribute::Player)
+	{
+		newTankShellsPtr->SetCollisionName("");
+	}
+	else if (FirePlayerOrEnemy == EnFireAttribute::Enemy)
+	{
+		newTankShellsPtr->SetCollisionName();
+	}
 	//属性にホストの砲弾のポインタを設定
 	calcClass->SetHostPtr(newTankShellsPtr);
 	//配列に入れ込み

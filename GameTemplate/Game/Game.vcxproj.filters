@@ -19,9 +19,6 @@
     <Filter Include="TankShells">
       <UniqueIdentifier>{91f7579f-c872-4532-a1e8-5af19ac4fcaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TankShells\CannonballAttribute">
-      <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCollision">
       <UniqueIdentifier>{920fe0d1-05bd-4374-969d-e71ed453f1b6}</UniqueIdentifier>
     </Filter>
@@ -45,6 +42,9 @@
     </Filter>
     <Filter Include="EnemyTank\Attribute">
       <UniqueIdentifier>{e5ba45b7-47a4-49c7-8ff0-e95fce1a5ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TankShells\TankShellsAttribute">
+      <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -99,10 +99,10 @@
       <Filter>TankShells</Filter>
     </ClCompile>
     <ClCompile Include="TankShells_001_Normal.cpp">
-      <Filter>TankShells\CannonballAttribute</Filter>
+      <Filter>TankShells\TankShellsAttribute</Filter>
     </ClCompile>
     <ClCompile Include="TankShellsAttributeBase.cpp">
-      <Filter>TankShells\CannonballAttribute</Filter>
+      <Filter>TankShells\TankShellsAttribute</Filter>
     </ClCompile>
     <ClCompile Include="GameCollisionManager.cpp">
       <Filter>GameCollision</Filter>
@@ -209,10 +209,10 @@
       <Filter>TankShells</Filter>
     </ClInclude>
     <ClInclude Include="TankShells_001_Normal.h">
-      <Filter>TankShells\CannonballAttribute</Filter>
+      <Filter>TankShells\TankShellsAttribute</Filter>
     </ClInclude>
     <ClInclude Include="TankShellsAttributeBase.h">
-      <Filter>TankShells\CannonballAttribute</Filter>
+      <Filter>TankShells\TankShellsAttribute</Filter>
     </ClInclude>
     <ClInclude Include="GameCollisionManager.h">
       <Filter>GameCollision</Filter>

@@ -25,6 +25,14 @@ public:
 		m_tankShellsAttributePtr = attributePtr;
 	}
 	/// <summary>
+	/// 砲弾のコリジョン名を設定
+	/// </summary>
+	/// <param name="collisionName"></param>
+	void SetCollisionName(* collisionName)
+	{
+		m_collisionName = collisionName;
+	}
+	/// <summary>
 	/// 位置設定
 	/// </summary>
 	/// <param name="position"></param>
@@ -115,5 +123,9 @@ private:
 	/// 砲弾コリジョン
 	/// </summary>
 	std::shared_ptr<CollisionObject> m_collision;
+	/// <summary>
+	/// コリジョン名
+	/// </summary>
+	char* m_collisionName = nullptr;
 };
 

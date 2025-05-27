@@ -74,7 +74,9 @@ void EnemyTank_001_Normal::FireProcessing()
 //削除処理
 void EnemyTank_001_Normal::DeleteProcessing()
 {
-
+	//アタックポイントの使用を終了
+	EnemyAttackPointManager::
+		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(m_hostEnemyTankPtr);
 }
 
 //ココから追跡処理
