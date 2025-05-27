@@ -75,6 +75,14 @@ public:
 	{
 		m_enemyTankAttribute = setAttribute;
 	}
+	/// <summary>
+	/// 射撃フラグ設定
+	/// </summary>
+	/// <param name="isFire"></param>
+	void SetFireFlag(bool isFire)
+	{
+		m_fireFlag = isFire;
+	}
 private:
 	/// <summary>
 	/// スタート関数
@@ -129,7 +137,7 @@ private:
 	/// <summary>
 	/// 攻撃方向ベクトル
 	/// </summary>
-	Vector3 m_targetForward = Vector3::AxisZ;
+	Vector3 m_targetForward = Vector3::Zero;
 	/// <summary>
 	/// 履帯モデル
 	/// </summary>
@@ -142,6 +150,10 @@ private:
 	/// デリートフラグ
 	/// </summary>
 	bool m_isDeleteFlag = false;
+	/// <summary>
+	/// 射撃フラグ
+	/// </summary>
+	bool m_fireFlag = false;
 	/// <summary>
 	/// このエネミータンクの属性
 	/// </summary>

@@ -3,14 +3,11 @@
 
 #include "EnemyTankEntity.h"
 #include "EnemyTankAttributeBase.h"
-#include "GamePlayer.h"
-#include "EnemyAttackPointManager.h"
-#include "EnemyAttackPoint.h"
 
 //初期化
 void EnemyTankStateAttackMoveUpdate::Enter()
 {
-
+	m_enemyTankAttribute->EnterAttackMove();
 }
 
 //更新
@@ -21,7 +18,7 @@ void EnemyTankStateAttackMoveUpdate::Update()
 		return;
 	}
 
-	Vector3 moveDir = m_enemyTankAttribute->AttackMoveAttribute();
+	Vector3 moveDir = m_enemyTankAttribute->UpdateAttackMove();
 
 	m_hostEnemyTankEntity->SetMoveDirection(moveDir);
 }
@@ -29,7 +26,7 @@ void EnemyTankStateAttackMoveUpdate::Update()
 //終了
 void EnemyTankStateAttackMoveUpdate::Exit()
 {
-
+	m_enemyTankAttribute->EndAttackMove();
 }
 
 //ステート遷移
@@ -40,7 +37,7 @@ bool EnemyTankStateAttackMoveUpdate::RequestState(uint32_t& request)
 		return false;
 	}
 
-	if (m_enemyTankAttribute->RequestStateAttackMoveAttribute(request) == true)
+	if (m_enemyTankAttribute->RequestStateAttackMove(request) == true)
 	{
 		return true;
 	}

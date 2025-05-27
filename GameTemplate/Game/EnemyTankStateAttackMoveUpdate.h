@@ -4,13 +4,6 @@
 
 class EnemyTankEntity;
 class EnemyTankAttributeBase;
-class GamePlayer;
-class EnemyAttackPoint;
-
-namespace Const
-{
-	const float temporarySpeed = 50.0f;
-}
 
 class EnemyTankStateAttackMoveUpdate : public StateBase
 {
@@ -50,16 +43,6 @@ public:
 	/// <param name="request"></param>
 	/// <returns></returns>
 	bool RequestState(uint32_t& request) override;
-	/// <summary>
-	/// 範囲移動計算
-	/// </summary>
-	/// <param name="attackPointRadius"></param>
-	/// <param name="enemyToAttackPointRadius"></param>
-	/// <returns></returns>
-	const Vector3& RangeMoveCalc(
-		float attackPointRadius,
-		float enemyToAttackPointRadius
-	);
 private:
 	/// <summary>
 	/// エネミータンクの属性

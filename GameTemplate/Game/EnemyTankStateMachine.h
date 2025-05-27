@@ -1,6 +1,7 @@
 #pragma once
 
 #include "StateMachineBase.h"
+#include "StateBase.h"
 
 class EnemyTankEntity;
 
@@ -11,6 +12,13 @@ public:
 	/// コンストラクタ
 	/// </summary>
 	EnemyTankStateMachine(){}
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void InitState()
+	{
+		m_currentState->Enter();
+	}
 	/// <summary>
 	/// アップデート関数
 	/// </summary>

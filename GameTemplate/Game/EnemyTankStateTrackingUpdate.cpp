@@ -3,21 +3,11 @@
 
 #include "EnemyTankEntity.h"
 #include "EnemyTankAttributeBase.h"
-#include "EnemyAttackPointManager.h"
-#include "EnemyAttackPoint.h"
-#include "GamePlayer.h"
-#include "EnemyTankStateAttackMoveUpdate.h"
-
-//コンストラクタ
-//EnemyTankStateMoveUpdate::EnemyTankStateMoveUpdate(EnemyTankEntity* hostEnemyTank)
-//{
-//	m_hostEnemyTankEntity = hostEnemyTank;
-//}
 
 //初期化
 void EnemyTankStateTrackingUpdate::Enter()
 {
-
+	m_enemyTankAttribute->EnterTracking();
 }
 
 //更新
@@ -28,23 +18,15 @@ void EnemyTankStateTrackingUpdate::Update()
 		return;
 	}
 
-	if (m_attackPoint == nullptr)
-	{
-		m_attackPoint = EnemyAttackPointManager::
-			GetEnemyAttackPointManagerInstance()->GetEnemyNearAttackPoint(m_hostEnemyTankEntity);
-	}
-
-	//アタックポイントの座標と自身の座標で方向を計算
-	Vector3 moveVec = m_enemyTankAttribute->TrackingAttribute();
-
-	m_hostEnemyTankEntity->SetMoveDirection(moveVec);
+	m_hostEnemyTankEntity->SetMoveDirection(
+		m_enemyTankAttribute->UpdateTracking());
 }
 
 
 //終了
 void EnemyTankStateTrackingUpdate::Exit()
 {
-
+	m_enemyTankAttribute->EndTracking();
 }
 
 //ステート遷移
@@ -55,7 +37,7 @@ bool EnemyTankStateTrackingUpdate::RequestState(uint32_t& request)
 		return false;
 	}
 
-	if (m_enemyTankAttribute->RequestStateTrackingAttribute(request) == true)
+	if (m_enemyTankAttribute->RequestStateTracking(request) == true)
 	{
 		return true;
 	}

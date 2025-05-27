@@ -12,6 +12,7 @@
 #include "EnemyTankAttributeBase.h"
 #include "EnemyTankStateTrackingUpdate.h"
 #include "EnemyTankStateAttackMoveUpdate.h"
+#include "EnemyTankStateUniqueUpdate.h"
 
 //コンストラクタ
 EnemyTankEntity::EnemyTankEntity()
@@ -52,7 +53,11 @@ bool EnemyTankEntity::Start()
 		(this,m_enemyTankAttribute.get());
 	m_stateMashine->RegisterState<EnemyTankStateAttackMoveUpdate>
 		(this,m_enemyTankAttribute.get());
+	m_stateMashine->RegisterState<EnemyTankStateUniqueUpdate>
+		(this, m_enemyTankAttribute.get());
 	m_stateMashine->InitilizeState<EnemyTankStateTrackingUpdate>();
+	//設定したステートの初期化プログラムを実行
+	m_stateMashine->InitState();
 	//履帯コンポーネント生成
 	m_tankCrawkerMovingCom = new TankCrawkerMovingComponent;
 	//砲塔コンポーネント生成
@@ -93,14 +98,18 @@ bool EnemyTankEntity::Start()
 //アップデート関数
 void EnemyTankEntity::Update()
 {
-	//属性固有処理
-	m_enemyTankAttribute->UniqueProcessing();
-	
 	//ステートマシン更新
 	m_stateMashine->Update();
 
 	//履帯移動更新
 	m_position = m_tankCrawkerMovingCom->CalcCrawkerMovingDataAndModelUpdate();
+
+	//砲撃処理
+	if (m_fireFlag)
+	{
+		
+	}
+
 	//砲塔移動更新
 	m_turretPosition = m_tankTurretMovingCom->CalcTurretMovingDataAndModelUpdate();
 
@@ -138,7 +147,5 @@ void EnemyTankEntity::Render(RenderContext& rc)
 
 void EnemyTankEntity::DeleteGOEnemyTank()
 {
-
-
 	DeleteGO(this);
 }

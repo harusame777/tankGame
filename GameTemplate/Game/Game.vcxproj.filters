@@ -146,6 +146,9 @@
     <ClCompile Include="EnemyTankAttributeBase.cpp">
       <Filter>EnemyTank\Attribute</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTankStateUniqueUpdate.cpp">
+      <Filter>EnemyTank\State</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -258,6 +261,9 @@
     </ClInclude>
     <ClInclude Include="EnemyTank_001_Normal.h">
       <Filter>EnemyTank\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTankStateUniqueUpdate.h">
+      <Filter>EnemyTank\State</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

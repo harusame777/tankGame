@@ -1,18 +1,19 @@
 #pragma once
-
 #include "StateBase.h"
 
 class EnemyTankEntity;
 class EnemyTankAttributeBase;
+class EnemyAttackPoint;
+class GamePlayer;
 
-class EnemyTankStateTrackingUpdate : public StateBase
+class EnemyTankStateUniqueUpdate : public StateBase
 {
-	appState(EnemyTankStateTrackingUpdate);
+	appState(EnemyTankStateUniqueUpdate);
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTankStateTrackingUpdate(
+	EnemyTankStateUniqueUpdate(
 		EnemyTankEntity* hostEnemyTank,
 		EnemyTankAttributeBase* attribute
 	)
@@ -24,7 +25,7 @@ public:
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~EnemyTankStateTrackingUpdate() {};
+	~EnemyTankStateUniqueUpdate() {};
 	/// <summary>
 	/// 初期化
 	/// </summary>
