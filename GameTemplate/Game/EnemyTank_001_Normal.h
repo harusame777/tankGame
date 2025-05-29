@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EnemyTankAttributeBase.h"
+#include "TankShellsManager.h"
 
 class EnemyTank_001_Normal : public EnemyTankAttributeBase
 {

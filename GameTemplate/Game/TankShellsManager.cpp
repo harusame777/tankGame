@@ -1,31 +1,17 @@
 #include "stdafx.h"
 #include "TankShellsManager.h"
 
-#include "TankShellsEntity.h"
-#include "TankShellsAttributeBase.h"
-#include "TankShellsAttributeRegistry.h"
-
 #include "GamePlayer.h"
 
 //インスタンスを初期化
 TankShellsManager* TankShellsManager::m_tankShellsManagerInstance = nullptr;
 
-//砲弾を発射する
-void TankShellsManager::RequestFiringTankShells(
-	const EnTankShellsAttribute tankShellsAttribute,
-	const Vector3& firingPosition,
-	const Vector3& firingForward
-)
-{
-	//属性に沿った砲弾を作成
-	CreateNewTankShells(tankShellsAttribute,firingPosition,firingForward);
-}
-
 void TankShellsManager::CreateNewTankShells(
 	const EnTankShellsAttribute tankShellsAttribute,
 	const Vector3& firingPosition,
 	const Vector3& firingForward,
-	EnFireAttribute FirePlayerOrEnemy
+	const char* gunnerName,
+	const char* targetName
 )
 {
 	//属性を作成、取得
@@ -49,15 +35,15 @@ void TankShellsManager::CreateNewTankShells(
 	newtankShellsData.m_timer = 10.0f;
 	//属性を設定
 	newTankShellsPtr->SetTankShellsAttribute(calcClass);
-	//プレイヤーか敵かの属性を設定
-	if(FirePlayerOrEnemy == EnFireAttribute::Player)
-	{
-		newTankShellsPtr->SetCollisionName("");
-	}
-	else if (FirePlayerOrEnemy == EnFireAttribute::Enemy)
-	{
-		newTankShellsPtr->SetCollisionName();
-	}
+	//攻撃用当たり判定を設定
+	newTankShellsPtr->SetCollision(GameCollisionManager::GetCollisionManagerInstance()->CreateSphereCollision(
+		firingPosition,
+		Quaternion::Identity,
+		7.0f,
+		gunnerName
+	));
+	//ターゲットの名称を設定
+	newTankShellsPtr->SetTargetCollisionName(targetName);
 	//属性にホストの砲弾のポインタを設定
 	calcClass->SetHostPtr(newTankShellsPtr);
 	//配列に入れ込み
@@ -128,3 +114,21 @@ void TankShellsManager::DeleteTankShells()
 		}
 	}
 }
+
+//今は使わないけど後でなんか使うかもしれないので残しておく
+
+//クラス名からハッシュ値を取得するテンプレート関数
+//template <typename T>
+//constexpr uint32_t TankShellsManager::GetTypeNameHash()
+//{
+//	型名を取得
+//	const char* typeName = typeid(T).name();
+//	文字列からハッシュ値を計算
+//	uint32_t hash = 2166136261u;
+//	while (*typeName)
+//	{
+//		hash ^= static_cast<uint8_t>(*typeName++);
+//		hash *= 16777619u;
+//	}
+//	return hash;
+//}

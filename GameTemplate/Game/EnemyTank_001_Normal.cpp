@@ -63,11 +63,12 @@ void EnemyTank_001_Normal::FireProcessing()
 	//クールタイムをリセット
 	m_fireCoolTime = 5.0f;
 	//砲弾発射
-	TankShellsManager::GetTankShellsManagerInstance()->
-		RequestFiringTankShells(
+	TankShellsManager::GetTankShellsManagerInstance()->CreateNewTankShells(
 		m_shellsUsed,
 		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetCannonFiringPosition(),
-		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetTurretForward()
+		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetTurretForward(),
+		"EnemyTankAttack",
+		"GamePlayerCollision"
 	);
 }
 

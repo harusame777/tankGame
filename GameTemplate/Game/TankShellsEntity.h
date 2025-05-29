@@ -25,12 +25,12 @@ public:
 		m_tankShellsAttributePtr = attributePtr;
 	}
 	/// <summary>
-	/// 砲弾のコリジョン名を設定
+	/// ターゲットのコリジョン名を設定
 	/// </summary>
-	/// <param name="collisionName"></param>
-	void SetCollisionName(* collisionName)
+	/// <typeparam name="T"></typeparam>
+	void SetTargetCollisionName(const char* className)
 	{
-		m_collisionName = collisionName;
+		m_targetCollisionName = className;
 	}
 	/// <summary>
 	/// 位置設定
@@ -81,6 +81,14 @@ public:
 		return m_forward;
 	}
 	/// <summary>
+	/// コリジョンを設定
+	/// </summary>
+	/// <param name="collision"></param>
+	void SetCollision(std::shared_ptr<CollisionObject> collision)
+	{
+		m_collision = collision;
+	}
+	/// <summary>
 	/// 削除処理
 	/// </summary>
 	void DeleteGOTankShells();
@@ -126,6 +134,6 @@ private:
 	/// <summary>
 	/// コリジョン名
 	/// </summary>
-	char* m_collisionName = nullptr;
+	const char* m_targetCollisionName;
 };
 

@@ -86,11 +86,12 @@ bool EnemyTankEntity::Start()
 	);
 
 	//当たり判定作成
-	m_collision = GameCollisionManager::GetCollisionManagerInstance()->CreateSphereCollision(
+	m_collision = GameCollisionManager::GetCollisionManagerInstance()
+		->CreateSphereCollision(
 		m_position,
 		m_rotation,
 		30.0f,
-		"EnemyCollision"
+		"EnemyTankCollision"
 	);
 
 	return true;
@@ -116,7 +117,7 @@ void EnemyTankEntity::Update()
 
 	//消去処理
 	if (GameCollisionManager::GetCollisionManagerInstance()
-		->IsAColisionHitsBColision(m_collision.get(), "shellsCollision") == true 
+		->IsAColisionHitsBColision(m_collision.get(),"GamePlayerAttack") == true
 		&& m_isDeleteFlag == false)
 	{
 		//エンティティ内の削除フラグ
