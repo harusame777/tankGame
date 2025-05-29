@@ -63,6 +63,15 @@ bool GamePlayer::Start()
 		m_tankTurret
 	);
 
+	//当たり判定作成
+	m_collision = GameCollisionManager::GetCollisionManagerInstance()
+		->CreateSphereCollision(
+		m_position,
+		Quaternion::Identity,
+		30.0f,
+		"GamePlayerCollision"
+	);
+
 	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
 		m_position,
 		200.0f,
@@ -109,6 +118,13 @@ void GamePlayer::Update()
 		);
 	}
 
+	//当たり判定
+	if (GameCollisionManager::GetCollisionManagerInstance()
+		->IsAColisionHitsBColision(m_collision.get(),"EnemyTankAttack"))
+	{
+
+	}
+
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
 
@@ -121,6 +137,12 @@ void GamePlayer::Update()
 			{ 400.0f,0.0f,400.0f }
 		);
 	}
+
+	//当たり判定位置更新
+	Vector3 colPos = m_position;
+	colPos.y += 35.0f;
+	m_collision->SetPosition(colPos);
+	m_collision->Update();
 }
 
 //レンダリング関数

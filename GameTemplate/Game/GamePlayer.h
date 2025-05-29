@@ -83,6 +83,10 @@ private:
 	/// </summary>
 	TankTurretMovingComponent* m_tankTurretMovingComponent = nullptr;
 	/// <summary>
+	/// “–‚½‚è”»’è
+	/// </summary>
+	std::shared_ptr<CollisionObject> m_collision;
+	/// <summary>
 	/// —š‘ÑˆÊ’u
 	/// </summary>
 	Vector3 m_position = Vector3::AxisZ;
