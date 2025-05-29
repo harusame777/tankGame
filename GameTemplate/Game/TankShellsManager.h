@@ -1,14 +1,16 @@
 #pragma once
 
 #include "TankShellsAttribute.h"
+#include "EnemyTankEntity.h"
+#include "TankShellsAttributeBase.h"
+#include "TankShellsAttributeRegistry.h"
 
 namespace TankShellsManagerConstant {
 	const int maxCannonball = 100;
-}
 
-class TankShellsEntity;
-class TankShellsAttributeBase;
-class TankShellsAttributeRegistry;
+	const std::string AddAttackCollisionName = "Shells Collision";
+
+}
 
 class GamePlayer;
 
@@ -61,13 +63,15 @@ public:
 	/// </summary>
 	void UpdateTankShellsManager();
 	/// <summary>
-	/// –C’e‚ğ”­Ë‚µA”­Ë‚µ‚½–C’e‚ÌƒAƒhƒŒƒX‚ğæ“¾‚·‚éŠÖ”
+	/// V‚µ‚¢–C’e‚ğì¬‚·‚é
 	/// </summary>
 	/// <returns></returns>
-	void RequestFiringTankShells(
+	void CreateNewTankShells(
 		const EnTankShellsAttribute tankShellsAttribute,
 		const Vector3& firingPosition,
-		const Vector3& firingForward
+		const Vector3& firingForward,
+		const char* gunnerName,
+		const char* targetName
 	);
 	/// <summary>
 	/// –C’e‚ª‰½‚©‚É“–‚½‚Á‚½‚Ìˆ—
@@ -103,18 +107,14 @@ private:
 		bool m_deleteFlag = false;
 	};
 	/// <summary>
-	/// V‚µ‚¢–C’e‚ğì¬‚·‚é
-	/// </summary>
-	/// <returns></returns>
-	void CreateNewTankShells(
-		const EnTankShellsAttribute tankShellsAttribute,
-		const Vector3& firingPosition,
-		const Vector3& firingForward
-	);
-	/// <summary>
 	/// –C’e‚ÌŠÔíœˆ—
 	/// </summary>
 	void DeleteTankShells();
+	/// <summary>
+	/// ƒNƒ‰ƒX–¼‚©‚çƒnƒbƒVƒ…’l‚ğæ“¾‚·‚é
+	/// </summary>
+	/// <typeparam name="Name"></typeparam>
+	/// <returns></returns>
 	/// <summary>
 	/// –C’e‚ÌƒŠƒXƒg
 	/// </summary>

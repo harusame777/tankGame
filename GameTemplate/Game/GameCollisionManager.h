@@ -1,5 +1,12 @@
 #pragma once
 
+namespace GameCollisionManagerConstants
+{
+	const std::string AddAttackCollisionName = "_Attack Collision";
+
+	const std::string AddReceiveCollisionName = "_Receive Collision";
+}
+
 class GameCollisionManager
 {
 private:
@@ -120,6 +127,10 @@ private:
 	/// 探したコリジョン
 	/// </summary>
 	std::vector<CollisionObject*> m_findCollisionObjcts;
+	/// <summary>
+	/// string用のハッシュ関数
+	/// </summary>
+	std::hash<std::string> hasher;
 	/// <summary>
 	/// リスト消去処理
 	/// </summary>

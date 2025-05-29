@@ -223,8 +223,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EnemyAttackPoint.cpp" />
+    <ClCompile Include="EnemyAttackPointManager.cpp" />
+    <ClCompile Include="EnemyTankAttributeBase.cpp" />
+    <ClCompile Include="EnemyTankAttributeRegistry.cpp" />
+    <ClCompile Include="EnemyTankEntity.cpp" />
+    <ClCompile Include="EnemyTankManager.cpp" />
+    <ClCompile Include="EnemyTankStateAttackMoveUpdate.cpp" />
+    <ClCompile Include="EnemyTankStateMachine.cpp" />
+    <ClCompile Include="EnemyTankStateTrackingUpdate.cpp" />
+    <ClCompile Include="EnemyTankStateUniqueUpdate.cpp" />
+    <ClCompile Include="EnemyTank_001_Normal.cpp" />
     <ClCompile Include="GameCollisionManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
+    <ClCompile Include="StateBase.cpp" />
+    <ClCompile Include="StateMachineBase.cpp" />
     <ClCompile Include="TankShellsAttributeRegistry.cpp" />
     <ClCompile Include="TankShellsEntity.cpp" />
     <ClCompile Include="TankShellsManager.cpp" />
@@ -251,8 +264,23 @@
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CRC32.h" />
+    <ClInclude Include="EnemyAttackPoint.h" />
+    <ClInclude Include="EnemyAttackPointManager.h" />
+    <ClInclude Include="EnemyTankAttribute.h" />
+    <ClInclude Include="EnemyTankAttributeBase.h" />
+    <ClInclude Include="EnemyTankAttributeRegistry.h" />
+    <ClInclude Include="EnemyTankEntity.h" />
+    <ClInclude Include="EnemyTankManager.h" />
+    <ClInclude Include="EnemyTankStateAttackMoveUpdate.h" />
+    <ClInclude Include="EnemyTankStateMachine.h" />
+    <ClInclude Include="EnemyTankStateTrackingUpdate.h" />
+    <ClInclude Include="EnemyTankStateUniqueUpdate.h" />
+    <ClInclude Include="EnemyTank_001_Normal.h" />
     <ClInclude Include="GameCollisionManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />
+    <ClInclude Include="StateBase.h" />
+    <ClInclude Include="StateMachineBase.h" />
     <ClInclude Include="TankShellsAttribute.h" />
     <ClInclude Include="TankShellsAttributeRegistry.h" />
     <ClInclude Include="TankShellsEntity.h" />
