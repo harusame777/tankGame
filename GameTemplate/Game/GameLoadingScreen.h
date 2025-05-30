@@ -1,16 +1,16 @@
 #pragma once
 
-class GameLoad : public IGameObject
+class GameLoadingScreen : public IGameObject
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	GameLoad(){}
+	GameLoadingScreen(){}
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	~GameLoad(){}
+	~GameLoadingScreen(){}
 	/// <summary>
 	/// ロード種類ステート
 	/// </summary>

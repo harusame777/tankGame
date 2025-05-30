@@ -1,40 +1,43 @@
 #pragma once
-#include "GameMain.h"
-#include "GameLoad.h"
 
-class GameLoad;
+#include "StateBase.h"
+
+class GameLoadingScreen;
 
 class GameMapManager;
 class GamePlayer;
 class TankShellsManager;
 
-class GameIn : public GameMainStateClass
+class GameModeNormalUpdateState : public StateBase
 {
+	appState(GameModeNormalUpdateState);
 public:
-	enum GameInState
-	{
-		en_objectLoad,
-
-		en_gameUpdate,
-
-		enum_Num
-	};
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	GameIn() {};
+	GameModeNormalUpdateState() {};
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
-	virtual ~GameIn() {};
+	virtual ~GameModeNormalUpdateState() {};
 	/// <summary>
-	/// ステート初期化
+	/// 初期化
 	/// </summary>
-	void InitGameState() override;
+	void Enter() override;
 	/// <summary>
-	/// ステートアップデート
+	/// 更新
 	/// </summary>
-	void UpdateGameState() override;
+	void Update() override;
+	/// <summary>
+	/// 終了
+	/// </summary>
+	void Exit() override;
+	/// <summary>
+	/// ステート遷移
+	/// </summary>
+	/// <param name="request"></param>
+	/// <returns></returns>
+	bool RequestState(uint32_t& request) override;
 private:
 	/// <summary>
 	/// ゲームのオブジェクトをロードする
@@ -47,7 +50,7 @@ private:
 	/// <summary>
 	/// ロード画面
 	/// </summary>
-	GameLoad* m_gameLoad = nullptr;
+	GameLoadingScreen* m_gameLoad = nullptr;
 	/// <summary>
 	/// ゲームマップのマネージャー
 	/// </summary>

@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "GameIn.h"
+#include "GameModeNormalUpdateState.h"
+
+#include "GameLoadingScreen.h"
 
 #include "GameMapManager.h"
 #include "GameCameraManager.h"
@@ -9,40 +11,36 @@
 #include "EnemyTankManager.h"
 
 //ゲームステート初期化
-void GameIn::InitGameState()
+void GameModeNormalUpdateState::Enter()
 {
 	//ロード画面のインスタンスを取得
-	m_gameLoad = FindGO<GameLoad>("gameLoad");
+	m_gameLoad = FindGO<GameLoadingScreen>("gameLoad");
 }
 
 //ゲームステート更新
-void GameIn::UpdateGameState()
+void GameModeNormalUpdateState::Update()
 {
-	switch (m_stateNum)
-	{
-	case GameIn::en_objectLoad:
+	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
 
-		LoadGameObject();
+	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
 
-		m_gameLoad->LoadExecutionFadeIn();
+	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
 
-		m_gameMain->ChangeContextListState(
-			GameMain::en_inGame,
-			GameIn::en_gameUpdate);
+	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
+}
 
-		break;
-	case GameIn::en_gameUpdate:
+void GameModeNormalUpdateState::Exit()
+{
+	
+}
 
-		GameUpdate();
-
-		break;
-	default:
-		break;
-	}
+bool GameModeNormalUpdateState::RequestState(uint32_t& request)
+{
+	return false;
 }
 
 //オブジェクトロード
-void GameIn::LoadGameObject()
+void GameModeNormalUpdateState::LoadGameObject()
 {
 	//ゲームプレイヤーを作成
 	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
@@ -58,14 +56,3 @@ void GameIn::LoadGameObject()
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 }
 
-//ゲームアップデート
-void GameIn::GameUpdate()
-{
-	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
-
-	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
-
-	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
-
-	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
-}
