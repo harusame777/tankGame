@@ -86,7 +86,7 @@ bool GamePlayer::Start()
 void GamePlayer::Update()
 {
 	//ƒ[ƒh’†“™‚Å‚Í“®‚©‚È‚¢‚æ‚¤‚É
-	if (m_playerState == EnPlayerState::en_standby)
+	if (m_isMovinvg == false)
 	{
 		return;
 	}

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TankShellsManager.h"
-
+#include "GamePlayerManager.h"
 #include "GamePlayer.h"
 
 //インスタンスを初期化
@@ -76,7 +76,7 @@ void TankShellsManager::HitTankShells(TankShellsEntity* hitShells)
 void TankShellsManager::InitTankShellsManager()
 {
 	//プレイヤーのインスタンスを取得
-	m_player = FindGO<GamePlayer>("gamePlayer");
+	m_player = GamePlayerManager::GetGamePlayerManagerInstance()->GetGamePlayerInstance();
 }
 
 //アップデート関数

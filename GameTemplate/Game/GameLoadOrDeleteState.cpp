@@ -5,7 +5,7 @@
 #include "GameMapManager.h"
 #include "GameCameraManager.h"
 #include "TankShellsManager.h"
-#include "GamePlayer.h"
+#include "GamePlayerManager.h"
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
 
@@ -72,7 +72,7 @@ bool GameLoadOrDeleteState::RequestState(uint32_t& request)
 void GameLoadOrDeleteState::LoadProcces()
 {
 	//ゲームプレイヤーを作成
-	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
+	GamePlayerManager::GetGamePlayerManagerInstance()->CreateGamePlayer();
 	//ゲームカメラのマネージャーを作成
 	GameCameraManager::GetGameCameraManagerInstance()->InitGameCameraManager();
 	//ゲームマップのマネージャーを作成

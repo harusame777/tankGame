@@ -5,6 +5,7 @@
 #include "EnemyTankAttributeRegistry.h"
 #include "EnemyTankEntity.h"
 #include "GamePlayer.h"
+#include "GamePlayerManager.h"
 
 //インスタンス初期化
 EnemyTankManager* EnemyTankManager::m_enemyTankManagerInstance = nullptr;
@@ -52,7 +53,7 @@ void EnemyTankManager::ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank)
 //初期化
 void EnemyTankManager::InitEnemyTankManager()
 {
-	m_player = FindGO<GamePlayer>("gamePlayer");
+	m_player = GamePlayerManager::GetGamePlayerManagerInstance()->GetGamePlayerInstance();
 }
 
 //更新

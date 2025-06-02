@@ -6,7 +6,7 @@
 #include "GameMapManager.h"
 #include "GameCameraManager.h"
 #include "TankShellsManager.h"
-#include "GamePlayer.h"
+#include "GamePlayerManager.h"
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
 
@@ -20,6 +20,15 @@ void GameModeNormalUpdateState::Enter()
 //ゲームステート更新
 void GameModeNormalUpdateState::Update()
 {
+	if (m_gameLoad->IsLoadCompletion() == true)
+	{
+		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(true);
+	}
+	else
+	{
+		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(false);
+	}
+
 	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
 
 	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
@@ -37,22 +46,5 @@ void GameModeNormalUpdateState::Exit()
 bool GameModeNormalUpdateState::RequestState(uint32_t& request)
 {
 	return false;
-}
-
-//オブジェクトロード
-void GameModeNormalUpdateState::LoadGameObject()
-{
-	//ゲームプレイヤーを作成
-	m_gamePlayer = NewGO<GamePlayer>(0, "gamePlayer");
-	//ゲームカメラのマネージャーを作成
-	GameCameraManager::GetGameCameraManagerInstance()->InitGameCameraManager();
-	//ゲームマップのマネージャーを作成
-	GameMapManager::GetCollisionManagerInstance()->InitGameMapManager();
-	//砲弾マネージャーを作成
-	TankShellsManager::GetTankShellsManagerInstance()->InitTankShellsManager();
-	//エネミータンクマネージャークラスを作成
-	EnemyTankManager::GetEnemyTankManagerInstance()->InitEnemyTankManager();
-	//コリジョンマネージャーを作成
-	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 }
 

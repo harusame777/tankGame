@@ -40,10 +40,6 @@ public:
 	bool RequestState(uint32_t& request) override;
 private:
 	/// <summary>
-	/// ゲームのオブジェクトをロードする
-	/// </summary>
-	void LoadGameObject();
-	/// <summary>
 	/// ゲームアップデート
 	/// </summary>
 	void GameUpdate();

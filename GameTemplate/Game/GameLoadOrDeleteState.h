@@ -52,10 +52,6 @@ private:
 	/// </summary>
 	bool m_processEndFlag = false;
 	/// <summary>
-	/// プレイヤーのインスタンス
-	/// </summary>
-	GamePlayer* m_gamePlayer = nullptr;
-	/// <summary>
 	/// ロード画面のインスタンス
 	/// </summary>
 	GameLoadingScreen* m_gameLoad = nullptr;

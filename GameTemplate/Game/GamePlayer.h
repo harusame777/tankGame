@@ -47,6 +47,22 @@ public:
 	{
 		return m_position;
 	}
+	/// <summary>
+	/// プレイヤーが動けるかどうかの設定
+	/// </summary>
+	/// <param name="isMoving"></param>
+	void SetIsPlayerCanMoving(const bool isMoving)
+	{
+		m_isMovinvg = isMoving;
+	}
+	/// <summary>
+	/// プレイヤーが動けるかどうかの取得
+	/// </summary>
+	/// <returns></returns>
+	bool IsPlayerCanMoving() const
+	{
+		return m_isMovinvg;
+	}
 private:
 	/// <summary>
 	/// スタート関数
@@ -102,6 +118,10 @@ private:
 	/// 砲塔正面ベクトル
 	/// </summary>
 	Vector3 m_turretForward = Vector3::AxisZ;
+	/// <summary>
+	/// プレイヤーが動けるかどうか
+	/// </summary>
+	bool m_isMovinvg = false;
 
 	//移動テスト
 	Vector3 padLVector;

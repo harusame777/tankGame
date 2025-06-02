@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GameMainCamera.h"
 #include "GamePlayer.h"
+#include "GamePlayerManager.h"
 
 //’è”
 namespace GameMainCameraConstant
@@ -11,7 +12,7 @@ namespace GameMainCameraConstant
 //ƒJƒƒ‰‰Šú‰»
 bool GameMainCamera::InitCamera()
 {
-	m_gamePlayer = FindGO<GamePlayer>("gamePlayer");
+	m_gamePlayer = GamePlayerManager::GetGamePlayerManagerInstance()->GetGamePlayerInstance();
 
 	float cameraNear = 1.0f;
 	float cameraFar = 10000.0f;

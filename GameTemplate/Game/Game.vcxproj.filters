@@ -49,6 +49,9 @@
     <Filter Include="Main\GameMainState">
       <UniqueIdentifier>{be882eec-2b59-4a76-a1d7-c1503d18e828}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GamePlayer">
+      <UniqueIdentifier>{2171c4c7-b68f-4fbf-88c1-a56012f8108f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -76,7 +79,6 @@
     <ClCompile Include="GameMainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlayer.cpp" />
     <ClCompile Include="TankCrawkerMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
@@ -152,11 +154,17 @@
     <ClCompile Include="GameTitleState.cpp">
       <Filter>Main\GameMainState</Filter>
     </ClCompile>
-    <ClCompile Include="GameTitle.cpp">
-      <Filter>Main\GameMainState</Filter>
-    </ClCompile>
     <ClCompile Include="GameLoadOrDeleteState.cpp">
       <Filter>Main\GameMainState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTitle.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayerManager.cpp">
+      <Filter>GamePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayer.cpp">
+      <Filter>GamePlayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,7 +196,6 @@
     <ClInclude Include="GameCameraObjectBase.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="TankCrawkerMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
@@ -274,11 +281,17 @@
     <ClInclude Include="GameTitleState.h">
       <Filter>Main\GameMainState</Filter>
     </ClInclude>
-    <ClInclude Include="GameTitle.h">
-      <Filter>Main\GameMainState</Filter>
-    </ClInclude>
     <ClInclude Include="GameLoadOrDeleteState.h">
       <Filter>Main\GameMainState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTitle.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayer.h">
+      <Filter>GamePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayerManager.h">
+      <Filter>GamePlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
