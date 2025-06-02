@@ -46,6 +46,12 @@
     <Filter Include="TankShells\TankShellsAttribute">
       <UniqueIdentifier>{6c6e70c5-32b9-409a-a623-7b033030351c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Main\GameMainState">
+      <UniqueIdentifier>{be882eec-2b59-4a76-a1d7-c1503d18e828}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GamePlayer">
+      <UniqueIdentifier>{2171c4c7-b68f-4fbf-88c1-a56012f8108f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -58,16 +64,7 @@
     <ClCompile Include="GameMain.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="GameOut.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="GameIn.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="GameTitle.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLoad.cpp">
+    <ClCompile Include="GameLoadingScreen.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="GameMapManager.cpp">
@@ -82,7 +79,6 @@
     <ClCompile Include="GameMainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="GamePlayer.cpp" />
     <ClCompile Include="TankCrawkerMovingComponent.cpp">
       <Filter>TankComponents</Filter>
     </ClCompile>
@@ -149,6 +145,27 @@
     <ClCompile Include="EnemyTankStateUniqueUpdate.cpp">
       <Filter>EnemyTank\State</Filter>
     </ClCompile>
+    <ClCompile Include="GameMainStateMachine.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModeNormalUpdateState.cpp">
+      <Filter>Main\GameMainState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTitleState.cpp">
+      <Filter>Main\GameMainState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLoadOrDeleteState.cpp">
+      <Filter>Main\GameMainState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTitle.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayerManager.cpp">
+      <Filter>GamePlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlayer.cpp">
+      <Filter>GamePlayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -158,16 +175,7 @@
     <ClInclude Include="GameMain.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="GameOut.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="GameIn.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="GameTitle.h">
-      <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLoad.h">
+    <ClInclude Include="GameLoadingScreen.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="GameMapManager.h">
@@ -188,7 +196,6 @@
     <ClInclude Include="GameCameraObjectBase.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="GamePlayer.h" />
     <ClInclude Include="TankCrawkerMovingComponent.h">
       <Filter>TankComponents</Filter>
     </ClInclude>
@@ -264,6 +271,27 @@
     </ClInclude>
     <ClInclude Include="EnemyTankStateUniqueUpdate.h">
       <Filter>EnemyTank\State</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMainStateMachine.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModeNormalUpdateState.h">
+      <Filter>Main\GameMainState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTitleState.h">
+      <Filter>Main\GameMainState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLoadOrDeleteState.h">
+      <Filter>Main\GameMainState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTitle.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayer.h">
+      <Filter>GamePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlayerManager.h">
+      <Filter>GamePlayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

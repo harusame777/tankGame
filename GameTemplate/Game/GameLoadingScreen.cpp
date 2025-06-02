@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "GameLoad.h"
+#include "GameLoadingScreen.h"
 
 //これを有効にするとデバッグモードになる
 //#define DEBUG_MODE
@@ -27,7 +27,7 @@ namespace
 	static const float CIRCULRLOAD_EASING_ATTENUATIONRATE_B = 0.2f;
 }
 
-void GameLoad::LoadExecutionFadeOut(const LoadOrderData& loadType,const float loadTime)
+void GameLoadingScreen::LoadExecutionFadeOut(const LoadOrderData& loadType,const float loadTime)
 {
 	//ロードが処理中であれば　
 	if (m_loadProccesState != LoadProccesState::en_loadStandby)
@@ -63,7 +63,7 @@ void GameLoad::LoadExecutionFadeOut(const LoadOrderData& loadType,const float lo
 	switch (m_loadTypeState[LoadOrder::en_FadeOut])
 	{
 		//通常ロード
-	case GameLoad::en_loadOrdinary:
+	case GameLoadingScreen::en_loadOrdinary:
 		//通常ロードのイージング数値を設定
 		m_loadEasingMax = ORDINARYLOAD_EASING_MIN;
 
@@ -74,7 +74,7 @@ void GameLoad::LoadExecutionFadeOut(const LoadOrderData& loadType,const float lo
 
 		break;
 		//円形ロード
-	case GameLoad::en_loadCircular:
+	case GameLoadingScreen::en_loadCircular:
 		//円形ロードのイージング数値を設定
 		m_loadEasingMax = CIRCULRLOAD_EASING_MAX;
 
@@ -84,7 +84,7 @@ void GameLoad::LoadExecutionFadeOut(const LoadOrderData& loadType,const float lo
 			= CIRCULRLOAD_EASING_ATTENUATIONRATE_A;
 
 		break;
-	case GameLoad::en_loadImmediately:
+	case GameLoadingScreen::en_loadImmediately:
 
 		m_loadDatas.SetLoadIndex(1.0f);
 
@@ -98,7 +98,7 @@ void GameLoad::LoadExecutionFadeOut(const LoadOrderData& loadType,const float lo
 	m_loadDatas.SetLoadIndex(0.0f);
 }
 
-void GameLoad::LoadExecutionFadeIn()
+void GameLoadingScreen::LoadExecutionFadeIn()
 {
 	//フェードアウトしきっていなかったら
 	if (m_loadProccesState != LoadProccesState::en_loadBlackoutStandby)
@@ -113,7 +113,7 @@ void GameLoad::LoadExecutionFadeIn()
 }
 
 //スタート関数
-bool GameLoad::Start()
+bool GameLoadingScreen::Start()
 {
 	SpriteInitData loadBackSideInitData;
 
@@ -158,7 +158,7 @@ bool GameLoad::Start()
 }
 
 //アップデート関数
-void GameLoad::Update()
+void GameLoadingScreen::Update()
 {
 #ifdef DEBUG_MODE
 
@@ -188,38 +188,38 @@ void GameLoad::Update()
 	}
 }
 
-void GameLoad::LoadStateUpdate()
+void GameLoadingScreen::LoadStateUpdate()
 {
 
 	switch (m_loadProccesState)
 	{
-	case GameLoad::en_loadStandby:
+	case GameLoadingScreen::en_loadStandby:
 
 		break;
-	case GameLoad::en_loadExecutionFadeIn:
+	case GameLoadingScreen::en_loadExecutionFadeIn:
 
 		m_loadDatas.SetLoadTypeState(m_loadTypeState[LoadOrder::en_FadeIn]);
 
 		m_loadDatas.SetLoadIndex(LoadCalc(m_loadSpeedAttenuationRate[LoadOrder::en_FadeIn]));
 
 		break;
-	case GameLoad::en_loadExecutionFadeOut:
+	case GameLoadingScreen::en_loadExecutionFadeOut:
 
 		m_loadDatas.SetLoadTypeState(m_loadTypeState[LoadOrder::en_FadeOut]);
 
 		m_loadDatas.SetLoadIndex(LoadCalc(m_loadSpeedAttenuationRate[LoadOrder::en_FadeOut]));
 
 		break;
-	case GameLoad::en_loadExecutionTimeLapse:
+	case GameLoadingScreen::en_loadExecutionTimeLapse:
 		break;
-	case GameLoad::en_loadBlackoutStandby:
+	case GameLoadingScreen::en_loadBlackoutStandby:
 
 		//待機
 		m_loadDatas.SetLoadTypeState(m_loadTypeState[LoadOrder::en_FadeOut]);
 
 		break;
 
-	case GameLoad::en_loadWaitTime:
+	case GameLoadingScreen::en_loadWaitTime:
 
 		if (LoadWaitTime() == false)
 		{
@@ -240,7 +240,7 @@ void GameLoad::LoadStateUpdate()
 
 		switch (m_loadTypeState[LoadOrder::en_FadeIn])
 		{
-		case GameLoad::en_loadOrdinary:
+		case GameLoadingScreen::en_loadOrdinary:
 
 			m_loadEasingMin = ORDINARYLOAD_EASING_MIN;
 
@@ -254,7 +254,7 @@ void GameLoad::LoadStateUpdate()
 				= ORDINARYLOAD_EASING_ATTENUATIONRATE;
 
 			break;
-		case GameLoad::en_loadCircular:
+		case GameLoadingScreen::en_loadCircular:
 
 			m_loadEasingMin = CIRCULRLOAD_EASING_MAX;
 
@@ -268,7 +268,7 @@ void GameLoad::LoadStateUpdate()
 				= CIRCULRLOAD_EASING_ATTENUATIONRATE_B;
 
 			break;
-		case GameLoad::en_loadImmediately:
+		case GameLoadingScreen::en_loadImmediately:
 
 			m_loadDatas.SetLoadIndex(0.0f);
 
@@ -278,7 +278,7 @@ void GameLoad::LoadStateUpdate()
 		}
 
 		break;
-	case GameLoad::en_loadCompletion:
+	case GameLoadingScreen::en_loadCompletion:
 
 		m_timer = 0.0f;
 
@@ -293,7 +293,7 @@ void GameLoad::LoadStateUpdate()
 
 }
 
-const float& GameLoad::LoadCalc(const float& index)
+const float& GameLoadingScreen::LoadCalc(const float& index)
 {
 	m_loadRatio += g_gameTime->GetFrameDeltaTime() * index;
 
@@ -314,7 +314,7 @@ const float& GameLoad::LoadCalc(const float& index)
 	return Leap(m_loadEasingMax, m_loadEasingMin, m_loadRatio);
 }
 
-void GameLoad::LoadOptionSpriteUpdate()
+void GameLoadingScreen::LoadOptionSpriteUpdate()
 {
 	if (m_loadProccesState != LoadProccesState::en_loadBlackoutStandby &&
 		m_loadProccesState != LoadProccesState::en_loadWaitTime)
@@ -331,7 +331,7 @@ void GameLoad::LoadOptionSpriteUpdate()
 	m_loadOptionSpriteSmall.SetRotation(m_loadOptionSmallRotation);
 }
 
-const bool GameLoad::LoadWaitTime()
+const bool GameLoadingScreen::LoadWaitTime()
 {
 	m_timer += g_gameTime->GetFrameDeltaTime();
 
@@ -344,7 +344,7 @@ const bool GameLoad::LoadWaitTime()
 }
 
 //レンダー関数
-void GameLoad::Render(RenderContext& rc)
+void GameLoadingScreen::Render(RenderContext& rc)
 {
 	m_loadBackSideSprite.Draw(rc);
 

@@ -1,0 +1,25 @@
+#include "stdafx.h"
+#include "GameMainStateMachine.h"
+
+#include "StateBase.h"
+
+//更新
+void GameMainStateMachine::Update()
+{
+	if (m_currentState)
+	{
+		//ハッシュ値、リクエストされたステート
+		uint32_t requestState;
+		if (m_currentState->RequestState(requestState))
+		{
+			//ステートの終了を実行
+			m_currentState->Exit();
+			//ステートをハッシュマップから探して変更
+			m_currentState = FindState(requestState);
+			//ステートの初期化処理を実行
+			m_currentState->Enter();
+		}
+	}
+	//ステートを更新
+	m_currentState->Update();
+}
