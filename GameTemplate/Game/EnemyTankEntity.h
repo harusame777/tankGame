@@ -84,6 +84,19 @@ public:
 		m_fireFlag = isFire;
 	}
 	/// <summary>
+	/// コリジョンが有効かどうかを設定します。
+	/// </summary>
+	/// <param name="isEnable"></param>
+	void SetCollisionEnable(bool isEnable);
+	/// <summary>
+	/// 描画フラグ設定
+	/// </summary>
+	/// <param name="isDraw"></param>
+	void SetDrawFlag(const bool isDraw)
+	{
+		m_drawFlag = isDraw;
+	}
+	/// <summary>
 	/// 戦車の砲塔移動コンポーネントへの参照を取得します。
 	/// </summary>
 	/// <returns>TankTurretMovingComponent オブジェクトへの定数参照。</returns>
@@ -162,6 +175,10 @@ private:
 	/// 射撃フラグ
 	/// </summary>
 	bool m_fireFlag = false;
+	/// <summary>
+	/// 描画フラグ
+	/// </summary>
+	bool m_drawFlag = true;
 	/// <summary>
 	/// このエネミータンクの属性
 	/// </summary>

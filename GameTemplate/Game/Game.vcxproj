@@ -234,6 +234,7 @@
     <ClCompile Include="EnemyTankStateTrackingUpdate.cpp" />
     <ClCompile Include="EnemyTankStateUniqueUpdate.cpp" />
     <ClCompile Include="EnemyTank_001_Normal.cpp" />
+    <ClCompile Include="EnemyTank_002_SelfDestruct.cpp" />
     <ClCompile Include="GameCollisionManager.cpp" />
     <ClCompile Include="GameLoadOrDeleteState.cpp" />
     <ClCompile Include="GameMainStateMachine.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="EnemyTankStateTrackingUpdate.h" />
     <ClInclude Include="EnemyTankStateUniqueUpdate.h" />
     <ClInclude Include="EnemyTank_001_Normal.h" />
+    <ClInclude Include="EnemyTank_002_SelfDestruct.h" />
     <ClInclude Include="GameCollisionManager.h" />
     <ClInclude Include="GameLoadOrDeleteState.h" />
     <ClInclude Include="GameMainStateMachine.h" />

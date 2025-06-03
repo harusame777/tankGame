@@ -3,13 +3,17 @@
 #include "EnemyTankAttributeBase.h"
 #include "TankShellsManager.h"
 
-class EnemyTank_001_Normal : public EnemyTankAttributeBase
+class EnemyTank_002_SelfDestruct : public EnemyTankAttributeBase
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTank_001_Normal() {};
+	EnemyTank_002_SelfDestruct() {};
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~EnemyTank_002_SelfDestruct() {};
 	/// <summary>
 	/// 属性初期化関数
 	/// </summary>
@@ -81,9 +85,14 @@ public:
 	/// </summary>
 	void EndUnique() override;
 	/// <summary>
-	/// 範囲
+	/// 自爆可能な距離にいるかどうかを返します。
 	/// </summary>
-	bool IsAttackPointInRadius(float radius = 100.0f);
+	/// <returns></returns>
+	bool IsHostTankInSelfDestructRange();
+	/// <summary>
+	/// 自爆処理更新
+	/// </summary>
+	void UpdateSelfDestruct();
 private:
 	/// <summary>
 	/// 登録実行用
@@ -94,8 +103,24 @@ private:
 	/// </summary>
 	Vector3 m_moveDirection = Vector3::Zero;
 	/// <summary>
-	/// 射撃クールタイム
+	/// 自爆までのタイマー
 	/// </summary>
-	float m_fireCoolTime = 0.0f; 
+	float m_selfDestructTimer = 0.0f; 
+	/// <summary>
+	/// 自爆中かどうか
+	/// </summary>
+	bool m_isSelfDestruct = false; 
+	/// <summary>
+	/// 自爆当たり判定
+	/// </summary>
+	std::shared_ptr<CollisionObject> m_selfDestructCollision = nullptr;
+	/// <summary>
+	/// 自爆終了までのタイマー
+	/// </summary>
+	float m_selfDestructEndTimer = 0.0f;
+	/// <summary>
+	/// 自爆遅延タイマー
+	/// </summary>
+	float m_selfDestructDelayTimer = 0.0f; 
 };
 
