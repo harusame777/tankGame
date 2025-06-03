@@ -122,7 +122,7 @@ void GamePlayer::Update()
 	if (GameCollisionManager::GetCollisionManagerInstance()
 		->IsAColisionHitsBColision(m_collision.get(),"EnemyTankAttack"))
 	{
-
+		int damageTest = 10;
 	}
 
 	m_tankCrawkerTrack.Update();
@@ -131,6 +131,13 @@ void GamePlayer::Update()
 	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateEnemyAttackPoints();
 
 	if (g_pad[0]->IsTrigger(enButtonDown))
+	{
+		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
+			EnEnemyTankAttribute::en_tankSelfDestruct,
+			{ 400.0f,0.0f,400.0f }
+		);
+	}
+	if (g_pad[0]->IsTrigger(enButtonLeft))
 	{
 		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
 			EnEnemyTankAttribute::en_tankNormal,

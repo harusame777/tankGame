@@ -100,10 +100,22 @@ bool EnemyTankEntity::Start()
 //アップデート関数
 void EnemyTankEntity::Update()
 {
+	//削除フラグが経っている状態では処理はしない
+	if (m_isDeleteFlag == true)
+	{
+		//属性ごとの削除処理が終了した際に本体を削除する
+		if (m_enemyTankAttribute->DeleteProcessing())
+		{
+			EnemyTankManager::GetEnemyTankManagerInstance()
+				->ActivateDeleteFlag(this);
+		}
+
+		return;
+	}
+
 	//ステートマシン更新
 	m_stateMashine->Update();
 
-	//履帯移動更新
 	m_position = m_tankCrawkerMovingCom->CalcCrawkerMovingDataAndModelUpdate();
 
 	//砲撃処理
@@ -122,10 +134,6 @@ void EnemyTankEntity::Update()
 	{
 		//エンティティ内の削除フラグ
 		m_isDeleteFlag = true;
-		//属性ごとの削除処理
-		m_enemyTankAttribute->DeleteProcessing();
-		//マネージャーに削除フラグを送る
-		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(this);
 	}
 	
 	//モデル更新
@@ -142,6 +150,12 @@ void EnemyTankEntity::Update()
 //レンダリング関数
 void EnemyTankEntity::Render(RenderContext& rc)
 {
+	//描画フラグがtrueの時のみ描画
+	if (m_drawFlag == false)
+	{
+		return;
+	}
+
 	m_tankCrawkerTrack.Draw(rc);
 
 	m_tankTurret.Draw(rc);
@@ -150,4 +164,10 @@ void EnemyTankEntity::Render(RenderContext& rc)
 void EnemyTankEntity::DeleteGOEnemyTank()
 {
 	DeleteGO(this);
+}
+
+void EnemyTankEntity::SetCollisionEnable(bool isEnable)
+{
+	GameCollisionManager::GetCollisionManagerInstance()
+		->SetCollisionEnable(m_collision.get(), isEnable);
 }

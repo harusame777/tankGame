@@ -166,6 +166,9 @@
     <ClCompile Include="GamePlayer.cpp">
       <Filter>GamePlayer</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTank_002_SelfDestruct.cpp">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -292,6 +295,9 @@
     </ClInclude>
     <ClInclude Include="GamePlayerManager.h">
       <Filter>GamePlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTank_002_SelfDestruct.h">
+      <Filter>EnemyTank\Attribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

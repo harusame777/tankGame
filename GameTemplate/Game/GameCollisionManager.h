@@ -84,6 +84,15 @@ public:
 		CharacterController* ACharacon,
 		const char* BColisionName
 	);
+	/// <summary>
+	/// アドレスのコリジョンの有効無効を切り替え
+	/// </summary>
+	/// <param name="collision"></param>
+	/// <param name="isDisable"></param>
+	void SetCollisionEnable(
+		CollisionObject* collision,
+		bool is
+	);
 private:
 	/// <summary>
 	/// コリジョンのリストデータ

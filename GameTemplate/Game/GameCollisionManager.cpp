@@ -198,3 +198,26 @@ void GameCollisionManager::DeleteList()
 	}
 
 }
+
+void GameCollisionManager::SetCollisionEnable(
+	CollisionObject* collision,
+	bool is
+)
+{
+	for (auto it = m_collisionMap.begin(); it != m_collisionMap.end(); it++)
+	{
+		auto shared = it->second.m_collisionPtr.lock();
+
+		//その要素のコリジョンが有効かどうかを調べる
+		if (nullptr == shared)
+		{
+			continue;
+		}
+
+		//要素のコリジョンがアドレスと同じか調べる
+		if (collision == shared.get())
+		{
+			it->second.m_isValid = is;
+		}
+	}
+}

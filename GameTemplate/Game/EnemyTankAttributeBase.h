@@ -39,7 +39,7 @@ public:
 	/// <summary>
 	/// íœˆ—ŠÖ”
 	/// </summary>
-	virtual void DeleteProcessing() = 0;
+	virtual bool DeleteProcessing() = 0;
 	/// <summary>
 	/// g—p‚·‚é–C’e‚Ì•Ï”
 	/// </summary>
