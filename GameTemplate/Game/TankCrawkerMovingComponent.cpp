@@ -49,7 +49,7 @@ const Vector3& TankCrawkerMovingComponent::CalcCrawkerMovingDataAndModelUpdate()
 	RotateCalc();
 
 	//ˆÚ“®ŒvŽZ
-	MoveCalc();
+	GunnerIsPlayerMoveCalc();
 
 	return m_modelPosition;
 }
@@ -196,7 +196,7 @@ void TankCrawkerMovingComponent::RotateCalc()
 }
 
 //ˆÚ“®ŒvŽZ
-void TankCrawkerMovingComponent::MoveCalc()
+void TankCrawkerMovingComponent::GunnerIsPlayerMoveCalc()
 {
 	//ˆÚ“®•ûŒü
 	Vector3 moveDirection = Vector3::Zero;

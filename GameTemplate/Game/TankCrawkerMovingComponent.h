@@ -80,7 +80,7 @@ private:
 	/// <summary>
 	/// ˆÚ“®ŒvŽZ
 	/// </summary>
-	void MoveCalc();
+	void GunnerIsPlayerMoveCalc();
 	/// <summary>
 	/// ‰ñ“]ŒvŽZ
 	/// </summary>

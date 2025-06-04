@@ -114,7 +114,8 @@ void GamePlayer::Update()
 			m_tankTurretMovingComponent->GetCannonFiringPosition(),
 			m_tankTurretMovingComponent->GetTurretForward(),
 			"GamePlayerAttack",
-			"EnemyTankCollision"
+			"EnemyTankCollision",
+			true
 		);
 	}
 

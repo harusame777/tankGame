@@ -68,7 +68,8 @@ void EnemyTank_001_Normal::FireProcessing()
 		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetCannonFiringPosition(),
 		m_hostEnemyTankPtr->GetTurretCompornentAddress().GetTurretForward(),
 		"EnemyTankAttack",
-		"GamePlayerCollision"
+		"GamePlayerCollision",
+		false
 	);
 }
 

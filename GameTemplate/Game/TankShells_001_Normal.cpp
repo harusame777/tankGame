@@ -12,13 +12,18 @@ bool TankShells_001_Normal::m_attributeRegistered = [] {
 }();
 
 //初期化
-void TankShells_001_Normal::InitData()
+void TankShells_001_Normal::InitData(
+	CollisionObject* collsion,
+	const char* name
+) 
 {
+	m_hostTankShellsCollision = collsion;
 
+	m_targetCollisionName = name;
 }
 
-//計算
-void TankShells_001_Normal::MoveCalc()
+//プレイヤーが砲手の際の処理
+void TankShells_001_Normal::GunnerIsPlayerMoveCalc()
 {
 	Vector3 newPosition = Vector3::Zero;
 
@@ -29,6 +34,31 @@ void TankShells_001_Normal::MoveCalc()
 	newPosition = modelPosition + modelForward * TankShells_001_Constant::speed * g_gameTime->GetFrameDeltaTime();
 
 	m_hostTankShellsPtr->SetPosition(newPosition);
+}
+
+void TankShells_001_Normal::GunnerIsEnemyMoveCalc()
+{
+	Vector3 newPosition = Vector3::Zero;
+
+	const Vector3 modelForward = m_hostTankShellsPtr->GetForward();
+
+	const Vector3 modelPosition = m_hostTankShellsPtr->GetPosition();
+
+	newPosition = modelPosition + modelForward * TankShells_001_Constant::speed * g_gameTime->GetFrameDeltaTime();
+
+	m_hostTankShellsPtr->SetPosition(newPosition);
+}
+
+//衝突判定
+bool TankShells_001_Normal::HitCheck()
+{
+	if (GameCollisionManager::GetCollisionManagerInstance()
+		->IsAColisionHitsBColision(m_hostTankShellsCollision, m_targetCollisionName) == true)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 //衝突時アクション

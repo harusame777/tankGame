@@ -28,7 +28,7 @@ bool TankShellsEntity::Start()
 
 	m_tankShellsModel.Update();
 
-	m_tankShellsAttributePtr->InitData();
+	m_tankShellsAttributePtr->InitData(m_collision.get(),m_targetCollisionName);
 
 	return true;
 }
@@ -43,11 +43,13 @@ void TankShellsEntity::Update()
 	}
 
 	//ˆÚ“®ŒvŽZ
-	m_tankShellsAttributePtr->MoveCalc();
+	m_tankShellsAttributePtr->UpdateMove();
 
-	if (GameCollisionManager::GetCollisionManagerInstance()
-		->IsAColisionHitsBColision(m_collision.get(),m_targetCollisionName) == true)
+	if (m_tankShellsAttributePtr->HitCheck())
 	{
+		//Õ“ËŽž‚Ìˆ—‚ðŽÀs
+		m_tankShellsAttributePtr->HitAction();
+
 		TankShellsManager::GetTankShellsManagerInstance()->HitTankShells(this);
 	}
 
