@@ -8,7 +8,7 @@ class TankShellsAttributeRegistry;
 namespace TankShells_001_Constant
 {
 	
-	const float speed = 50.0f;
+	const float SPEED_MAX = 100.0f;
 
 }
 
@@ -23,11 +23,23 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void InitData() override;
+	void InitData(
+		CollisionObject* collsion,
+		const char* name
+	) override;
 	/// <summary>
 	/// 移動計算
 	/// </summary>
-	void MoveCalc() override;
+	void GunnerIsPlayerMoveCalc() override;
+	/// <summary>
+	/// 
+	/// </summary>
+	void GunnerIsEnemyMoveCalc() override;
+	/// <summary>
+	/// 衝突判定
+	/// </summary>
+	/// <returns></returns>
+	bool HitCheck() override;
 	/// <summary>
 	/// 衝突時アクション
 	/// </summary>

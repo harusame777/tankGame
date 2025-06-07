@@ -71,7 +71,8 @@ public:
 		const Vector3& firingPosition,
 		const Vector3& firingForward,
 		const char* gunnerName,
-		const char* targetName
+		const char* targetName,
+		const bool usePlayerOrEnemy
 	);
 	/// <summary>
 	/// –C’e‚ª‰½‚©‚É“–‚½‚Á‚½‚Ìˆ—

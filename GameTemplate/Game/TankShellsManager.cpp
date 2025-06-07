@@ -11,7 +11,8 @@ void TankShellsManager::CreateNewTankShells(
 	const Vector3& firingPosition,
 	const Vector3& firingForward,
 	const char* gunnerName,
-	const char* targetName
+	const char* targetName,
+	const bool usePlayerOrEnemy
 )
 {
 	//属性を作成、取得
@@ -21,6 +22,8 @@ void TankShellsManager::CreateNewTankShells(
 	{
 		return;
 	}
+	//属性の計算でどちらの方法を使うか決定
+	calcClass->SetCalcSwithi(usePlayerOrEnemy);
 	//データ構造体変数
 	TankShellsData newtankShellsData;
 	//砲弾を作成

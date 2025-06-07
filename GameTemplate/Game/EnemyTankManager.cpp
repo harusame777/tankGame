@@ -50,6 +50,27 @@ void EnemyTankManager::ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank)
 	}
 }
 
+//エネミータンクのリストの取得
+const std::vector<EnemyTankEntity*>& EnemyTankManager::GetEnemyTankList()
+{
+	//エネミータンクリストを初期化
+	m_returnEnemyTankList.clear();
+
+	//リストに現在有効なエネミータンクをまとめる
+	for (auto it = m_enemyTankList.begin();it != m_enemyTankList.end();it++)
+	{
+
+		if (it->m_deleteFlag == true)
+		{
+			continue;
+		}
+
+		m_returnEnemyTankList.push_back(it->m_enemyTankPtr);
+	}
+
+	return m_returnEnemyTankList;
+}
+
 //初期化
 void EnemyTankManager::InitEnemyTankManager()
 {

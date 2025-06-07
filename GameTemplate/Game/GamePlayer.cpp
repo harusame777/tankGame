@@ -114,7 +114,8 @@ void GamePlayer::Update()
 			m_tankTurretMovingComponent->GetCannonFiringPosition(),
 			m_tankTurretMovingComponent->GetTurretForward(),
 			"GamePlayerAttack",
-			"EnemyTankCollision"
+			"EnemyTankCollision",
+			true
 		);
 	}
 
@@ -144,6 +145,13 @@ void GamePlayer::Update()
 			{ 400.0f,0.0f,400.0f }
 		);
 	}
+	if (g_pad[0]->IsTrigger(enButtonRight))
+	{
+		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
+			EnEnemyTankAttribute::en_tankSelfDestruct,
+			{ -400.0f,0.0f,400.0f }
+		);
+	}
 
 	//“–‚½‚è”»’èˆÊ’uXV
 	Vector3 colPos = m_position;
@@ -161,4 +169,9 @@ void GamePlayer::Render(RenderContext& rc)
 	//–C“ƒ•`‰æ
 	m_tankTurret.Draw(rc);
 
+}
+
+const Vector3& GamePlayer::GetTurretForward() const
+{
+	return m_tankTurretMovingComponent->GetTurretForward();
 }

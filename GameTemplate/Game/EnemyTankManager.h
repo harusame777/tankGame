@@ -74,11 +74,20 @@ public:
 	/// 敵タンクマネージャークラス更新
 	/// </summary>
 	void UpdateEnemyTankManager();
-
+	/// <summary>
+	/// 新規エネミータンク作成
+	/// </summary>
+	/// <param name="attribute"></param>
+	/// <param name="createPos"></param>
 	void CreateNewEnemyTank(
 		EnEnemyTankAttribute attribute,
 		const Vector3& createPos
 	);
+	/// <summary>
+	/// エネミータンクのリストを取得する
+	/// </summary>
+	/// <returns></returns>
+	const std::vector<EnemyTankEntity*>& GetEnemyTankList();
 	/// <summary>
 	/// 削除フラグを有効にする
 	/// </summary>
@@ -106,6 +115,10 @@ private:
 	/// 敵タンクリスト
 	/// </summary>
 	std::vector<EnemyTankData> m_enemyTankList;
+	/// <summary>
+	/// 関数で送り返す用のリスト
+	/// </summary>
+	std::vector<EnemyTankEntity*> m_returnEnemyTankList;
 	/// <summary>
 	/// プレイヤーのインスタンス
 	/// </summary>

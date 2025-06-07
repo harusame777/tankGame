@@ -182,11 +182,11 @@ void			btRigidBody::applyDamping(btScalar timeStep)
 		}
 	
 
-		btScalar speed = m_linearVelocity.length();
-		if (speed < m_linearDamping)
+		btScalar SPEED_MAX = m_linearVelocity.length();
+		if (SPEED_MAX < m_linearDamping)
 		{
 			btScalar dampVel = btScalar(0.005);
-			if (speed > dampVel)
+			if (SPEED_MAX > dampVel)
 			{
 				btVector3 dir = m_linearVelocity.normalized();
 				m_linearVelocity -=  dir * dampVel;

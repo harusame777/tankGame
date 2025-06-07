@@ -104,6 +104,14 @@ public:
 	{
 		return *m_tankTurretMovingCom;
 	}
+	/// <summary>
+	/// 削除フラグを取得します。
+	/// </summary>
+	/// <returns>削除フラグが設定されていれば true、そうでなければ false を返します。</returns>
+	bool GetDeleteFlag() const
+	{
+		return m_isDeleteFlag;
+	}
 private:
 	/// <summary>
 	/// スタート関数

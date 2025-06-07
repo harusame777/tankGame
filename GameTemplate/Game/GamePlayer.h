@@ -48,6 +48,11 @@ public:
 		return m_position;
 	}
 	/// <summary>
+	/// 砲塔のコンポーネントのアドレスを取得します。
+	/// </summary>
+	/// <returns>TankTurretMovingComponent 型の砲塔コンポーネントへの参照。</returns>
+	const Vector3& GetTurretForward() const;
+	/// <summary>
 	/// プレイヤーが動けるかどうかの設定
 	/// </summary>
 	/// <param name="isMoving"></param>

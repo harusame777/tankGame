@@ -169,6 +169,9 @@
     <ClCompile Include="EnemyTank_002_SelfDestruct.cpp">
       <Filter>EnemyTank\Attribute</Filter>
     </ClCompile>
+    <ClCompile Include="TankShells_002_Homing.cpp">
+      <Filter>TankShells\TankShellsAttribute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -298,6 +301,9 @@
     </ClInclude>
     <ClInclude Include="EnemyTank_002_SelfDestruct.h">
       <Filter>EnemyTank\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="TankShells_002_Homing.h">
+      <Filter>TankShells\TankShellsAttribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
