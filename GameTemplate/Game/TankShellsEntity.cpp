@@ -20,17 +20,28 @@ bool TankShellsEntity::Start()
 	//‰Šúƒ‚ƒfƒ‹ˆÊ’u‰ñ“]Ý’è
 	m_tankShellsModel.SetPosition(m_position);
 
-	float angle = atan2f(m_forward.x, m_forward.z);
-
-	m_rotation.AddRotationY(angle);
-	
-	m_tankShellsModel.SetRotation(m_rotation);
+	UpdateModelRot();
 
 	m_tankShellsModel.Update();
 
 	m_tankShellsAttributePtr->InitData(m_collision.get(),m_targetCollisionName);
 
 	return true;
+}
+
+void TankShellsEntity::UpdateModelRot()
+{
+	float angle = atan2f(m_forward.x, m_forward.z);
+
+	m_rotation.AddRotationY(angle);
+
+	m_tankShellsModel.SetRotation(m_rotation);
+
+	m_forward = Vector3::AxisZ;
+
+	m_rotation.Apply(m_forward);
+
+	m_rotation = Quaternion::Identity;
 }
 
 //ƒAƒbƒvƒf[ƒgŠÖ”
@@ -55,8 +66,9 @@ void TankShellsEntity::Update()
 
 	//’eŠÛÀ•WˆÚ“®ˆ—
 	m_tankShellsModel.SetPosition(m_position);
-	//’eŠÛ‰ñ“]ˆ—
-	m_tankShellsModel.SetRotation(m_rotation);
+
+	//‰ñ“]ˆ—
+	UpdateModelRot();
 
 	m_collision->SetPosition(m_position);
 

@@ -99,6 +99,10 @@ private:
 	/// <returns></returns>
 	bool Start();
 	/// <summary>
+	/// モデル回転更新
+	/// </summary>
+	void UpdateModelRot();
+	/// <summary>
 	/// アップデート関数
 	/// </summary>
 	void Update();

@@ -265,6 +265,7 @@
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="TankCrawkerMovingComponent.cpp" />
+    <ClCompile Include="TankShells_002_Homing.cpp" />
     <ClCompile Include="TankTurretMovingComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +312,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="TankCrawkerMovingComponent.h" />
+    <ClInclude Include="TankShells_002_Homing.h" />
     <ClInclude Include="TankTurretMovingComponent.h" />
   </ItemGroup>
   <ItemGroup>

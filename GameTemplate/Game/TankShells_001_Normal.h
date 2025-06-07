@@ -8,7 +8,7 @@ class TankShellsAttributeRegistry;
 namespace TankShells_001_Constant
 {
 	
-	const float speed = 100.0f;
+	const float SPEED_MAX = 100.0f;
 
 }
 

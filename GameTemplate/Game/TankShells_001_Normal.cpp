@@ -31,7 +31,7 @@ void TankShells_001_Normal::GunnerIsPlayerMoveCalc()
 
 	const Vector3 modelPosition = m_hostTankShellsPtr->GetPosition();
 
-	newPosition = modelPosition + modelForward * TankShells_001_Constant::speed * g_gameTime->GetFrameDeltaTime();
+	newPosition = modelPosition + modelForward * TankShells_001_Constant::SPEED_MAX * g_gameTime->GetFrameDeltaTime();
 
 	m_hostTankShellsPtr->SetPosition(newPosition);
 }
@@ -44,7 +44,7 @@ void TankShells_001_Normal::GunnerIsEnemyMoveCalc()
 
 	const Vector3 modelPosition = m_hostTankShellsPtr->GetPosition();
 
-	newPosition = modelPosition + modelForward * TankShells_001_Constant::speed * g_gameTime->GetFrameDeltaTime();
+	newPosition = modelPosition + modelForward * TankShells_001_Constant::SPEED_MAX * g_gameTime->GetFrameDeltaTime();
 
 	m_hostTankShellsPtr->SetPosition(newPosition);
 }

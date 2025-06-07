@@ -61,11 +61,8 @@ bool EnemyTank_002_SelfDestruct::DeleteProcessing()
 	}
 
 	//自爆終了までのタイマーが0以下になったら自爆終了
-	if (m_selfDestructEndTimer <= 0.0f)
+	if (m_selfDestructEndTimer < 0.0f)
 	{
-		//削除フラグを立てる
-		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(m_hostEnemyTankPtr);
-
 		return true; // 処理が終了したので削除
 	}
 	else
@@ -247,7 +244,7 @@ void EnemyTank_002_SelfDestruct::UpdateSelfDestruct()
 	}
 
 	//自爆終了までのタイマーが0以下になったら自爆終了
-	if (m_selfDestructEndTimer <= 0.0f)
+	if (m_selfDestructEndTimer < 0.0f)
 	{
 		//削除フラグを立てる
 		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(m_hostEnemyTankPtr);
