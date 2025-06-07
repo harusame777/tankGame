@@ -2,7 +2,6 @@
 #include "EnemyTank_001_Normal.h"
 
 #include "EnemyTankAttributeRegistry.h"
-#include "EnemyAttackPointManager.h"
 #include "EnemyAttackPoint.h"
 
 #include "EnemyTankStateTrackingUpdate.h"
@@ -29,6 +28,8 @@ void EnemyTank_001_Normal::InitEnemyTankAttributeData(
 	m_maxTankSpeed = 50.0f;
 
 	m_shellsUsed = EnTankShellsAttribute::en_normal;
+
+	m_attackPointRangeUsed = EnUseAttackPointRange::en_NearAttackPoint;
 
 	m_player = player;
 
@@ -78,7 +79,10 @@ bool EnemyTank_001_Normal::DeleteProcessing()
 {
 	//アタックポイントの使用を終了
 	EnemyAttackPointManager::
-		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(m_hostEnemyTankPtr);
+		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(
+			m_hostEnemyTankPtr,
+			m_attackPointRangeUsed
+		);
 
 	return true;
 }
@@ -93,7 +97,8 @@ void EnemyTank_001_Normal::EnterTracking()
 	if (m_attackPoint == nullptr)
 	{
 		m_attackPoint = EnemyAttackPointManager::
-			GetEnemyAttackPointManagerInstance()->GetEnemyNearAttackPoint(m_hostEnemyTankPtr);
+			GetEnemyAttackPointManagerInstance()->GetEnemyAttackPoint(
+				m_hostEnemyTankPtr,m_attackPointRangeUsed);
 	}
 }
 
@@ -134,7 +139,8 @@ void EnemyTank_001_Normal::EnterAttackMove()
 
 	//攻撃ポイントを取得
 	m_attackPoint = EnemyAttackPointManager::
-		GetEnemyAttackPointManagerInstance()->GetSameEnemyAddressAttackPoint(m_hostEnemyTankPtr);
+		GetEnemyAttackPointManagerInstance()->GetSameEnemyAddressAttackPoint(
+			m_hostEnemyTankPtr, m_attackPointRangeUsed);
 
 }
 
@@ -159,7 +165,10 @@ bool EnemyTank_001_Normal::RequestStateAttackMove(uint32_t& request)
 void EnemyTank_001_Normal::EndAttackMove()
 {
 	EnemyAttackPointManager::
-		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(m_hostEnemyTankPtr);
+		GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(
+			m_hostEnemyTankPtr,
+			m_attackPointRangeUsed
+		);
 
 	m_attackPoint = nullptr;
 }

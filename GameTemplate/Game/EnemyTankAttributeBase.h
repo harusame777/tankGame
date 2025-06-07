@@ -2,6 +2,7 @@
 
 #include "TankShellsAttribute.h"
 #include "EnemyTankEntity.h"
+#include "EnemyAttackPointManager.h"
 
 class GamePlayer;
 class EnemyAttackPoint;
@@ -44,6 +45,10 @@ public:
 	/// 使用する砲弾の変数
 	/// </summary>
 	EnTankShellsAttribute m_shellsUsed = EnTankShellsAttribute::en_normal;
+	/// <summary>
+	/// このエネミーの攻撃距離
+	/// </summary>
+	EnUseAttackPointRange m_attackPointRangeUsed = EnUseAttackPointRange::en_NearAttackPoint;
 	/// <summary>
 	/// 追跡処理初期化
 	/// </summary>
