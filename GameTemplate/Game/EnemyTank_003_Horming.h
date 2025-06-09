@@ -3,13 +3,17 @@
 #include "EnemyTankAttributeBase.h"
 #include "TankShellsManager.h"
 
-class EnemyTank_001_Normal : public EnemyTankAttributeBase
+class EnemyTank_003_Horming : public EnemyTankAttributeBase
 {
 public:
 	/// <summary>
 	/// コンストラクタ
 	/// </summary>
-	EnemyTank_001_Normal() {};
+	EnemyTank_003_Horming() {};
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~EnemyTank_003_Horming() {};
 	/// <summary>
 	/// 属性初期化関数
 	/// </summary>
@@ -96,11 +100,10 @@ private:
 	/// <summary>
 	/// 射撃クールタイム
 	/// </summary>
-	float m_fireCoolTime = 0.0f; 
+	float m_fireCoolTime = 0.0f;
 	/// <summary>
 	/// 攻撃ポイントのリセットタイマーを表す浮動小数点型の変数です。
 	/// </summary>
 	float m_attackPointResetTimer = 0.0f;
-
 };
 

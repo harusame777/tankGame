@@ -108,6 +108,28 @@ public:
 		EnemyTankEntity* enemyTank,
 		const EnUseAttackPointRange useRange
 	);
+	/// <summary>
+	/// 使用しているアタックポイントとポジションの距離が一定以内に入ったかどうかを調べる関数
+	/// </summary>
+	/// <param name="useAttackPoint"></param>
+	/// <param name="useEntityPos"></param>
+	/// <param name="triggerDistanceThreshold"></param>
+	/// <returns></returns>
+	bool IsUseAttackPointInDistance(
+		const EnemyAttackPoint& useAttackPoint,
+		const Vector3& useEntityPos,
+		float triggerDistanceThreshold
+	);
+	/// <summary>
+	/// 使用しているアタックポイント内にポジションが入っているかどうかを調べる関数
+	/// </summary>
+	/// <param name="useAttackPoint"></param>
+	/// <param name="useEntityPos"></param>
+	/// <returns></returns>
+	bool IsUseAttackPointInRadius(
+		const EnemyAttackPoint& useAttackPoint,
+		const Vector3& useEntityPos
+	);
 private:
 	struct EnemyAttackPointData
 	{

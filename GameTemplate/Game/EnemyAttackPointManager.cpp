@@ -235,6 +235,48 @@ std::vector<EnemyAttackPointManager::EnemyAttackPointData>* EnemyAttackPointMana
 
 }
 
+bool EnemyAttackPointManager::IsUseAttackPointInDistance(
+	const EnemyAttackPoint& useAttackPoint,
+	const Vector3& useEntityPos,
+	float triggerDistanceThreshold
+)
+{
+	//アタックポイントのポジション
+	const Vector3 attackPointPos = useAttackPoint.GetPosition();
+	//2点間のベクトルを作成
+	const Vector3 positionToAttackPointVec = attackPointPos - useEntityPos;
+	//距離を計算
+	const float distance = positionToAttackPointVec.Length();
+	//距離がtriggerDistanceThreshold以下になったらtrueを返す
+	if (distance < triggerDistanceThreshold)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool EnemyAttackPointManager::IsUseAttackPointInRadius(
+	const EnemyAttackPoint& useAttackPoint,
+	const Vector3& useEntityPos
+)
+{
+	//アタックポイントのポジション
+	const Vector3 attackPointPos = useAttackPoint.GetPosition();
+	//ポジションからアタックポイントに向かうベクトル(2Dベクトルとして考える)
+	const float distX = attackPointPos.x - useEntityPos.x;
+	const float distZ = attackPointPos.z - useEntityPos.z;
+	//半径計算
+	const float hostEnemyTankToAttackPointRangeSq = distX * distX + distZ * distZ;
+
+	if (useAttackPoint.GetRadiusSq() >= hostEnemyTankToAttackPointRangeSq)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 void EnemyAttackPointManager::InitEnemyAttackPointManager()
 {
 

@@ -157,7 +157,7 @@ void GamePlayer::Update()
 	if (g_pad[0]->IsTrigger(enButtonRight))
 	{
 		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
-			EnEnemyTankAttribute::en_tankSelfDestruct,
+			EnEnemyTankAttribute::en_tankHorming,
 			{ -400.0f,0.0f,400.0f }
 		);
 	}

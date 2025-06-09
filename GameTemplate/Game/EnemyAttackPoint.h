@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// ”¼Œa2ææ“¾
 	/// </summary>
-	const float GetRadiusSq()
+	const float GetRadiusSq() const 
 	{
 		return m_radius * m_radius;
 	}
