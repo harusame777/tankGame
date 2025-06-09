@@ -3,6 +3,17 @@
 class EnemyAttackPoint;
 class EnemyTankEntity;
 
+/// <summary>
+/// 攻撃ポイントの範囲を表す列挙型です。
+/// </summary>
+enum EnUseAttackPointRange
+{
+	//近距離
+	en_NearAttackPoint,
+	//中距離
+	en_MiddleAttackPoint,
+};
+
 class EnemyAttackPointManager
 {
 private:
@@ -56,7 +67,8 @@ public:
 		Vector3& followCenterPoint,
 		float pointTarGetDistance,
 		float pointAttackRadius,
-		int pointNum
+		int pointNum,
+		const EnUseAttackPointRange useRange
 	);
 	/// <summary>
 	/// アタックポイント位置更新
@@ -75,18 +87,49 @@ public:
 	/// </summary>
 	/// <param name="searchEnemyTank"></param>
 	/// <returns></returns>
-	EnemyAttackPoint* GetEnemyNearAttackPoint(EnemyTankEntity* searchEnemyTank);
+	EnemyAttackPoint* GetEnemyAttackPoint(
+		EnemyTankEntity* searchEnemyTank,
+		const EnUseAttackPointRange useRange
+	);
 	/// <summary>
-	/// 同じエネミータンクのアドレスを持っているアタックポイントを取得する
+	/// 同じエネミータンクのアドレスを持っている近距離のアタックポイントを取得する
 	/// </summary>
 	/// <param name="searchEnemyTank"></param>
 	/// <returns></returns>
-	EnemyAttackPoint* GetSameEnemyAddressAttackPoint(EnemyTankEntity* searchEnemyTank);
+	EnemyAttackPoint* GetSameEnemyAddressAttackPoint(
+		EnemyTankEntity* searchEnemyTank,
+		const EnUseAttackPointRange useRange
+	);
 	/// <summary>
 	/// アタックポイントの使用終了を知らせる
 	/// </summary>
 	/// <param name="enemyTank"></param>
-	void EndofUseAttackPoint(EnemyTankEntity* enemyTank);
+	void EndofUseAttackPoint(
+		EnemyTankEntity* enemyTank,
+		const EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 使用しているアタックポイントとポジションの距離が一定以内に入ったかどうかを調べる関数
+	/// </summary>
+	/// <param name="useAttackPoint"></param>
+	/// <param name="useEntityPos"></param>
+	/// <param name="triggerDistanceThreshold"></param>
+	/// <returns></returns>
+	bool IsUseAttackPointInDistance(
+		const EnemyAttackPoint& useAttackPoint,
+		const Vector3& useEntityPos,
+		float triggerDistanceThreshold
+	);
+	/// <summary>
+	/// 使用しているアタックポイント内にポジションが入っているかどうかを調べる関数
+	/// </summary>
+	/// <param name="useAttackPoint"></param>
+	/// <param name="useEntityPos"></param>
+	/// <returns></returns>
+	bool IsUseAttackPointInRadius(
+		const EnemyAttackPoint& useAttackPoint,
+		const Vector3& useEntityPos
+	);
 private:
 	struct EnemyAttackPointData
 	{
@@ -98,18 +141,26 @@ private:
 		/// エネミータンク
 		/// </summary>
 		EnemyTankEntity* m_enemyTankEntityPtr = nullptr;
+		/// <summary>
+		/// アタックポイントまでの距離
+		/// </summary>
+		float m_pointTargetDistance = 0.0f;
 	};
+	/// <summary>
+	/// 使用する距離のアタックポイントリストを取得
+	/// </summary>
+	std::vector<EnemyAttackPointData>* GetUseAttackPointRangeList(const EnUseAttackPointRange useRange);
 	/// <summary>
 	/// 追従させる中心点位置
 	/// </summary>
 	Vector3* m_followCenterPoint = nullptr;
 	/// <summary>
-	/// アタックポイントまでの距離
+	/// エネミーの近距離アタックポイントリスト
 	/// </summary>
-	float m_pointTargetDistance = 0.0f;
+	std::vector<EnemyAttackPointData> m_enemyNearAttackPointList;
 	/// <summary>
-	/// エネミーアタックポイントリスト
+	/// エネミーの中距離アタックポイントリスト
 	/// </summary>
-	std::vector<EnemyAttackPointData> m_enemyAttackPointList;
+	std::vector<EnemyAttackPointData> m_enemyMiddleAttackPointList;
 };
 

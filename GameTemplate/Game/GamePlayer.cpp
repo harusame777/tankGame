@@ -74,9 +74,18 @@ bool GamePlayer::Start()
 
 	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
 		m_position,
-		200.0f,
-		200.0f,
-		20
+		300.0f,
+		300.0f,
+		20,
+		EnUseAttackPointRange::en_NearAttackPoint
+	);
+
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
+		m_position,
+		600.0f,
+		400.0f,
+		20,
+		EnUseAttackPointRange::en_MiddleAttackPoint
 	);
 
 	return true;
@@ -148,7 +157,7 @@ void GamePlayer::Update()
 	if (g_pad[0]->IsTrigger(enButtonRight))
 	{
 		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
-			EnEnemyTankAttribute::en_tankSelfDestruct,
+			EnEnemyTankAttribute::en_tankHorming,
 			{ -400.0f,0.0f,400.0f }
 		);
 	}

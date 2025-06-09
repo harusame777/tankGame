@@ -172,6 +172,9 @@
     <ClCompile Include="TankShells_002_Homing.cpp">
       <Filter>TankShells\TankShellsAttribute</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyTank_003_Horming.cpp">
+      <Filter>EnemyTank\Attribute</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="TankShells_002_Homing.h">
       <Filter>TankShells\TankShellsAttribute</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyTank_003_Horming.h">
+      <Filter>EnemyTank\Attribute</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
