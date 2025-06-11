@@ -52,6 +52,9 @@
     <Filter Include="GamePlayer">
       <UniqueIdentifier>{2171c4c7-b68f-4fbf-88c1-a56012f8108f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameWave">
+      <UniqueIdentifier>{cca8cc70-e75e-4567-b988-49b63a2aac52}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -174,6 +177,15 @@
     </ClCompile>
     <ClCompile Include="EnemyTank_003_Horming.cpp">
       <Filter>EnemyTank\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveManager.cpp">
+      <Filter>GameWave</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveData.cpp">
+      <Filter>GameWave</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveSpawnPointRegistry.cpp">
+      <Filter>GameWave</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -310,6 +322,15 @@
     </ClInclude>
     <ClInclude Include="EnemyTank_003_Horming.h">
       <Filter>EnemyTank\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveManager.h">
+      <Filter>GameWave</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveData.h">
+      <Filter>GameWave</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveSpawnPointRegistry.h">
+      <Filter>GameWave</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

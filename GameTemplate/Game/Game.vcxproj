@@ -241,6 +241,7 @@
     <ClCompile Include="GameMainStateMachine.cpp" />
     <ClCompile Include="GamePlayerManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
+    <ClCompile Include="WaveSpawnPointRegistry.cpp" />
     <ClCompile Include="StateBase.cpp" />
     <ClCompile Include="StateMachineBase.cpp" />
     <ClCompile Include="TankShellsAttributeRegistry.cpp" />
@@ -268,6 +269,8 @@
     <ClCompile Include="TankCrawkerMovingComponent.cpp" />
     <ClCompile Include="TankShells_002_Homing.cpp" />
     <ClCompile Include="TankTurretMovingComponent.cpp" />
+    <ClCompile Include="WaveData.cpp" />
+    <ClCompile Include="WaveManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRC32.h" />
@@ -290,6 +293,7 @@
     <ClInclude Include="GameMainStateMachine.h" />
     <ClInclude Include="GamePlayerManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />
+    <ClInclude Include="WaveSpawnPointRegistry.h" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="StateMachineBase.h" />
     <ClInclude Include="TankShellsAttribute.h" />
@@ -316,6 +320,8 @@
     <ClInclude Include="TankCrawkerMovingComponent.h" />
     <ClInclude Include="TankShells_002_Homing.h" />
     <ClInclude Include="TankTurretMovingComponent.h" />
+    <ClInclude Include="WaveData.h" />
+    <ClInclude Include="WaveManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Game.rc" />

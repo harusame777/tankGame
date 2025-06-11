@@ -10,7 +10,7 @@
 //ƒCƒ“ƒXƒ^ƒ“ƒX‰Šú‰»
 EnemyTankManager* EnemyTankManager::m_enemyTankManagerInstance = nullptr;
 
-void EnemyTankManager::CreateNewEnemyTank(
+EnemyTankEntity* EnemyTankManager::CreateNewEnemyTank(
 	EnEnemyTankAttribute attribute,
 	const Vector3& createPos
 )
@@ -21,7 +21,7 @@ void EnemyTankManager::CreateNewEnemyTank(
 	//ƒkƒ‹‚¾‚Á‚½‚çì¬‚µ‚È‚¢
 	if (newAttribute == nullptr)
 	{
-		return;
+		return nullptr;
 	}
 	//”z—ñ“o˜^•Ï”
 	EnemyTankData newData;
@@ -37,6 +37,8 @@ void EnemyTankManager::CreateNewEnemyTank(
 	newData.m_enemyTankPtr = newTankPtr;
 	//”z—ñ“o˜^
 	m_enemyTankList.push_back(newData);
+
+	return newTankPtr;
 }
 
 void EnemyTankManager::ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank)

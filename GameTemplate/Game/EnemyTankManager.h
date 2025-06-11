@@ -79,7 +79,7 @@ public:
 	/// </summary>
 	/// <param name="attribute"></param>
 	/// <param name="createPos"></param>
-	void CreateNewEnemyTank(
+	EnemyTankEntity* CreateNewEnemyTank(
 		EnEnemyTankAttribute attribute,
 		const Vector3& createPos
 	);
