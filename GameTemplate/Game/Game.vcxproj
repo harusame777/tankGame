@@ -241,6 +241,8 @@
     <ClCompile Include="GameMainStateMachine.cpp" />
     <ClCompile Include="GamePlayerManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
+    <ClCompile Include="ObserverBase.cpp" />
+    <ClCompile Include="SubjectBase.cpp" />
     <ClCompile Include="WaveSpawnPointRegistry.cpp" />
     <ClCompile Include="StateBase.cpp" />
     <ClCompile Include="StateMachineBase.cpp" />
@@ -293,6 +295,8 @@
     <ClInclude Include="GameMainStateMachine.h" />
     <ClInclude Include="GamePlayerManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />
+    <ClInclude Include="ObserverBase.h" />
+    <ClInclude Include="SubjectBase.h" />
     <ClInclude Include="WaveSpawnPointRegistry.h" />
     <ClInclude Include="StateBase.h" />
     <ClInclude Include="StateMachineBase.h" />

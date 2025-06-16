@@ -24,7 +24,7 @@ void WaveManager::InitWaveManager()
 //更新関数
 void WaveManager::UpdateWaveManager()
 {
-
+	m_nowWave->UpdateWaveData();
 }
 
 //新しいウェーブデータを作成
@@ -35,12 +35,15 @@ WaveData* WaveManager::CreateNewWaveData(
 {
 	//新しいウェーブのデータを作成
 	WaveData* newData = new WaveData;
-	//ランダムに出現敵種を設定
-	newData->SetWaveAppearEnemyAttribute(
-		GetRandomEnemyAttribute(enemyAppearNum)
+	//初期設定
+	newData->InitWaveData(
+		GetRandomEnemyAttribute(3),
+		m_spawnPointRegistry->GetWaveSpawnPointVector()
 	);
 	//再出現までの時間を設定
 	newData->SetEnemyReappearanceTime(enemyReapperanceTime);
+	//出現するエネミーの数を設定
+	newData->SetEnemySpawnMaxNum(enemyAppearNum);
 	//現在のウェーブに設定
 	m_nowWave = newData;
 	//敵出現までのタイマー設定

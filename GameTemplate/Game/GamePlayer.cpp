@@ -14,6 +14,8 @@
 
 #include "EnemyTankAttribute.h"
 
+#include "WaveManager.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -87,6 +89,10 @@ bool GamePlayer::Start()
 		20,
 		EnUseAttackPointRange::en_MiddleAttackPoint
 	);
+
+	testData = WaveManager::GetWaveManagerInstance()->CreateNewWaveData(10,10);
+
+	testData->StartWave();
 
 	return true;
 }

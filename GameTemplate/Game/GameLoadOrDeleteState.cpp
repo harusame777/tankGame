@@ -8,6 +8,7 @@
 #include "GamePlayerManager.h"
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
+#include "WaveManager.h"
 
 #include "GameModeNormalUpdateState.h"
 
@@ -81,6 +82,8 @@ void GameLoadOrDeleteState::LoadProcces()
 	TankShellsManager::GetTankShellsManagerInstance()->InitTankShellsManager();
 	//エネミータンクマネージャークラスを作成
 	EnemyTankManager::GetEnemyTankManagerInstance()->InitEnemyTankManager();
+	//ウェーブマネージャークラスを作成
+	WaveManager::GetWaveManagerInstance()->InitWaveManager();
 	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 	//ロード完了

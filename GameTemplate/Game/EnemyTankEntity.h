@@ -105,6 +105,15 @@ public:
 		return *m_tankTurretMovingCom;
 	}
 	/// <summary>
+	/// 削除フラグを設定します。
+	/// </summary>
+	/// <param name="is">削除フラグとして設定する値。</param>
+	/// <returns>なし。</returns>
+	void SetDeleteFlag(bool is)
+	{
+		m_isDeleteFlag = is;
+	}
+	/// <summary>
 	/// 削除フラグを取得します。
 	/// </summary>
 	/// <returns>削除フラグが設定されていれば true、そうでなければ false を返します。</returns>

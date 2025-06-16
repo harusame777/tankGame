@@ -1,8 +1,9 @@
 #pragma once
 
 #include "EnemyTankAttribute.h"
+#include "WaveSpawnPointRegistry.h"
 
-class EnemyTankEntity;
+#include"EnemyTankEntity.h"
 
 class WaveData
 {
@@ -28,15 +29,23 @@ public:
 	/// ウェーブデータの初期化関数
 	/// </summary>
 	void InitWaveData(
-		int enemyNum
+		std::vector<EnEnemyTankAttribute> attribute, 
+		WaveSpawnPointVector spawnPoint
 	);
 	/// <summary>
-	/// 出現する敵のリストを登録
+	/// ウェーブを開始し、ウェーブ状態を敵生成に設定します。
 	/// </summary>
-	/// <param name="setList"></param>
-	void SetWaveAppearEnemyAttribute(std::vector<EnEnemyTankAttribute> setList)
+	void StartWave()
 	{
-		m_waveEnemyAttributeList = setList;
+		m_waveState = EnWaveState::en_enemyGenerate;
+	}
+	/// <summary>
+	/// このウェーブの最大スポーン数を設定
+	/// </summary>
+	/// <param name="num"></param>
+	void SetEnemySpawnMaxNum(int num)
+	{
+		m_waveMaxEnemyNum = num;
 	}
 	/// <summary>
 	/// 敵再出現までの時間を設定
@@ -66,8 +75,30 @@ private:
 	/// <returns></returns>
 	void EnemyTankBatchGenerate(
 		int generateNum,
-		EnEnemyTankAttribute attribute
+		EnEnemyTankAttribute attribute,
+		const std::vector<Vector3>& spawnPointList
 	);
+	/// <summary>
+	/// ランダムなスポーン地点の座標を取得します。
+	/// </summary>
+	/// <returns>ランダムに選ばれたスポーン地点を表す Vector3 型の座標。</returns>
+	std::vector<Vector3> GetRandomSpawnPoint(int generateNum);
+	/// <summary>
+	/// 指定された敵の総数と属性数に基づいて、各属性ごとの敵の分布を計算します。
+	/// </summary>
+	/// <param name="totalEnemyNum">分配する敵の総数。</param>
+	/// <param name="enemyAttributeCount">敵属性の種類数。</param>
+	/// <returns>各属性ごとの敵の数を格納した std::vector<int>。</returns>
+	std::vector<int> CalcEnemyDistribution(
+		int totalEnemyNum,
+		int enemyAttributeCount
+	);
+	/// <summary>
+	/// すべてのウェーブの敵が倒されたかどうかを判定します。
+	/// </summary>
+	/// <returns>すべてのウェーブの敵が倒されていれば true、そうでなければ false を返します。</returns>
+	bool IsWaveEnemyDeadAll();
+
 	/// <summary>
 	/// ウェーブのステート
 	/// </summary>
@@ -76,6 +107,10 @@ private:
 	/// このウェーブのエネミータンクの数
 	/// </summary>
 	int m_waveEnemyNum = 0;
+	/// <summary>
+	/// このウェーブの最大のエネミータンクの数
+	/// </summary>
+	int m_waveMaxEnemyNum = 0;
 	/// <summary>
 	/// 敵再出現までの時間
 	/// </summary>
@@ -87,7 +122,10 @@ private:
 	/// <summary>
 	/// 敵戦車エンティティのリストを格納するベクターです。
 	/// </summary>
-	std::vector<EnemyTankEntity> m_waveSpawnEnemyList;
-
+	std::vector<EnemyTankEntity*> m_waveSpawnEnemyList;
+	/// <summary>
+	/// ウェーブのスポーンポイントのリストを格納する変数です。
+	/// </summary>
+	WaveSpawnPointVector m_spawnPointList;
 };
 

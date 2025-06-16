@@ -9,6 +9,7 @@
 #include "GamePlayerManager.h"
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
+#include "WaveManager.h"
 
 //ゲームステート初期化
 void GameModeNormalUpdateState::Enter()
@@ -34,6 +35,8 @@ void GameModeNormalUpdateState::Update()
 	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
 
 	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
+
+	WaveManager::GetWaveManagerInstance()->UpdateWaveManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
 }
