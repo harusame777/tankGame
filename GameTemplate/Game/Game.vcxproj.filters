@@ -190,10 +190,7 @@
     <ClCompile Include="WaveSpawnPointRegistry.cpp">
       <Filter>GameWave</Filter>
     </ClCompile>
-    <ClCompile Include="ObserverBase.cpp">
-      <Filter>ObserverAndSubjectBase</Filter>
-    </ClCompile>
-    <ClCompile Include="SubjectBase.cpp">
+    <ClCompile Include="EventBus.cpp">
       <Filter>ObserverAndSubjectBase</Filter>
     </ClCompile>
   </ItemGroup>
@@ -341,10 +338,7 @@
     <ClInclude Include="WaveSpawnPointRegistry.h">
       <Filter>GameWave</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverBase.h">
-      <Filter>ObserverAndSubjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="SubjectBase.h">
+    <ClInclude Include="EventBus.h">
       <Filter>ObserverAndSubjectBase</Filter>
     </ClInclude>
   </ItemGroup>
