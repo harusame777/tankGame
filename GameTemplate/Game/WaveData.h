@@ -8,6 +8,19 @@
 class WaveData
 {
 public:
+	/// <summary>
+	/// ウェーブ終了イベントを表す構造体です。
+	/// </summary>
+	struct WaveEndEvent
+	{
+		/// <summary>
+		/// ウェーブ終了までの時間
+		/// </summary>
+		float m_eventEndTime = 0.0f;
+	};
+	/// <summary>
+	/// 敵の出現や待機など、ウェーブの状態を表す列挙型です。
+	/// </summary>
 	enum class EnWaveState
 	{
 		//待機
@@ -98,7 +111,6 @@ private:
 	/// </summary>
 	/// <returns>すべてのウェーブの敵が倒されていれば true、そうでなければ false を返します。</returns>
 	bool IsWaveEnemyDeadAll();
-
 	/// <summary>
 	/// ウェーブのステート
 	/// </summary>

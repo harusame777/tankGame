@@ -11,6 +11,10 @@
 #include "EnemyTankManager.h"
 #include "WaveManager.h"
 
+#include "EventManager.h"
+
+#include "WaveData.h"
+
 //ゲームステート初期化
 void GameModeNormalUpdateState::Enter()
 {
@@ -21,14 +25,72 @@ void GameModeNormalUpdateState::Enter()
 //ゲームステート更新
 void GameModeNormalUpdateState::Update()
 {
-	if (m_gameLoad->IsLoadCompletion() == true)
+	switch (m_gameState)
 	{
-		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(true);
-	}
-	else
-	{
+	case GameModeNormalUpdateState::GameNormalState::en_waitLoadEnd:
+
+		//ロードが終わるまではプレイヤーは動けない
 		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(false);
+
+		if (m_gameLoad->IsLoadCompletion() == true)
+		{
+			//ステート初期化
+			GameModeInit();
+
+			m_gameState = GameNormalState::en_waveStandby;
+		}
+
+		break;
+	case GameModeNormalUpdateState::GameNormalState::en_waveStandby:
+
+		//ここにウェーブの演出などを入れる
+
+		//この時点でプレーヤーは移動可能
+		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(true);
+
+		//演出などが終わったらステートを変更
+		m_gameState = GameNormalState::en_waveUpdate;
+
+		break;
+	case GameModeNormalUpdateState::GameNormalState::en_waveUpdate:
+
+		//ゲームを更新
+		GameUpdate();
+
+		//ウェーブ終了イベントが発光されるまで
+
+		break;
+	case GameModeNormalUpdateState::GameNormalState::en_waveEnd:
+		break;
+	default:
+		break;
 	}
+
+
+}
+
+void GameModeNormalUpdateState::Exit()
+{
+	
+}
+
+bool GameModeNormalUpdateState::RequestState(uint32_t& request)
+{
+	return false;
+}
+
+void GameModeNormalUpdateState::GameModeInit()
+{
+	EventManager::GetEventManagerInstance()->Subscribe<WaveData::WaveEndEvent>(
+		[](const WaveData::WaveEndEvent& eventData)
+		{
+			m_gameState = GameNormalState::en_waveEnd;
+		}
+	);
+}
+
+void GameModeNormalUpdateState::GameUpdate()
+{
 
 	GameCameraManager::GetGameCameraManagerInstance()->UpdateGameCameraManager();
 
@@ -41,13 +103,6 @@ void GameModeNormalUpdateState::Update()
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
 }
 
-void GameModeNormalUpdateState::Exit()
-{
-	
-}
 
-bool GameModeNormalUpdateState::RequestState(uint32_t& request)
-{
-	return false;
-}
+
 

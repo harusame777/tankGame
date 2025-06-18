@@ -55,7 +55,7 @@
     <Filter Include="GameWave">
       <UniqueIdentifier>{cca8cc70-e75e-4567-b988-49b63a2aac52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObserverAndSubjectBase">
+    <Filter Include="EventManager">
       <UniqueIdentifier>{4ac7d8c5-abd2-4e44-ac66-3187d81bf579}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -190,8 +190,8 @@
     <ClCompile Include="WaveSpawnPointRegistry.cpp">
       <Filter>GameWave</Filter>
     </ClCompile>
-    <ClCompile Include="EventBus.cpp">
-      <Filter>ObserverAndSubjectBase</Filter>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>EventManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -338,8 +338,8 @@
     <ClInclude Include="WaveSpawnPointRegistry.h">
       <Filter>GameWave</Filter>
     </ClInclude>
-    <ClInclude Include="EventBus.h">
-      <Filter>ObserverAndSubjectBase</Filter>
+    <ClInclude Include="EventManager.h">
+      <Filter>EventManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@
 class EventManager
 {
 private:
-
 	/// <summary>
 	/// インスタンス
 	/// </summary>
@@ -29,6 +28,13 @@ private:
 	/// <returns></returns>
 	EventManager& operator = (const EventManager&) = delete;
 public:
+	/// <summary>
+	/// StructEventBase は、イベントの基底クラスとして機能します。
+	/// </summary>
+	struct StructEventBase
+	{
+		virtual ~StructEventBase() = default;
+	};
 	/// <summary>
 	/// イベントマネージャーのインスタンスを取得します（シングルトンパターン）。
 	/// </summary>

@@ -13,6 +13,20 @@ class GameModeNormalUpdateState : public StateBase
 	appState(GameModeNormalUpdateState);
 public:
 	/// <summary>
+	/// ゲーム通常モードの状態を表す列挙型です。
+	/// </summary>
+	enum class GameNormalState
+	{
+		en_waitLoadEnd,
+
+		en_waveStandby,
+
+		en_waveUpdate,
+
+		en_waveEnd
+	};
+
+	/// <summary>
 	/// コンストラクタ
 	/// </summary>
 	GameModeNormalUpdateState() {};
@@ -40,6 +54,10 @@ public:
 	bool RequestState(uint32_t& request) override;
 private:
 	/// <summary>
+	/// ゲームモードで
+	/// </summary>
+	void GameModeInit();
+	/// <summary>
 	/// ゲームアップデート
 	/// </summary>
 	void GameUpdate();
@@ -59,5 +77,9 @@ private:
 	/// 砲弾のマネージャー
 	/// </summary>
 	TankShellsManager* m_tankShellsManager = nullptr;
+	/// <summary>
+	/// ゲームのステート
+	/// </summary>
+	GameNormalState m_gameState = GameNormalState::en_waveStandby;
 };
 

@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "EnemyTankManager.h"
+#include "EventManager.h"
 
 void WaveData::InitWaveData(
 	std::vector<EnEnemyTankAttribute> attribute,
@@ -40,7 +41,9 @@ void WaveData::UpdateWaveState()
 
 		if (IsWaveEnemyDeadAll())
 		{
+			WaveEndEvent waveEneEv;
 
+			EventManager::GetEventManagerInstance()->Publish(waveEneEv);
 		}
 
 		break;
