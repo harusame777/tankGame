@@ -53,10 +53,6 @@ void GameModeNormalUpdateState::Update()
 
 		break;
 	case GameModeNormalUpdateState::GameNormalState::en_waveUpdate:
-
-		//ゲームを更新
-		GameUpdate();
-
 		//ウェーブ終了イベントが発光されるまで
 
 		break;
@@ -66,7 +62,8 @@ void GameModeNormalUpdateState::Update()
 		break;
 	}
 
-
+	//ゲームを更新
+	GameUpdate();
 }
 
 void GameModeNormalUpdateState::Exit()
@@ -81,12 +78,35 @@ bool GameModeNormalUpdateState::RequestState(uint32_t& request)
 
 void GameModeNormalUpdateState::GameModeInit()
 {
-	EventManager::GetEventManagerInstance()->Subscribe<WaveData::WaveEndEvent>(
-		[](const WaveData::WaveEndEvent& eventData)
-		{
-			m_gameState = GameNormalState::en_waveEnd;
+	std::shared_ptr<GameModeNormalUpdateState> sharedPtr(this);
+
+	m_test = sharedPtr;
+
+	EventManager::GetEventManagerInstance()->RegisterListener<WaveEndEvent, GameModeNormalUpdateState>(
+		sharedPtr,
+		[](std::shared_ptr<GameModeNormalUpdateState> obj) {
+			return true;
+		},
+		[](std::shared_ptr<GameModeNormalUpdateState> obj, const WaveEndEvent &evt) {
+			
+			obj->m_addtest = evt.m_eventEndTime;
+
 		}
 	);
+
+	EventManager::GetEventManagerInstance()->RegisterListener<WaveEndEvent,GameModeNormalUpdateState>(
+		sharedPtr,
+		[](std::shared_ptr<GameModeNormalUpdateState> obj)
+		{
+			return true;
+		},
+		[](std::shared_ptr<GameModeNormalUpdateState> obj, const WaveEndEvent& evt)
+		{
+			float i = 0.0f;
+			i = evt.m_eventEndTime;
+		}
+	);
+
 }
 
 void GameModeNormalUpdateState::GameUpdate()

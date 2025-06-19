@@ -2,22 +2,24 @@
 
 #include "EnemyTankAttribute.h"
 #include "WaveSpawnPointRegistry.h"
+#include "EventManager.h"
 
 #include"EnemyTankEntity.h"
+
+/// <summary>
+/// ウェーブ終了イベントを表す構造体です。
+/// </summary>
+struct WaveEndEvent : public EventManager::StructEventBase
+{
+	/// <summary>
+	/// ウェーブ終了までの時間
+	/// </summary>
+	float m_eventEndTime = 0.0f;
+};
 
 class WaveData
 {
 public:
-	/// <summary>
-	/// ウェーブ終了イベントを表す構造体です。
-	/// </summary>
-	struct WaveEndEvent
-	{
-		/// <summary>
-		/// ウェーブ終了までの時間
-		/// </summary>
-		float m_eventEndTime = 0.0f;
-	};
 	/// <summary>
 	/// 敵の出現や待機など、ウェーブの状態を表す列挙型です。
 	/// </summary>

@@ -80,6 +80,10 @@ private:
 	/// <summary>
 	/// ゲームのステート
 	/// </summary>
-	GameNormalState m_gameState = GameNormalState::en_waveStandby;
+	GameNormalState m_gameState = GameNormalState::en_waitLoadEnd;
+
+	std::shared_ptr<GameModeNormalUpdateState> m_test;
+
+	float m_addtest = 0.0f;
 };
 

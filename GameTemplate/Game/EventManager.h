@@ -1,4 +1,5 @@
 #pragma once
+#include <typeindex>
 
 //イベント仲介役クラス
 class EventManager
@@ -52,39 +53,84 @@ public:
 	/// 関数格納
 	/// </summary>
 	/// <typeparam name="EventType"></typeparam>
-	template<typename EventType>
-	using Callback = std::function<void(const EventType)>;
+	using ConditionFunc = std::function<bool()>;
+	using HandlerFunc = std::function<void(const StructEventBase&)>;
 	/// <summary>
-	/// 指定したイベントタイプのコールバックを購読リストに追加します。
+	/// イベントマネージャーにリスナーを登録
 	/// </summary>
-	/// <typeparam name="EventType">購読するイベントの型。</typeparam>
-	/// <param name="callback">購読するイベントが発生したときに呼び出されるコールバック関数。</param>
-	template<typename EventType>
-	void Subscribe(Callback<EventType> callback)
+	/// <typeparam name="EventType"></typeparam>
+	/// <param name="object"></param>
+	/// <param name="condition"></param>
+	/// <param name="handler"></param>
+	template<typename EventType,typename ObjectType>
+	void RegisterListener(
+		std::weak_ptr<ObjectType> object,
+		std::function<bool(std::shared_ptr<ObjectType>)> condition,
+		std::function<void(std::shared_ptr<ObjectType>, const EventType&)> handler
+	)
 	{
-		std::vector<Callback<EventType>>& list 
-			= GetListeners<EventType>();
+		//型判別するためにtype_indexに代入
+		std::type_index type = typeid(EventType);
 
-		list.emplace_back(std::move(callback));
+		//配列の末尾にイベントリスナーを追加
+		m_listnersList[type].emplace_back(
+			[object, condition]()-> bool 
+			{
+				//このオブジェクトが削除済みでないかを確認
+				if (auto sp = object.lock())
+				{
+					//関数が起動可能かどうかを返す
+					return condition(sp);
+				}
+				return false;
+			},
+			[object, handler](const StructEventBase& event)
+			{
+				//このオブジェクトが削除済みでないかを確認
+				if (auto sp = object.lock())
+				{
+					//イベント処理
+                    handler(sp, dynamic_cast<const EventType&>(event));
+				}
+			}
+		);
 	}
 	/// <summary>
 	/// 指定されたイベントをすべてのリスナーに通知します。
 	/// </summary>
 	/// <typeparam name="EventType">通知するイベントの型。</typeparam>
 	/// <param name="event">通知するイベントオブジェクト。</param>
-	template<typename EventType>
-	void Publish(const EventType& event)
+	void NotifyListeners(const StructEventBase& event)
 	{
-		for (auto& cb : GetListeners<EventType>())
+		//比較のためtype_indexに代入
+		std::type_index type = typeid(event);
+		//該当するイベントリスナーを探す
+		auto it = m_listnersList.find(type);
+
+		if (it != m_listnersList.end())
 		{
-			cb(event);
+			for(auto& pair : it->second)
+			{
+				//関数のアドレスを取り出す
+				auto& condition = pair.first;
+				auto& handler = pair.second;
+
+				//実行できる状態であれば
+				if (condition() == true)
+				{
+					//実行する
+					handler(event);
+				}
+			}
 		}
 	}
 private:
-	template<typename EventType>
-	std::vector<Callback<EventType>>& GetListeners(){
-		static std::vector<Callback<EventType>> listeners;
-		return listeners;
-	}
+	/// <summary>
+	/// リスナーを格納するリスト
+	/// </summary>
+	std::unordered_map <
+		std::type_index,
+		std::vector<std::pair<ConditionFunc, HandlerFunc>>
+	> m_listnersList;
 };
 
