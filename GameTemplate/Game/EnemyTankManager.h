@@ -39,7 +39,7 @@ public:
 		/// <summary>
 		/// 敵タンクポインタ
 		/// </summary>
-		EnemyTankEntity* m_enemyTankPtr = nullptr;
+		std::shared_ptr<EnemyTankEntity> m_enemyTankPtr = nullptr;
 		/// <summary>
 		/// デリートフラグ
 		/// </summary>
@@ -79,7 +79,7 @@ public:
 	/// </summary>
 	/// <param name="attribute"></param>
 	/// <param name="createPos"></param>
-	EnemyTankEntity* CreateNewEnemyTank(
+	int CreateNewEnemyTank(
 		EnEnemyTankAttribute attribute,
 		const Vector3& createPos
 	);
@@ -87,11 +87,23 @@ public:
 	/// エネミータンクのリストを取得する
 	/// </summary>
 	/// <returns></returns>
-	const std::vector<EnemyTankEntity*>& GetEnemyTankList();
+	std::vector<int> GetEnemyTankList();
 	/// <summary>
 	/// 削除フラグを有効にする
 	/// </summary>
-	void ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank);
+	void ActivateDeleteFlag(int enemyTankId);
+	/// <summary>
+	/// 指定された敵戦車IDの削除フラグを取得します。
+	/// </summary>
+	/// <param name="enemyTankId">削除フラグを取得する敵戦車のID。</param>
+	/// <returns>敵戦車が削除対象であれば true、そうでなければ false。</returns>
+	bool GetIdEnemyTankDeleteFlag(int enemyTankId);
+	/// <summary>
+	/// 指定されたIDの敵タンクの位置を取得します。
+	/// </summary>
+	/// <param name="enemyTankId">位置を取得したい敵タンクのID。</param>
+	/// <returns>敵タンクが見つかった場合はその位置（Vector3型）への参照。見つからない場合はVector3::Zeroへの参照。</returns>
+	const Vector3& GetIdEnemyTankPosition(int enemyTankId);
 private:
 	/// <summary>
 	/// リスト削除
@@ -114,7 +126,11 @@ private:
 	/// <summary>
 	/// 敵タンクリスト
 	/// </summary>
-	std::vector<EnemyTankData> m_enemyTankList;
+	std::unordered_map<int,EnemyTankData> m_enemyTankListMap;
+	/// <summary>
+	/// 次に使用されるIDを保持する整数変数です。
+	/// </summary>
+	int m_nextId = 0;
 	/// <summary>
 	/// 関数で送り返す用のリスト
 	/// </summary>

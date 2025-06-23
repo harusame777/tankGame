@@ -107,7 +107,7 @@ void EnemyTankEntity::Update()
 		if (m_enemyTankAttribute->DeleteProcessing())
 		{
 			EnemyTankManager::GetEnemyTankManagerInstance()
-				->ActivateDeleteFlag(this);
+				->ActivateDeleteFlag(m_myId);
 		}
 
 		return;

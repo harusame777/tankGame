@@ -24,6 +24,22 @@ public:
 		delete m_tankTurretMovingCom;
 	};
 	/// <summary>
+	/// 敵戦車のIDを設定します。
+	/// </summary>
+	/// <param name="enemyTankId">設定する敵戦車のID。</param>
+	void SetEnemyTankId(int enemyTankId)
+	{
+		m_myId = enemyTankId;
+	}
+	/// <summary>
+	/// 敵戦車のIDを取得します。
+	/// </summary>
+	/// <returns>敵戦車のID（整数値）。</returns>
+	int GetEnemyTankId() const
+	{
+		return m_myId;
+	}
+	/// <summary>
 	/// 移動方向設定
 	/// </summary>
 	/// <param name="direction"></param>
@@ -208,6 +224,10 @@ private:
 	/// ゲームプレイヤーのインスタンス
 	/// </summary>
 	GamePlayer* m_player;
+	/// <summary>
+	/// ID格納変数
+	/// </summary>
+	int m_myId = 0;
 	
 	float m_moveSpeed = 50.0f;
 	float maxMoveSpeed = 50.0f;

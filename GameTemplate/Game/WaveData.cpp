@@ -126,15 +126,15 @@ void WaveData::EnemyTankBatchGenerate(
 
 	do
 	{
-		EnemyTankEntity* newTankPtr = nullptr;
+		//EnemyTankEntity* newTankPtr = nullptr;
 
-		newTankPtr = EnemyTankManager::GetEnemyTankManagerInstance()
+		EnemyTankManager::GetEnemyTankManagerInstance()
 			->CreateNewEnemyTank(
 				attribute,
 				spawnPointList[m_waveEnemyNum]
 			);
 
-		m_waveSpawnEnemyList.push_back(newTankPtr);
+		//m_waveSpawnEnemyList.push_back(newTankPtr);
 
 		m_waveEnemyNum++;
 
