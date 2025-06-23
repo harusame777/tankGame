@@ -61,7 +61,7 @@ private:
 	/// <summary>
 	/// ターゲットのエネミータンクを取得
 	/// </summary>
-	EnemyTankEntity* GetTargetEnemyTank();
+	int GetTargetEnemyTankId();
 	/// <summary>
 	/// 指定された方向に通常の砲弾移動の計算を行う
 	/// </summary>
@@ -77,7 +77,7 @@ private:
 	/// <summary>
 	/// 追尾対象エネミー
 	/// </summary>
-	EnemyTankEntity* m_targetEnemyTankPtr = nullptr;
+	int m_targetEnemyTankId = -1;
 	/// <summary>
 	/// プレイヤーのインスタンス
 	/// </summary>

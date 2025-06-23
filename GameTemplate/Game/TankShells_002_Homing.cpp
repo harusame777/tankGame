@@ -42,7 +42,7 @@ void TankShells_002_Homing::InitData(
 		//追尾半径を設定
 		m_cosThreshold = std::cos(30.0f);
 		//ターゲット選定
-		m_targetEnemyTankPtr = GetTargetEnemyTank();
+		m_targetEnemyTankId = GetTargetEnemyTankId();
 	}
 
 	//初速設定
@@ -58,11 +58,12 @@ void TankShells_002_Homing::InitData(
 //プレイヤーが砲手の際の処理
 void TankShells_002_Homing::GunnerIsPlayerMoveCalc()
 {	
-	if (m_targetEnemyTankPtr != nullptr && 
+	if (m_targetEnemyTankId != -1 && 
 		m_hormingStartTimer < 0.0f && 
 		m_hormingEndTimer > 0.0f)
 	{
-		Vector3 targetPos = m_targetEnemyTankPtr->GetPosition();
+		Vector3 targetPos = EnemyTankManager::GetEnemyTankManagerInstance()
+			->GetIdEnemyTankPosition(m_targetEnemyTankId);
 
 		CalcHormingMoveVector(targetPos);
 
@@ -129,7 +130,7 @@ void TankShells_002_Homing::DeleteTankShellsAttributeAction()
 
 }
 
-EnemyTankEntity* TankShells_002_Homing::GetTargetEnemyTank()
+int TankShells_002_Homing::GetTargetEnemyTankId()
 {
 	//エネミータンクのリストをマネージャーから取得
 	const auto& enemyList = EnemyTankManager::GetEnemyTankManagerInstance()
@@ -137,22 +138,30 @@ EnemyTankEntity* TankShells_002_Homing::GetTargetEnemyTank()
 	//最も近い半径の値(値は負の無限数)
 	float bestScore = -std::numeric_limits<float>::infinity();
 	//もっとも近いエネミータンクのポインタを定義
-	EnemyTankEntity* bestTarget = nullptr;
+	int bestTargetId = -1;
 	//プレイヤーの位置
 	Vector3 playerPos = m_gamePlayer->GetPosition();
 	//現在のプレイヤーの砲塔の方向
 	Vector3 forward = m_gamePlayer->GetTurretForward();
 
+	//Idのリスト
+	std::vector<int> enemyIdList 
+		= EnemyTankManager::GetEnemyTankManagerInstance()->GetEnemyTankList();
+
 	for (auto listPtr : enemyList)
 	{
 		//削除フラグがtrueであれば処理を飛ばす
-		if (listPtr->GetDeleteFlag() == true)
+		if (EnemyTankManager::GetEnemyTankManagerInstance()
+			->GetIdEnemyTankDeleteFlag(listPtr) == true)
 		{
 			continue;
 		}
 
+		//エネミータンクの座標
+		Vector3 enemyPos = EnemyTankManager::GetEnemyTankManagerInstance()
+			->GetIdEnemyTankPosition(listPtr);
 		//プレイヤーからエネミータンクに伸びるベクトル
-		Vector3 playerToEnemy = listPtr->GetPosition() - playerPos;
+		Vector3 playerToEnemy = enemyPos - playerPos;
 		//正規化
 		playerToEnemy.Normalize();
 		//内積を測る(1.0fで真正面、-1.0fで真後ろ)
@@ -168,12 +177,12 @@ EnemyTankEntity* TankShells_002_Homing::GetTargetEnemyTank()
 		if (cosAngle > bestScore)
 		{
 			bestScore = cosAngle;
-			bestTarget = listPtr;
+			bestTargetId = listPtr;
 		}
 
 	}
 
-	return bestTarget;
+	return bestTargetId;
 }
 
 void TankShells_002_Homing::CalcNormalMoveVector()

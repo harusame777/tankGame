@@ -247,7 +247,7 @@ void EnemyTank_002_SelfDestruct::UpdateSelfDestruct()
 	if (m_selfDestructEndTimer < 0.0f)
 	{
 		//íœƒtƒ‰ƒO‚ð—§‚Ä‚é
-		EnemyTankManager::GetEnemyTankManagerInstance()->ActivateDeleteFlag(m_hostEnemyTankPtr);
+		m_hostEnemyTankPtr->SetDeleteFlag(true);
 	}
 	else
 	{

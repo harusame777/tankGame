@@ -14,6 +14,8 @@
 
 #include "EnemyTankAttribute.h"
 
+#include "WaveManager.h"
+
 namespace GamePlayerTankConstant 
 {
 }

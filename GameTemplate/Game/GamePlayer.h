@@ -3,6 +3,8 @@
 class TankCrawkerMovingComponent;
 class TankTurretMovingComponent;
 
+#include "WaveData.h"
+
 class GamePlayer : public IGameObject
 {
 public:

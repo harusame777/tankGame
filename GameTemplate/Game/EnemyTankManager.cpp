@@ -10,7 +10,7 @@
 //インスタンス初期化
 EnemyTankManager* EnemyTankManager::m_enemyTankManagerInstance = nullptr;
 
-void EnemyTankManager::CreateNewEnemyTank(
+int EnemyTankManager::CreateNewEnemyTank(
 	EnEnemyTankAttribute attribute,
 	const Vector3& createPos
 )
@@ -21,8 +21,10 @@ void EnemyTankManager::CreateNewEnemyTank(
 	//ヌルだったら作成しない
 	if (newAttribute == nullptr)
 	{
-		return;
+		return -1;
 	}
+	//IDを決定
+	int id = m_nextId++;
 	//配列登録変数
 	EnemyTankData newData;
 	//新しいエネミータンク
@@ -33,42 +35,74 @@ void EnemyTankManager::CreateNewEnemyTank(
 	newTankPtr->SetGamePlayerInstance(m_player);
 	//属性を設定
 	newTankPtr->SetAttribute(newAttribute);
+	//IDを設定
+	newTankPtr->SetEnemyTankId(id);
+	//タンクのポインタをsharedに変換
+	std::shared_ptr<EnemyTankEntity> newSharedPtr(newTankPtr);
 	//配列登録変数に設定
-	newData.m_enemyTankPtr = newTankPtr;
-	//配列登録
-	m_enemyTankList.push_back(newData);
+	newData.m_enemyTankPtr = newSharedPtr;
+	//idとともに配列へ
+	m_enemyTankListMap[id] = newData;
+	//戻り値はid
+	return id;
 }
 
-void EnemyTankManager::ActivateDeleteFlag(EnemyTankEntity* subjectEnemyTank)
+void EnemyTankManager::ActivateDeleteFlag(int enemyTankId)
 {
-	for (auto& tankPtr : m_enemyTankList)
+	for (auto& tankPtr : m_enemyTankListMap)
 	{
-		if (tankPtr.m_enemyTankPtr == subjectEnemyTank)
+		if (tankPtr.first == enemyTankId)
 		{
-			tankPtr.m_deleteFlag = true;
+			tankPtr.second.m_deleteFlag = true;
 		}
 	}
 }
 
 //エネミータンクのリストの取得
-const std::vector<EnemyTankEntity*>& EnemyTankManager::GetEnemyTankList()
+std::vector<int> EnemyTankManager::GetEnemyTankList()
 {
 	//エネミータンクリストを初期化
-	m_returnEnemyTankList.clear();
+	std::vector<int> returnList;
 
 	//リストに現在有効なエネミータンクをまとめる
-	for (auto it = m_enemyTankList.begin();it != m_enemyTankList.end();it++)
+	for (auto& mapPtr : m_enemyTankListMap)
 	{
 
-		if (it->m_deleteFlag == true)
+		if (mapPtr.second.m_deleteFlag == true)
 		{
 			continue;
 		}
 
-		m_returnEnemyTankList.push_back(it->m_enemyTankPtr);
+		returnList.push_back(mapPtr.first);
 	}
 
-	return m_returnEnemyTankList;
+	return returnList;
+}
+
+bool EnemyTankManager::GetIdEnemyTankDeleteFlag(int enemyTankId)
+{
+	//IDのエネミータンクを探す
+	auto it = m_enemyTankListMap.find(enemyTankId);
+
+	if (it == m_enemyTankListMap.end())
+	{
+		return true;
+	}
+
+	return it->second.m_deleteFlag;
+}
+
+const Vector3& EnemyTankManager::GetIdEnemyTankPosition(int enemyTankId)
+{
+	//IDのエネミータンクを探す
+	auto it = m_enemyTankListMap.find(enemyTankId);
+
+	if (it == m_enemyTankListMap.end())
+	{
+		return Vector3::Zero;
+	}
+
+	return it->second.m_enemyTankPtr->GetPosition();
 }
 
 //初期化
@@ -87,26 +121,26 @@ void EnemyTankManager::UpdateEnemyTankManager()
 void EnemyTankManager::DeleteList()
 {
 	//マップの要素分回す
-	for (auto it = m_enemyTankList.begin();
-		it != m_enemyTankList.end();)
+	for (auto it = m_enemyTankListMap.begin();it != m_enemyTankListMap.end();)
 	{
-		bool dataDeleteCondition = IsDataDelteConditions(it._Ptr);
+		bool dataDeleteCondition = IsDataDelteConditions(&it->second);
 
 		//要素内のエネミータンクが有効かどうかを調べる
 		if (dataDeleteCondition == true &&
-			0.0f > it->m_deleteDelayTime)
+			0.0f > it->second.m_deleteDelayTime)
 		{
 			//削除処理
-			it->m_enemyTankPtr->DeleteGOEnemyTank();
+			it->second.m_enemyTankPtr->DeleteGOEnemyTank();
 			//リスト削除処理
-			it = m_enemyTankList.erase(it);
+			it = m_enemyTankListMap.erase(it);
+			//id使いまわしのリストに登録
 		}
 		else
 		{
 			//削除条件がtrueだったらディレイを減らす
 			if (dataDeleteCondition == true)
 			{
-				it->m_deleteDelayTime -= g_gameTime->GetFrameDeltaTime();
+				it->second.m_deleteDelayTime -= g_gameTime->GetFrameDeltaTime();
 			}
 			//次の要素へ
 			it++;

@@ -7,5 +7,7 @@ enum class EnEnemyTankAttribute
 	//自爆タイプ
 	en_tankSelfDestruct,
 	//追尾弾発射タイプ
-	en_tankHorming
+	en_tankHorming,
+	//属性数
+	en_count
 };
