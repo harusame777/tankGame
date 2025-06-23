@@ -90,10 +90,6 @@ bool GamePlayer::Start()
 		EnUseAttackPointRange::en_MiddleAttackPoint
 	);
 
-	testData = WaveManager::GetWaveManagerInstance()->CreateNewWaveData(10,10);
-
-	testData->StartWave();
-
 	return true;
 }
 

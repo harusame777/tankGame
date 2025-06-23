@@ -20,6 +20,12 @@ void GameModeNormalUpdateState::Enter()
 {
 	//ロード画面のインスタンスを取得
 	m_gameLoad = FindGO<GameLoadingScreen>("gameLoad");
+
+	std::shared_ptr<GameModeNormalUpdateState> initShared(this);
+
+	m_gameModeNormalSharedPtr = initShared;
+
+	SetWaveEndFlag(false);
 }
 
 //ゲームステート更新
@@ -48,15 +54,27 @@ void GameModeNormalUpdateState::Update()
 		//この時点でプレーヤーは移動可能
 		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(true);
 
+		//ウェーブを生成
+		m_waveData = WaveManager::GetWaveManagerInstance()->CreateNewWaveData(10, 10);
+
+		//ウェーブを開始
+		m_waveData->StartWave();
+
 		//演出などが終わったらステートを変更
 		m_gameState = GameNormalState::en_waveUpdate;
 
 		break;
 	case GameModeNormalUpdateState::GameNormalState::en_waveUpdate:
-		//ウェーブ終了イベントが発光されるまで
+
+		WaveManager::GetWaveManagerInstance()->UpdateWaveManager();
+		//ウェーブ終了イベントが発行されるまで
+		SetWaveEndFlag(true);
 
 		break;
 	case GameModeNormalUpdateState::GameNormalState::en_waveEnd:
+
+		m_gameState = GameNormalState::en_waveStandby;
+
 		break;
 	default:
 		break;
@@ -78,35 +96,21 @@ bool GameModeNormalUpdateState::RequestState(uint32_t& request)
 
 void GameModeNormalUpdateState::GameModeInit()
 {
-	std::shared_ptr<GameModeNormalUpdateState> sharedPtr(this);
-
-	m_test = sharedPtr;
-
+	//外部イベント、ウェーブ終了時に実行
 	EventManager::GetEventManagerInstance()->RegisterListener<WaveEndEvent, GameModeNormalUpdateState>(
-		sharedPtr,
+		m_gameModeNormalSharedPtr,
 		[](std::shared_ptr<GameModeNormalUpdateState> obj) {
-			return true;
+			return obj->m_waveEndGoFlag;
 		},
 		[](std::shared_ptr<GameModeNormalUpdateState> obj, const WaveEndEvent &evt) {
 			
 			obj->m_addtest = evt.m_eventEndTime;
 
+			obj->SetWaveEndFlag(false);
+
+			obj->m_gameState = GameNormalState::en_waveEnd;
 		}
 	);
-
-	EventManager::GetEventManagerInstance()->RegisterListener<WaveEndEvent,GameModeNormalUpdateState>(
-		sharedPtr,
-		[](std::shared_ptr<GameModeNormalUpdateState> obj)
-		{
-			return true;
-		},
-		[](std::shared_ptr<GameModeNormalUpdateState> obj, const WaveEndEvent& evt)
-		{
-			float i = 0.0f;
-			i = evt.m_eventEndTime;
-		}
-	);
-
 }
 
 void GameModeNormalUpdateState::GameUpdate()
@@ -117,8 +121,6 @@ void GameModeNormalUpdateState::GameUpdate()
 	TankShellsManager::GetTankShellsManagerInstance()->UpdateTankShellsManager();
 
 	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
-
-	WaveManager::GetWaveManagerInstance()->UpdateWaveManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
 }

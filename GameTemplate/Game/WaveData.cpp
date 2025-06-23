@@ -33,19 +33,31 @@ void WaveData::UpdateWaveState()
 		break;
 	case WaveData::EnWaveState::en_enemyGenerate:
 
-		UpdateEnemyGenerateState();
+		EnemyTankSpwanBatch();
+
+		m_waveState = EnWaveState::en_waitTime;
 
 		break;
 	case WaveData::EnWaveState::en_waitTime:
 
+		m_waveDatas.m_eventEndTime += g_gameTime->GetFrameDeltaTime();
+
+		UpdateEnemyTankListDelete();
+
 		if (IsWaveEnemyDeadAll())
 		{
-			WaveEndEvent waveEneEv;
-
-			waveEneEv.m_eventEndTime = 145.0f;
-
-			EventManager::GetEventManagerInstance()->NotifyListeners(waveEneEv);
+			m_waveState = EnWaveState::en_end;
 		}
+
+		if (IsWaveEnemyAddNum())
+		{
+			EnemyTankSpwanThreshold();
+		}
+
+		break;
+	case WaveData::EnWaveState::en_end:
+
+		EventManager::GetEventManagerInstance()->NotifyListeners(m_waveDatas);
 
 		break;
 	default:
@@ -53,12 +65,39 @@ void WaveData::UpdateWaveState()
 	}
 }
 
-void WaveData::UpdateEnemyGenerateState()
+void WaveData::EnemyTankSpwanThreshold()
+{
+	std::vector<Vector3> spawnPointList = GetRandomSpawnPoint(WaveDataConstant::spawnAddThreshold);
+
+	std::vector<int> ganerateEnemyNumList = CalcEnemyDistribution(
+		WaveDataConstant::spawnAddThreshold,
+		m_waveEnemyAttributeList.size()
+	);
+	
+	int num = 0;
+
+	for (auto attributeNo : m_waveEnemyAttributeList)
+	{
+		//ココから生成、あとで座標も送るよう改造
+		EnemyTankBatchGenerate(
+			ganerateEnemyNumList[num],
+			attributeNo,
+			spawnPointList
+		);
+
+		num++;
+	}
+}
+
+void WaveData::EnemyTankSpwanBatch()
 {
 	//ランダムに選定されたスポーンポイントを取得
-	std::vector<Vector3> spawnPoint = GetRandomSpawnPoint(m_waveMaxEnemyNum);
+	std::vector<Vector3> spawnPointList = GetRandomSpawnPoint(m_waveMaxEnemyNum);
 
-	std::vector<int> ganerateEnemyNumList = CalcEnemyDistribution(m_waveMaxEnemyNum, m_waveEnemyAttributeList.size());
+	std::vector<int> ganerateEnemyNumList = CalcEnemyDistribution(
+		WaveDataConstant::spawnOnceMaxNum,
+		m_waveEnemyAttributeList.size()
+	);
 
 	int num = 0;
 
@@ -68,13 +107,11 @@ void WaveData::UpdateEnemyGenerateState()
 		EnemyTankBatchGenerate(
 			ganerateEnemyNumList[num],
 			attributeNo,
-			spawnPoint
+			spawnPointList
 		);
 
 		num++;
 	}
-
-	m_waveState = EnWaveState::en_waitTime;
 }
 
 void WaveData::EnemyTankBatchGenerate(
@@ -146,27 +183,54 @@ std::vector<int> WaveData::CalcEnemyDistribution(
 	return count;
 }
 
-bool WaveData::IsWaveEnemyDeadAll()
+bool WaveData::IsWaveEnemyAddNum()
 {
-	//マップの要素分回す
-	for (auto itNo = m_waveSpawnEnemyList.begin();itNo != m_waveSpawnEnemyList.end();)
+	//現在倒している敵数と現在の敵数の合計がウェーブに出現する敵の最大数を超えるならfalse
+	if (m_waveDefeatedEnemyNum + m_waveEnemyNum >= m_waveMaxEnemyNum)
 	{
-		EnemyTankEntity* entity = *itNo;
-
-		if (entity->GetDeleteFlag() == true)
-		{
-			itNo = m_waveSpawnEnemyList.erase(itNo);
-		}
-		else
-		{
-			itNo++;
-		}
+		return false;
 	}
 
-	if (0 >= m_waveSpawnEnemyList.size())
+	//現在の敵数が(一度に出現できる敵の数-敵の追加しきい値)以上であればtrue
+	if (m_waveEnemyNum <= m_waveMaxEnemyNum - WaveDataConstant::spawnAddThreshold)
 	{
 		return true;
 	}
 
 	return false;
+}
+
+bool WaveData::IsWaveEnemyDeadAll()
+{
+	if (m_waveDefeatedEnemyNum >= m_waveMaxEnemyNum)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void WaveData::UpdateEnemyTankListDelete()
+{
+	//マップの要素分回す
+	for (auto itNo = m_waveSpawnEnemyList.begin(); itNo != m_waveSpawnEnemyList.end();)
+	{
+		EnemyTankEntity* entity = *itNo;
+
+		//このエネミータンクが削除フラグを立てているかどうかを調べる
+		if (entity->GetDeleteFlag() == true)
+		{
+			//配列から削除
+			itNo = m_waveSpawnEnemyList.erase(itNo);
+			//ウェーブ内のエネミーの数を減らす
+			m_waveEnemyNum--;
+			//ウェーブ内の倒されたエネミーの数を増やす
+			m_waveDefeatedEnemyNum++;
+		}
+		else
+		{
+			//次のイテレーターへ
+			itNo++;
+		}
+	}
 }

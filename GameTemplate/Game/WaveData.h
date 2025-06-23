@@ -7,6 +7,21 @@
 #include"EnemyTankEntity.h"
 
 /// <summary>
+/// WaveDataConstant 定数を格納するための名前空間です。
+/// </summary>
+namespace WaveDataConstant
+{
+	/// <summary>
+	/// 一度に生成できる最大数を表す変数です。
+	/// </summary>
+	const int spawnOnceMaxNum = 10;
+	/// <summary>
+	/// 追加のスポーンを許可するしきい値を表す定数です。
+	/// </summary>
+	const int spawnAddThreshold = 3;
+};
+
+/// <summary>
 /// ウェーブ終了イベントを表す構造体です。
 /// </summary>
 struct WaveEndEvent : public EventManager::StructEventBase
@@ -31,6 +46,8 @@ public:
 		en_enemyGenerate,
 		//再出現待機
 		en_waitTime,
+		//終了
+		en_end
 	};
 	/// <summary>
 	/// コンストラクタ
@@ -75,14 +92,26 @@ public:
 	/// </summary>
 	void UpdateWaveData();
 private: 
+
+	struct EnemyInfo
+	{
+
+
+
+	};
+
 	/// <summary>
 	/// ウェーブステートの更新
 	/// </summary>
 	void UpdateWaveState();
 	/// <summary>
+	/// 敵戦車を単体で追加
+	/// </summary>
+	void EnemyTankSpwanThreshold();
+	/// <summary>
 	/// エネミータンクの生成関数
 	/// </summary>
-	void UpdateEnemyGenerateState();
+	void EnemyTankSpwanBatch();
 	/// <summary>
 	/// エネミーを属性を参考に作成する
 	/// </summary>
@@ -109,10 +138,19 @@ private:
 		int enemyAttributeCount
 	);
 	/// <summary>
+	/// ウェーブの敵追加数があるかどうかを判定します。
+	/// </summary>
+	/// <returns>敵追加数がある場合は true、ない場合は false を返します。</returns>
+	bool IsWaveEnemyAddNum();
+	/// <summary>
 	/// すべてのウェーブの敵が倒されたかどうかを判定します。
 	/// </summary>
 	/// <returns>すべてのウェーブの敵が倒されていれば true、そうでなければ false を返します。</returns>
 	bool IsWaveEnemyDeadAll();
+	/// <summary>
+	/// 敵戦車リストの削除処理を実行します。
+	/// </summary>
+	void UpdateEnemyTankListDelete();
 	/// <summary>
 	/// ウェーブのステート
 	/// </summary>
@@ -125,6 +163,10 @@ private:
 	/// このウェーブの最大のエネミータンクの数
 	/// </summary>
 	int m_waveMaxEnemyNum = 0;
+	/// <summary>
+	/// このウェーブの倒されたエネミータンクの数
+	/// </summary>
+	int m_waveDefeatedEnemyNum = 0;
 	/// <summary>
 	/// 敵再出現までの時間
 	/// </summary>
@@ -141,5 +183,9 @@ private:
 	/// ウェーブのスポーンポイントのリストを格納する変数です。
 	/// </summary>
 	WaveSpawnPointVector m_spawnPointList;
+	/// <summary>
+	/// WaveEndEvent 型の変数 m_waveDatas です。
+	/// </summary>
+	WaveEndEvent m_waveDatas;
 };
 

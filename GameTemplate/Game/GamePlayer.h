@@ -139,7 +139,5 @@ private:
 	float friction = 2.0f;
 	CharacterController characterController;
 	float rotSpeed = 10.0f;
-
-	WaveData* testData = nullptr;
 };
 
