@@ -120,7 +120,7 @@ void WaveData::UpdateWaveState()
 
 		//敵の追加処理
 		if (m_enemyAddTimer < 0.0f &&
-			IsRestActiveEnemy() == true)
+			isAllEnemiesSpawned())
 		{
 			//追加分の敵を生成
 			EnemyTankSpwan(m_nextSpawnEnemyNum);
@@ -166,15 +166,15 @@ void WaveData::EnemyTankSpwan(int spwanNum)
 		EnemyInfo newEnemyInfo;
 		//属性を格納
 		newEnemyInfo.m_enemyAttribute 
-			= m_waveAllEnemyInfo[m_waveAliveEnemyCount].m_enemyAttribute;
+			= m_waveAllEnemyInfo[m_waveSpawnedEnemyCount].m_enemyAttribute;
 		//エネミータンクを生成し、IDを格納
 		newEnemyInfo.m_enemyId = EnemyTankManager::GetEnemyTankManagerInstance()
 			->CreateNewEnemyTank(
-				m_waveAllEnemyInfo[m_waveAliveEnemyCount].m_enemyAttribute,
+				m_waveAllEnemyInfo[m_waveSpawnedEnemyCount].m_enemyAttribute,
 				spawnPointList[loopNo]
 			);
 		//現在アクティブなエネミータンクの数を増やす
-		m_waveAliveEnemyCount++;
+		m_waveSpawnedEnemyCount++;
 
 		//配列に格納
 		m_waveActiveEnemyList.push_back(newEnemyInfo);

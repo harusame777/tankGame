@@ -118,12 +118,12 @@ private:
 		return false;
 	}
 	/// <summary>
-	/// アクティブな敵が残っているかどうかを判定します。
+	/// すべての敵が出現済みかどうかを判定します。
 	/// </summary>
-	/// <returns>アクティブな敵が残っていれば true、そうでなければ false を返します。</returns>
-	bool IsRestActiveEnemy()
+	/// <returns>すべての敵が出現済みの場合はfalse、そうでない場合はtrueを返します。</returns>
+	bool isAllEnemiesSpawned()
 	{
-		if (m_waveMaxEnemyNum <= m_waveAliveEnemyCount)
+		if (m_waveMaxEnemyNum <= m_waveSpawnedEnemyCount)
 		{
 			return false;
 		}
@@ -154,7 +154,7 @@ private:
 	int GetSpwanMaxCount(int SpwanNum) const
 	{
 		int allEnemys = GetAllEnemyCount();
-		int aliveEnemys = m_waveAliveEnemyCount;
+		int aliveEnemys = m_waveSpawnedEnemyCount;
 		
 		int restEnemys = allEnemys - aliveEnemys;
 
@@ -196,9 +196,9 @@ private:
 	/// </summary>
 	int m_waveMaxEnemyNum = 0;
 	/// <summary>
-	/// ウェーブ内で生存している敵の数を表す変数です。
+	/// ウェーブで出現した敵の数を保持する整数変数です。
 	/// </summary>
-	int m_waveAliveEnemyCount = 0;
+	int m_waveSpawnedEnemyCount = 0;
 	/// <summary>
 	/// このウェーブの倒されたエネミータンクの数
 	/// </summary>
