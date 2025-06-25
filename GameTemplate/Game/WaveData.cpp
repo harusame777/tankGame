@@ -12,10 +12,10 @@ void WaveData::InitWaveData(
 	WaveSpawnPointVector spawnPoint
 )
 {
+	//属性リストを登録
 	m_waveEnemyAttributeInfo = attribute;
-
+	//出現場所を登録
 	m_spawnPointList = spawnPoint;
-
 }
 
 void WaveData::StartWave(
@@ -25,16 +25,17 @@ void WaveData::StartWave(
 	int nextSpawn
 )
 {
+	//このウェーブで出現する敵の最大数
 	m_waveMaxEnemyNum = spwanMaxNum;
-
+	//敵追加までの時間
 	m_enemyAddTime = enemyAddTime;
-
+	//最初にウェーブに出現する敵の数
 	m_firstSpawnEnemyNum = firstSpawn;
-
+	//追加の際にウェーブに出現する敵の数
 	m_nextSpawnEnemyNum = nextSpawn;
-
+	//出現する敵のリストの初期化
 	InitAllEnemyInfo();
-
+	//ステートを生成ステートに
 	m_waveState = EnWaveState::en_enemyGenerate;
 }
 
@@ -50,10 +51,13 @@ void WaveData::InitAllEnemyInfo()
 	//ループした数
 	int loopCount = 0;
 
+	//範囲for文で出現属性分繰り返し
 	for (const auto& type : m_waveEnemyAttributeInfo)
 	{
+		//余り分の繰り返し回数を増加
 		const int count = countPerType + (loopCount < remainder ? 1 : 0);
 
+		//属性ごとの敵の情報を生成
 		for (int i = 0; i < count; i++)
 		{
 			EnemyInfo newData;
@@ -63,6 +67,7 @@ void WaveData::InitAllEnemyInfo()
 			m_waveAllEnemyInfo.push_back(newData);
 		}
 
+		//ループ回数増加
 		loopCount++;
 	}
 
@@ -107,8 +112,10 @@ void WaveData::UpdateWaveState()
 		break;
 	case WaveData::EnWaveState::en_waitTime:
 
+		//クリアまでにかかった時間計算
 		m_waveDatas.m_eventEndTime += g_gameTime->GetFrameDeltaTime();
 
+		//リスト削除処理
 		UpdateEnemyTankListDelete();
 
 		//敵の追加処理
@@ -136,6 +143,7 @@ void WaveData::UpdateWaveState()
 		break;
 	case WaveData::EnWaveState::en_end:
 
+		//ウェーブが終了したことをマネージャーに連絡
 		WaveManager::GetWaveManagerInstance()->NotifyWaveCompleted(m_waveDatas);
 
 		break;
