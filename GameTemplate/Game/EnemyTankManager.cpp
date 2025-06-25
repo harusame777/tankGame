@@ -37,10 +37,8 @@ int EnemyTankManager::CreateNewEnemyTank(
 	newTankPtr->SetAttribute(newAttribute);
 	//IDを設定
 	newTankPtr->SetEnemyTankId(id);
-	//タンクのポインタをsharedに変換
-	std::shared_ptr<EnemyTankEntity> newSharedPtr(newTankPtr);
 	//配列登録変数に設定
-	newData.m_enemyTankPtr = newSharedPtr;
+	newData.m_enemyTankPtr = newTankPtr;
 	//idとともに配列へ
 	m_enemyTankListMap[id] = newData;
 	//戻り値はid

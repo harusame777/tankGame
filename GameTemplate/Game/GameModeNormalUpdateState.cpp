@@ -55,10 +55,10 @@ void GameModeNormalUpdateState::Update()
 		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(true);
 
 		//ウェーブを生成
-		m_waveData = WaveManager::GetWaveManagerInstance()->CreateNewWaveData(10, 10);
+		m_waveData = WaveManager::GetWaveManagerInstance()->CreateNewWaveData();
 
 		//ウェーブを開始
-		m_waveData->StartWave();
+		m_waveData->StartWave(22,10);
 
 		//演出などが終わったらステートを変更
 		m_gameState = GameNormalState::en_waveUpdate;

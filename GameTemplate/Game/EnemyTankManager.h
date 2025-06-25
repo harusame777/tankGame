@@ -39,7 +39,7 @@ public:
 		/// <summary>
 		/// 敵タンクポインタ
 		/// </summary>
-		std::shared_ptr<EnemyTankEntity> m_enemyTankPtr = nullptr;
+		EnemyTankEntity* m_enemyTankPtr = nullptr;
 		/// <summary>
 		/// デリートフラグ
 		/// </summary>

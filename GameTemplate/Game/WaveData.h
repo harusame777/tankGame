@@ -19,6 +19,10 @@ namespace WaveDataConstant
 	/// 追加のスポーンを許可するしきい値を表す定数です。
 	/// </summary>
 	const int spawnAddThreshold = 3;
+	/// <summary>
+	/// 敵を追加するための定数時間（秒単位）です。
+	/// </summary>
+	const float enemyAddTimeConstant = 15.0f;
 };
 
 /// <summary>
@@ -67,10 +71,10 @@ public:
 	/// <summary>
 	/// ウェーブを開始し、ウェーブ状態を敵生成に設定します。
 	/// </summary>
-	void StartWave()
-	{
-		m_waveState = EnWaveState::en_enemyGenerate;
-	}
+	void StartWave(
+		int spwanMaxNum,
+		float enemyAddTime
+	);
 	/// <summary>
 	/// このウェーブの最大スポーン数を設定
 	/// </summary>
@@ -80,73 +84,109 @@ public:
 		m_waveMaxEnemyNum = num;
 	}
 	/// <summary>
-	/// 敵再出現までの時間を設定
-	/// </summary>
-	/// <param name="time"></param>
-	void SetEnemyReappearanceTime(float time)
-	{
-		m_enemyReapperanceTimer = time;
-	}
-	/// <summary>
 	/// ウェーブデータ更新
 	/// </summary>
 	void UpdateWaveData();
 private: 
-
+	/// <summary>
+	/// 敵の情報を格納する構造体です。
+	/// </summary>
 	struct EnemyInfo
 	{
-
-
-
+		/// <summary>
+		/// 敵のIDを格納する整数型のメンバー変数です。
+		/// </summary>
+		int m_enemyId = -1;
+		/// <summary>
+		/// 敵戦車の属性を表す変数を初期化します。
+		/// </summary>
+		EnEnemyTankAttribute m_enemyAttribute = EnEnemyTankAttribute::en_tankNormal;
 	};
-
+	/// <summary>
+	/// すべての敵情報を初期化します。
+	/// </summary>
+	void InitAllEnemyInfo();
 	/// <summary>
 	/// ウェーブステートの更新
 	/// </summary>
 	void UpdateWaveState();
 	/// <summary>
-	/// 敵戦車を単体で追加
-	/// </summary>
-	void EnemyTankSpwanThreshold();
-	/// <summary>
 	/// エネミータンクの生成関数
 	/// </summary>
-	void EnemyTankSpwanBatch();
+	void EnemyTankSpwan(int spwanNum);
 	/// <summary>
-	/// エネミーを属性を参考に作成する
+	/// すべての敵が倒されたかどうかを判定します。
 	/// </summary>
-	/// <param name="attribute"></param>
-	/// <returns></returns>
-	void EnemyTankBatchGenerate(
-		int generateNum,
-		EnEnemyTankAttribute attribute,
-		const std::vector<Vector3>& spawnPointList
-	);
+	/// <returns>すべての敵が倒されていれば true、そうでなければ false を返します。</returns>
+	bool IsEnemyAllDefeated()
+	{
+		int allEnemys = GetAllEnemyCount();
+
+		if (m_waveDefeatedEnemyNum >= allEnemys)
+		{
+			return true;
+		}
+
+		return false;
+	}
+	/// <summary>
+	/// アクティブな敵が残っているかどうかを判定します。
+	/// </summary>
+	/// <returns>アクティブな敵が残っていれば true、そうでなければ false を返します。</returns>
+	bool IsRestActiveEnemy()
+	{
+		if (m_waveMaxEnemyNum <= m_waveAliveEnemyCount)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	/// <summary>
+	/// すべての敵の数を取得します。
+	/// </summary>
+	/// <returns>すべての敵の合計数を表す整数値。</returns>
+	int GetAllEnemyCount() const
+	{
+		return m_waveAllEnemyInfo.size();
+	}
+	/// <summary>
+	/// アクティブな敵の数を取得します。
+	/// </summary>
+	/// <returns>現在アクティブな敵の数。</returns>
+	int GetActiveEnemyCount() const
+	{
+		return m_waveActiveEnemyList.size();
+	}
+	/// <summary>
+	/// 指定されたスポーン数と残りの敵数に基づいて、1回のスポーンで最大何体の敵を出現させるかを計算します。
+	/// </summary>
+	/// <param name="SpwanNum">出現させたい敵の数。</param>
+	/// <returns>1回のスポーンで出現可能な最大の敵数。</returns>
+	int GetSpwanMaxCount(int SpwanNum) const
+	{
+		int allEnemys = GetAllEnemyCount();
+		int activeEnemys = GetActiveEnemyCount();
+		
+		int restEnemys = allEnemys - activeEnemys;
+
+		if (restEnemys <= SpwanNum)
+		{
+			if (WaveDataConstant::spawnOnceMaxNum < restEnemys)
+			{
+				return WaveDataConstant::spawnOnceMaxNum;
+			}
+
+			return restEnemys;
+		}
+
+		return SpwanNum;
+	}
 	/// <summary>
 	/// ランダムなスポーン地点の座標を取得します。
 	/// </summary>
 	/// <returns>ランダムに選ばれたスポーン地点を表す Vector3 型の座標。</returns>
 	std::vector<Vector3> GetRandomSpawnPoint(int generateNum);
-	/// <summary>
-	/// 指定された敵の総数と属性数に基づいて、各属性ごとの敵の分布を計算します。
-	/// </summary>
-	/// <param name="totalEnemyNum">分配する敵の総数。</param>
-	/// <param name="enemyAttributeCount">敵属性の種類数。</param>
-	/// <returns>各属性ごとの敵の数を格納した std::vector<int>。</returns>
-	std::vector<int> CalcEnemyDistribution(
-		int totalEnemyNum,
-		int enemyAttributeCount
-	);
-	/// <summary>
-	/// ウェーブの敵追加数があるかどうかを判定します。
-	/// </summary>
-	/// <returns>敵追加数がある場合は true、ない場合は false を返します。</returns>
-	bool IsWaveEnemyAddNum();
-	/// <summary>
-	/// すべてのウェーブの敵が倒されたかどうかを判定します。
-	/// </summary>
-	/// <returns>すべてのウェーブの敵が倒されていれば true、そうでなければ false を返します。</returns>
-	bool IsWaveEnemyDeadAll();
 	/// <summary>
 	/// 敵戦車リストの削除処理を実行します。
 	/// </summary>
@@ -156,29 +196,37 @@ private:
 	/// </summary>
 	EnWaveState m_waveState = EnWaveState::en_sandby;
 	/// <summary>
-	/// このウェーブのエネミータンクの数
-	/// </summary>
-	int m_waveEnemyNum = 0;
-	/// <summary>
 	/// このウェーブの最大のエネミータンクの数
 	/// </summary>
 	int m_waveMaxEnemyNum = 0;
+	/// <summary>
+	/// ウェーブ内で生存している敵の数を表す変数です。
+	/// </summary>
+	int m_waveAliveEnemyCount = 0;
 	/// <summary>
 	/// このウェーブの倒されたエネミータンクの数
 	/// </summary>
 	int m_waveDefeatedEnemyNum = 0;
 	/// <summary>
-	/// 敵再出現までの時間
+	/// 敵の追加タイマーを表す浮動小数点型の変数です。
 	/// </summary>
-	float m_enemyReapperanceTimer = 0.0f;
+	float m_enemyAddTimer = 0.0f;
 	/// <summary>
-	/// このウェーブに出現する敵種類のリスト
+	/// 敵の追加時間を表す浮動小数点数型の変数です。
 	/// </summary>
-	std::vector<EnEnemyTankAttribute> m_waveEnemyAttributeList;
+	float m_enemyAddTime = 0.0f;
 	/// <summary>
-	/// 敵戦車エンティティのリストを格納するベクターです。
+	/// すべての敵の情報を格納するベクターです。
 	/// </summary>
-	std::vector<EnemyTankEntity*> m_waveSpawnEnemyList;
+	std::vector<EnemyInfo> m_waveAllEnemyInfo;
+	/// <summary>
+	/// 敵戦車の属性情報を格納するベクターです。
+	/// </summary>
+	std::vector<EnEnemyTankAttribute> m_waveEnemyAttributeInfo;
+	/// <summary>
+	/// アクティブな敵の情報を格納するベクターです。
+	/// </summary>
+	std::vector<EnemyInfo> m_waveActiveEnemyList;
 	/// <summary>
 	/// ウェーブのスポーンポイントのリストを格納する変数です。
 	/// </summary>

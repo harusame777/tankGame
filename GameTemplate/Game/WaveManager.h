@@ -55,10 +55,7 @@ public:
 	/// <summary>
 	/// 新しいウェーブデータを作成
 	/// </summary>
-	WaveData* CreateNewWaveData(
-		int enemyAppearNum,
-		float enemyReapperanceTime
-	);
+	WaveData* CreateNewWaveData();
 private:
 	/// <summary>
 	/// WaveSpawnPointRegistry 型のポインタ m_spawnPointRegistry を初期化します。
