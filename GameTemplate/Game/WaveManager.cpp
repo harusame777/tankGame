@@ -28,26 +28,36 @@ void WaveManager::UpdateWaveManager()
 }
 
 //新しいウェーブデータを作成
-WaveData* WaveManager::CreateNewWaveData(
-	int enemyAppearNum,
-	float enemyReapperanceTime
+void WaveManager::CreateAndStartWaveData(
+	int spwanMaxNum,
+	float enemyAddTime,
+	int firstSpawn,
+	int nextSpawn,
+	int spwanEnemyAttribute
 )
 {
+	//もうすでにウェーブが生成されている場合は戻す
+	if (m_nowWave != nullptr)
+	{
+		return;
+	}
+
 	//新しいウェーブのデータを作成
 	WaveData* newData = new WaveData;
 	//初期設定
 	newData->InitWaveData(
-		GetRandomEnemyAttribute(3),
+		GetRandomEnemyAttribute(spwanEnemyAttribute),
 		m_spawnPointRegistry->GetWaveSpawnPointVector()
 	);
-	//再出現までの時間を設定
-	newData->SetEnemyReappearanceTime(enemyReapperanceTime);
-	//出現するエネミーの数を設定
-	newData->SetEnemySpawnMaxNum(enemyAppearNum);
 	//現在のウェーブに設定
 	m_nowWave = newData;
-	//敵出現までのタイマー設定
-	return m_nowWave;
+	//ウェーブ開始
+	m_nowWave->StartWave(
+		spwanMaxNum,
+		enemyAddTime,
+		firstSpawn,
+		nextSpawn
+	);
 }
 
 std::vector<EnEnemyTankAttribute> WaveManager::GetRandomEnemyAttribute(int attributeCount)
@@ -75,4 +85,12 @@ std::vector<EnEnemyTankAttribute> WaveManager::GetRandomEnemyAttribute(int attri
 		allAttributeList.begin(),
 		allAttributeList.begin() + attributeCount
 	);
+}
+
+void WaveManager::NotifyWaveCompleted(WaveEndEvent endEventData)
+{
+	//イベントを発行
+	EventManager::GetEventManagerInstance()->NotifyListeners(m_waveEndEventData);
+	//削除
+	delete m_nowWave;
 }
