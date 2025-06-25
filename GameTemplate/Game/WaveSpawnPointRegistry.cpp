@@ -19,5 +19,7 @@ void WaveSpawnPointRegistry::InitWaveSpawnPointRegistry()
 		}
 		return true;
 	});
+
+
 }
 

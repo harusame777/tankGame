@@ -1,8 +1,20 @@
 #pragma once
 #include "EnemyTankAttribute.h"
+#include "EventManager.h"
 
 class WaveData;
 class WaveSpawnPointRegistry;
+
+/// <summary>
+/// ウェーブ終了イベントを表す構造体です。
+/// </summary>
+struct WaveEndEvent : public EventManager::StructEventBase
+{
+	/// <summary>
+	/// ウェーブ終了までの時間
+	/// </summary>
+	float m_eventEndTime = 0.0f;
+};
 
 class WaveManager
 {
@@ -55,7 +67,18 @@ public:
 	/// <summary>
 	/// 新しいウェーブデータを作成
 	/// </summary>
-	WaveData* CreateNewWaveData();
+	void CreateAndStartWaveData(
+		int spwanMaxNum,
+		float enemyAddTime,
+		int firstSpawn,
+		int nextSpawn,
+		int spwanEnemyAttribute
+	);
+	/// <summary>
+	/// ウェーブの完了を通知します。
+	/// </summary>
+	/// <param name="waveAddress">完了したウェーブのデータを含む WaveData 型の参照。</param>
+	void NotifyWaveCompleted(WaveEndEvent endEventData);
 private:
 	/// <summary>
 	/// WaveSpawnPointRegistry 型のポインタ m_spawnPointRegistry を初期化します。
@@ -72,12 +95,12 @@ private:
 	/// </summary>
 	int m_waveClearNum = 0;
 	/// <summary>
-	/// このウェーブで出現するエネミーの最大数
-	/// </summary>
-	int m_waveMaxEnemyNum = 0;
-	/// <summary>
 	/// 現在のウェーブデータを指すポインタです。
 	/// </summary>
 	WaveData* m_nowWave = nullptr;
+	/// <summary>
+	/// ウェーブ終了イベントのデータを格納する変数です。
+	/// </summary>
+	WaveEndEvent m_waveEndEventData;
 };
 

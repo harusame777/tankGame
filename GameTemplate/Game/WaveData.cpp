@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "EnemyTankManager.h"
+#include "WaveManager.h"
 
 void WaveData::InitWaveData(
 	std::vector<EnEnemyTankAttribute> attribute,
@@ -19,12 +20,18 @@ void WaveData::InitWaveData(
 
 void WaveData::StartWave(
 	int spwanMaxNum,
-	float enemyAddTime
+	float enemyAddTime,
+	int firstSpawn,
+	int nextSpawn
 )
 {
 	m_waveMaxEnemyNum = spwanMaxNum;
 
 	m_enemyAddTime = enemyAddTime;
+
+	m_firstSpawnEnemyNum = firstSpawn;
+
+	m_nextSpawnEnemyNum = nextSpawn;
 
 	InitAllEnemyInfo();
 
@@ -88,8 +95,8 @@ void WaveData::UpdateWaveState()
 		break;
 	case WaveData::EnWaveState::en_enemyGenerate:
 
-		//ˆê’U10‘Ì¶¬
-		EnemyTankSpwan(m_waveMaxEnemyNum);
+		//Å‰‚Ì“GŒQ‚ğ¶¬
+		EnemyTankSpwan(m_firstSpawnEnemyNum);
 
 		//¶¬‚Ü‚Å‚ÌŠÔ‚ğ‰Šú‰»
 		m_enemyAddTimer = m_enemyAddTime;
@@ -108,8 +115,8 @@ void WaveData::UpdateWaveState()
 		if (m_enemyAddTimer < 0.0f &&
 			IsRestActiveEnemy() == true)
 		{
-			//Œ»İ‚Í5‘Ì
-			EnemyTankSpwan(5);
+			//’Ç‰Á•ª‚Ì“G‚ğ¶¬
+			EnemyTankSpwan(m_nextSpawnEnemyNum);
 
 			//¶¬‚Ü‚Å‚ÌŠÔ‚ğ‰Šú‰»
 			m_enemyAddTimer = m_enemyAddTime;
@@ -129,9 +136,7 @@ void WaveData::UpdateWaveState()
 		break;
 	case WaveData::EnWaveState::en_end:
 
-		EventManager::GetEventManagerInstance()->NotifyListeners(m_waveDatas);
-
-		
+		WaveManager::GetWaveManagerInstance()->NotifyWaveCompleted(m_waveDatas);
 
 		break;
 	default:

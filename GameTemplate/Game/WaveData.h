@@ -2,9 +2,10 @@
 
 #include "EnemyTankAttribute.h"
 #include "WaveSpawnPointRegistry.h"
-#include "EventManager.h"
 
 #include"EnemyTankEntity.h"
+
+#include "WaveManager.h"
 
 /// <summary>
 /// WaveDataConstant 定数を格納するための名前空間です。
@@ -14,26 +15,11 @@ namespace WaveDataConstant
 	/// <summary>
 	/// 一度に生成できる最大数を表す変数です。
 	/// </summary>
-	const int spawnOnceMaxNum = 10;
-	/// <summary>
-	/// 追加のスポーンを許可するしきい値を表す定数です。
-	/// </summary>
-	const int spawnAddThreshold = 3;
+	const int spawnOnceMaxNum = 28;
 	/// <summary>
 	/// 敵を追加するための定数時間（秒単位）です。
 	/// </summary>
 	const float enemyAddTimeConstant = 15.0f;
-};
-
-/// <summary>
-/// ウェーブ終了イベントを表す構造体です。
-/// </summary>
-struct WaveEndEvent : public EventManager::StructEventBase
-{
-	/// <summary>
-	/// ウェーブ終了までの時間
-	/// </summary>
-	float m_eventEndTime = 0.0f;
 };
 
 class WaveData
@@ -73,7 +59,9 @@ public:
 	/// </summary>
 	void StartWave(
 		int spwanMaxNum,
-		float enemyAddTime
+		float enemyAddTime,
+		int firstSpawn,
+		int nextSpawn
 	);
 	/// <summary>
 	/// このウェーブの最大スポーン数を設定
@@ -166,9 +154,9 @@ private:
 	int GetSpwanMaxCount(int SpwanNum) const
 	{
 		int allEnemys = GetAllEnemyCount();
-		int activeEnemys = GetActiveEnemyCount();
+		int aliveEnemys = m_waveAliveEnemyCount;
 		
-		int restEnemys = allEnemys - activeEnemys;
+		int restEnemys = allEnemys - aliveEnemys;
 
 		if (restEnemys <= SpwanNum)
 		{
@@ -195,6 +183,14 @@ private:
 	/// ウェーブのステート
 	/// </summary>
 	EnWaveState m_waveState = EnWaveState::en_sandby;
+	/// <summary>
+	/// 最初に出現する敵の数を保持する整数変数です。
+	/// </summary>
+	int m_firstSpawnEnemyNum = 0;
+	/// <summary>
+	/// 次に出現する敵の数を保持する整数変数です。
+	/// </summary>
+	int m_nextSpawnEnemyNum = 0;
 	/// <summary>
 	/// このウェーブの最大のエネミータンクの数
 	/// </summary>
