@@ -106,6 +106,11 @@ public:
 	const Vector3& GetIdEnemyTankPosition(int enemyTankId);
 private:
 	/// <summary>
+	/// 新しい一意のIDを生成します。
+	/// </summary>
+	/// <returns>生成された一意の整数ID。</returns>
+	int CreateId();
+	/// <summary>
 	/// リスト削除
 	/// </summary>
 	void DeleteList();
@@ -135,6 +140,10 @@ private:
 	/// 関数で送り返す用のリスト
 	/// </summary>
 	std::vector<EnemyTankEntity*> m_returnEnemyTankList;
+	/// <summary>
+	/// 解放されたIDのリストを保持するベクターです。
+	/// </summary>
+	std::vector<int> m_freeIdList;
 	/// <summary>
 	/// プレイヤーのインスタンス
 	/// </summary>

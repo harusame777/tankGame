@@ -24,7 +24,7 @@ int EnemyTankManager::CreateNewEnemyTank(
 		return -1;
 	}
 	//IDを決定
-	int id = m_nextId++;
+	int id = CreateId();
 	//配列登録変数
 	EnemyTankData newData;
 	//新しいエネミータンク
@@ -115,6 +115,26 @@ void EnemyTankManager::UpdateEnemyTankManager()
 	DeleteList();
 }
 
+int EnemyTankManager::CreateId()
+{
+	int id;
+
+	if (!m_freeIdList.empty())
+	{
+		//末尾のidを取得
+		id = m_freeIdList.back();
+		//末尾のidを解放
+		m_freeIdList.pop_back();
+	}
+	else
+	{
+		//idを入れ込みインクリメント
+		id = m_nextId++;
+	}
+
+	return id;
+}
+
 //リスト削除
 void EnemyTankManager::DeleteList()
 {
@@ -129,9 +149,10 @@ void EnemyTankManager::DeleteList()
 		{
 			//削除処理
 			it->second.m_enemyTankPtr->DeleteGOEnemyTank();
+			//id使いまわしのリストに登録
+			m_freeIdList.push_back(it->first);
 			//リスト削除処理
 			it = m_enemyTankListMap.erase(it);
-			//id使いまわしのリストに登録
 		}
 		else
 		{
