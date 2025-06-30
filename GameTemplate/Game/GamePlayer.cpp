@@ -74,7 +74,7 @@ bool GamePlayer::Start()
 		"GamePlayerCollision"
 	);
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->InitAttackPointRadius(
 		m_position,
 		300.0f,
 		300.0f,
@@ -82,7 +82,7 @@ bool GamePlayer::Start()
 		EnUseAttackPointRange::en_NearAttackPoint
 	);
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->InitAttackPointRadius(
 		m_position,
 		600.0f,
 		400.0f,
@@ -140,7 +140,7 @@ void GamePlayer::Update()
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateEnemyAttackPoints();
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateAttackPointRadius();
 
 	if (g_pad[0]->IsTrigger(enButtonDown))
 	{
