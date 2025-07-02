@@ -58,6 +58,12 @@
     <Filter Include="EventManager">
       <UniqueIdentifier>{4ac7d8c5-abd2-4e44-ac66-3187d81bf579}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameUI">
+      <UniqueIdentifier>{23283563-17d8-4105-8f87-9bae868c2a87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameUI\UI">
+      <UniqueIdentifier>{c4e469dd-fd40-4083-bd06-3ccc20ade2a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp" />
@@ -192,6 +198,15 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUiManager.cpp">
+      <Filter>GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUiBase.cpp">
+      <Filter>GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUiLog.cpp">
+      <Filter>GameUI\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +355,15 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUiManager.h">
+      <Filter>GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUiBase.h">
+      <Filter>GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUiLog.h">
+      <Filter>GameUI\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

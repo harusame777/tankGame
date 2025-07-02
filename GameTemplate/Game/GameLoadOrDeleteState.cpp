@@ -9,8 +9,11 @@
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
 #include "WaveManager.h"
+#include "GameUiManager.h"
 
 #include "GameModeNormalUpdateState.h"
+
+#include "GameUiLog.h"
 
 //初期化
 void GameLoadOrDeleteState::Enter()
@@ -86,6 +89,10 @@ void GameLoadOrDeleteState::LoadProcces()
 	WaveManager::GetWaveManagerInstance()->InitWaveManager();
 	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
+
+	//テスト：UIの作成
+	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiLog>(0,{0.0f,0.0f});
+
 	//ロード完了
 	m_processEndFlag = true;
 }

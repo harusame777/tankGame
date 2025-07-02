@@ -241,6 +241,9 @@
     <ClCompile Include="GameLoadOrDeleteState.cpp" />
     <ClCompile Include="GameMainStateMachine.cpp" />
     <ClCompile Include="GamePlayerManager.cpp" />
+    <ClCompile Include="GameUiBase.cpp" />
+    <ClCompile Include="GameUiLog.cpp" />
+    <ClCompile Include="GameUiManager.cpp" />
     <ClCompile Include="MapObjectEnemyDummy.cpp" />
     <ClCompile Include="WaveSpawnPointRegistry.cpp" />
     <ClCompile Include="StateBase.cpp" />
@@ -294,6 +297,9 @@
     <ClInclude Include="GameLoadOrDeleteState.h" />
     <ClInclude Include="GameMainStateMachine.h" />
     <ClInclude Include="GamePlayerManager.h" />
+    <ClInclude Include="GameUiBase.h" />
+    <ClInclude Include="GameUiLog.h" />
+    <ClInclude Include="GameUiManager.h" />
     <ClInclude Include="MapObjectEnemyDummy.h" />
     <ClInclude Include="WaveSpawnPointRegistry.h" />
     <ClInclude Include="StateBase.h" />
