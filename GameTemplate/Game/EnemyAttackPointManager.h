@@ -12,6 +12,10 @@ enum EnUseAttackPointRange
 	en_NearAttackPoint,
 	//中距離
 	en_MiddleAttackPoint,
+	//遠距離
+	en_FarAttackPoint,
+	//種類数
+	en_UseAttackPointRangeCount
 };
 
 class EnemyAttackPointManager
@@ -58,22 +62,45 @@ public:
 		return m_enemyAttackPointManagerInstance;
 	}
 	/// <summary>
-	/// 新しいアタックポイントを生成
+	/// 攻撃ポイントの半径と終了半径、および使用範囲を初期化します。
 	/// </summary>
-	/// <param name="followCenterPoint"></param>
-	/// <param name="pointTarGetDistance"></param>
-	/// <param name="pointNum"></param>
-	void CreateEnemyAttackPoints(
-		Vector3& followCenterPoint,
-		float pointTarGetDistance,
-		float pointAttackRadius,
-		int pointNum,
-		const EnUseAttackPointRange useRange
+	/// <param name="attackPointRadius">攻撃ポイントの初期半径。</param>
+	/// <param name="attackEndRadius">攻撃ポイントの終了時の半径。</param>
+	/// <param name="useRange">攻撃ポイント範囲の使用方法を指定する列挙型。</param>
+	void InitAttackPointRadius(
+		float attackPointRadius,
+		float attackEndRadius,
+		EnUseAttackPointRange useRange
 	);
 	/// <summary>
-	/// アタックポイント位置更新
+	/// 敵戦車の攻撃ポイントを作成します。
 	/// </summary>
-	void UpdateEnemyAttackPoints();
+	/// <param name="enemyTankId">攻撃ポイントを作成する対象の敵戦車のID。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲を指定するEnUseAttackPointRange型の値。</param>
+	void CreateEnemyAttackPoint(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange 
+	);
+	/// <summary>
+	/// 攻撃ポイントの半径を更新します。
+	/// </summary>
+	/// <param name="followPosition">追従する位置を表す3次元ベクトル。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲を指定する列挙型。</param>
+	void UpdateAttackPointRadius(
+		const Vector3& followPosition,
+		EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 敵戦車の攻撃ポイントを更新します。
+	/// </summary>
+	/// <param name="enemyTankId">攻撃ポイントを更新する対象の敵戦車のID。</param>
+	/// <param name="useEnemyPos">新しい攻撃ポイントとして使用する敵戦車の位置ベクトル。</param>
+	void UpdateAttackPoint(
+		int enemyTankId,
+		const Vector3& useEnemyPos,
+		EnUseAttackPointRange useRange
+	);
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -83,84 +110,106 @@ public:
 	/// </summary>
 	void UpdateEnemyAttackPointManager();
 	/// <summary>
-	/// 引数のエネミーから一番近いエネミーを探す
+	/// 指定された敵戦車IDと使用範囲に基づいて、攻撃ポイントの位置を取得します。
 	/// </summary>
-	/// <param name="searchEnemyTank"></param>
-	/// <returns></returns>
-	EnemyAttackPoint* GetEnemyAttackPoint(
-		EnemyTankEntity* searchEnemyTank,
-		const EnUseAttackPointRange useRange
+	/// <param name="enemyTankId">攻撃ポイントの位置を取得する対象の敵戦車のID。</param>
+	/// <param name="useRange">攻撃ポイントの検索に使用する範囲を指定する列挙型。</param>
+	/// <returns>攻撃ポイントの位置を表すVector3型の定数参照。</returns>
+	const Vector3& GetEnemyIdAttackPointPosition(
+		int enemyTankId,
+		EnUseAttackPointRange useRange
 	);
 	/// <summary>
-	/// 同じエネミータンクのアドレスを持っている近距離のアタックポイントを取得する
+	/// 指定した敵タンクIDが攻撃ポイントにいるかどうかを判定します。
 	/// </summary>
-	/// <param name="searchEnemyTank"></param>
-	/// <returns></returns>
-	EnemyAttackPoint* GetSameEnemyAddressAttackPoint(
-		EnemyTankEntity* searchEnemyTank,
-		const EnUseAttackPointRange useRange
+	/// <param name="enemyTankId">判定対象の敵タンクのID。</param>
+	/// <param name="enemyPos">敵タンクの現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵タンクが攻撃ポイントにいる場合はtrue、そうでない場合はfalseを返します。</returns>
+	bool IsIdEnemyAtAttackPoint(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 指定した敵IDが攻撃ポイントの半径内にいるかどうかを判定します。
+	/// </summary>
+	/// <param name="enemyTankId">判定対象となる敵戦車のID。</param>
+	/// <param name="enemyPos">敵戦車の現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵IDが攻撃ポイントの半径内にいる場合はtrue、そうでない場合はfalseを返します。</returns>
+	bool IsIdEnemyInAttackPointRadius(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 指定した敵IDが攻撃終了半径内にいるかどうかを判定します。
+	/// </summary>
+	/// <param name="enemyTankId">判定対象となる敵戦車のID。</param>
+	/// <param name="enemyPos">敵戦車の現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵IDが攻撃終了半径内にいる場合はtrue、そうでない場合はfalse。</returns>
+	bool IsIdEnemyInAttackEndRadius(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
 	);
 	/// <summary>
 	/// アタックポイントの使用終了を知らせる
 	/// </summary>
 	/// <param name="enemyTank"></param>
-	void EndofUseAttackPoint(
-		EnemyTankEntity* enemyTank,
-		const EnUseAttackPointRange useRange
-	);
-	/// <summary>
-	/// 使用しているアタックポイントとポジションの距離が一定以内に入ったかどうかを調べる関数
-	/// </summary>
-	/// <param name="useAttackPoint"></param>
-	/// <param name="useEntityPos"></param>
-	/// <param name="triggerDistanceThreshold"></param>
-	/// <returns></returns>
-	bool IsUseAttackPointInDistance(
-		const EnemyAttackPoint& useAttackPoint,
-		const Vector3& useEntityPos,
-		float triggerDistanceThreshold
-	);
-	/// <summary>
-	/// 使用しているアタックポイント内にポジションが入っているかどうかを調べる関数
-	/// </summary>
-	/// <param name="useAttackPoint"></param>
-	/// <param name="useEntityPos"></param>
-	/// <returns></returns>
-	bool IsUseAttackPointInRadius(
-		const EnemyAttackPoint& useAttackPoint,
-		const Vector3& useEntityPos
+	void EndUseAttackPoint(
+		int enemyTankId,
+		EnUseAttackPointRange useRange
 	);
 private:
-	struct EnemyAttackPointData
+	/// <summary>
+	/// 敵の攻撃ポイント情報を管理する構造体です。
+	/// </summary>
+	struct AttackPointListInfo
 	{
 		/// <summary>
-		/// アタックポイント
+		/// 敵の攻撃ポイントを管理するためのマップです。
 		/// </summary>
-		std::shared_ptr<EnemyAttackPoint> m_attackPointPtr;
+		std::unordered_map<int,std::shared_ptr<EnemyAttackPoint>> m_attackPointMap;
 		/// <summary>
-		/// エネミータンク
+		/// 攻撃ポイントの半径を表す浮動小数点型の変数です。
 		/// </summary>
-		EnemyTankEntity* m_enemyTankEntityPtr = nullptr;
+		float m_attackPointRadius = 0.0f;
 		/// <summary>
-		/// アタックポイントまでの距離
+		/// 攻撃の終了半径を表す浮動小数点型の変数です。
 		/// </summary>
-		float m_pointTargetDistance = 0.0f;
+		float m_attackEndRadius = 0.0f;	
+		/// <summary>
+		/// 追従位置
+		/// </summary>
+		Vector3 m_followPosition = Vector3::Zero;
 	};
+
+	const Vector3& CalcAttackPointPosition(
+		const Vector3& followPosition,
+		const Vector3& attackPointPos,
+		const Vector3& useEntityPos,
+		float attackPointRadius,
+		float attackEndRadius
+	);
 	/// <summary>
-	/// 使用する距離のアタックポイントリストを取得
+	/// aPositionがbPositionからbRadius以内にあるかどうかを判定します。
 	/// </summary>
-	std::vector<EnemyAttackPointData>* GetUseAttackPointRangeList(const EnUseAttackPointRange useRange);
+	/// <param name="aPosition">判定対象となる位置ベクトル。</param>
+	/// <param name="bPosition">中心となる位置ベクトル。</param>
+	/// <param name="bRadius">bPositionを中心とした半径。</param>
+	/// <returns>aPositionがbPositionからbRadius以内であればtrue、そうでなければfalseを返します。</returns>
+	bool IsAPositionInBRadius(
+		const Vector3& aPosition, 
+		const Vector3& bPosition, 
+		float bRadius
+	);
 	/// <summary>
-	/// 追従させる中心点位置
+	/// 攻撃ポイント情報を格納するための連想配列です。
 	/// </summary>
-	Vector3* m_followCenterPoint = nullptr;
-	/// <summary>
-	/// エネミーの近距離アタックポイントリスト
-	/// </summary>
-	std::vector<EnemyAttackPointData> m_enemyNearAttackPointList;
-	/// <summary>
-	/// エネミーの中距離アタックポイントリスト
-	/// </summary>
-	std::vector<EnemyAttackPointData> m_enemyMiddleAttackPointList;
+	std::unordered_map<EnUseAttackPointRange, AttackPointListInfo> m_attackPointInfoMap;
+
 };
 

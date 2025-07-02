@@ -25,17 +25,22 @@ void EnemyTank_003_Horming::InitEnemyTankAttributeData(
 	EnemyTankEntity* hostTank
 )
 {
+	m_hostEnemyTankPtr = hostTank;
+
+	m_player = player;
+
 	m_maxTankSpeed = 30.0f;
 
 	m_shellsUsed = EnTankShellsAttribute::en_homing;
 
 	m_attackPointRangeUsed = EnUseAttackPointRange::en_MiddleAttackPoint;
-
-	m_attackPointResetTimer = 3.0f;
-
-	m_player = player;
-
-	m_hostEnemyTankPtr = hostTank;
+	//攻撃ポイント初期化
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
+		->CreateEnemyAttackPoint(
+			m_hostEnemyTankPtr->GetEnemyTankId(),
+			m_hostEnemyTankPtr->GetPosition(),
+			m_attackPointRangeUsed
+		);
 }
 
 //射撃処理
@@ -88,28 +93,29 @@ bool EnemyTank_003_Horming::DeleteProcessing()
 //追跡処理初期化
 void EnemyTank_003_Horming::EnterTracking()
 {
-	m_hostEnemyTankPtr->SetFireFlag(false);
 
-	AttackPointReset();
 }
 
 //追跡処理更新
 const Vector3& EnemyTank_003_Horming::UpdateTracking()
 {
-	if (m_attackPointResetTimer < 0.0f)
-	{
-		AttackPointReset();
 
-		m_attackPointResetTimer = 3.0f;
-	}
-	else
-	{
-		m_attackPointResetTimer -= g_gameTime->GetFrameDeltaTime();
-	}
+	Vector3 attackPointPosition = EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
+		->GetEnemyIdAttackPointPosition(
+			m_hostEnemyTankPtr->GetEnemyTankId(),
+			m_attackPointRangeUsed
+		);
 
-	m_moveDirection = m_attackPoint->GetPosition() - m_hostEnemyTankPtr->GetPosition();
+	m_moveDirection = attackPointPosition - m_hostEnemyTankPtr->GetPosition();
 
 	m_moveDirection.Normalize();
+
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
+		->UpdateAttackPoint(
+			m_hostEnemyTankPtr->GetEnemyTankId(),
+			m_hostEnemyTankPtr->GetPosition(),
+			m_attackPointRangeUsed
+		);
 
 	return m_moveDirection;
 }
@@ -124,10 +130,10 @@ void EnemyTank_003_Horming::EndTracking()
 bool EnemyTank_003_Horming::RequestStateTracking(uint32_t& request)
 {
 	if (EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
-		->IsUseAttackPointInDistance(
-			*m_attackPoint,
+		->IsIdEnemyInAttackEndRadius(
+			m_hostEnemyTankPtr->GetEnemyTankId(),
 			m_hostEnemyTankPtr->GetPosition(),
-			10.0f
+			m_attackPointRangeUsed
 		) == true)
 	{
 		request = EnemyTankStateAttackMoveUpdate::ID();
@@ -155,16 +161,17 @@ const Vector3& EnemyTank_003_Horming::UpdateAttackMove()
 //攻撃動作処理終了
 void EnemyTank_003_Horming::EndAttackMove()
 {
-	AttackPointReset();
+	m_hostEnemyTankPtr->SetFireFlag(false);
 }
 
 //攻撃動作処理ステート遷移
 bool EnemyTank_003_Horming::RequestStateAttackMove(uint32_t& request)
 {
 	if (EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()
-		->IsUseAttackPointInRadius(
-			*m_attackPoint,
-			m_hostEnemyTankPtr->GetPosition()
+		->IsIdEnemyAtAttackPoint(
+			m_hostEnemyTankPtr->GetEnemyTankId(),
+			m_hostEnemyTankPtr->GetPosition(),
+			m_attackPointRangeUsed
 		) == false)
 	{
 		request = EnemyTankStateTrackingUpdate::ID();
@@ -201,24 +208,3 @@ bool EnemyTank_003_Horming::RequestStateUnique(uint32_t& request)
 	return false;
 }
 
-//その他類
-
-void EnemyTank_003_Horming::AttackPointReset()
-{
-	if (m_attackPoint != nullptr)
-	{
-		EnemyAttackPointManager::
-			GetEnemyAttackPointManagerInstance()->EndofUseAttackPoint(
-				m_hostEnemyTankPtr,
-				m_attackPointRangeUsed
-			);
-	}
-
-	m_attackPoint = nullptr;
-
-	m_attackPoint = EnemyAttackPointManager::
-		GetEnemyAttackPointManagerInstance()->GetEnemyAttackPoint(
-			m_hostEnemyTankPtr,
-			m_attackPointRangeUsed
-		);
-}

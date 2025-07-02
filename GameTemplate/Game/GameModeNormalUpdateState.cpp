@@ -57,10 +57,10 @@ void GameModeNormalUpdateState::Update()
 		//ウェーブを生成
 		WaveManager::GetWaveManagerInstance()
 			->CreateAndStartWaveData(
-			3,
-			0.0f,
-			3,
-			0,
+			30,
+			5.0f,
+			10,
+			5,
 			3
 		);
 

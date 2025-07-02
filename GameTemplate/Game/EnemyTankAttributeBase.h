@@ -110,10 +110,6 @@ public:
 	float m_maxTankSpeed = 0.0f;
 protected:
 	/// <summary>
-	/// アタックポイント
-	/// </summary>
-	EnemyAttackPoint* m_attackPoint = nullptr;
-	/// <summary>
 	/// この属性を持っている砲弾本体
 	/// </summary>
 	EnemyTankEntity* m_hostEnemyTankPtr = nullptr;

@@ -74,19 +74,15 @@ bool GamePlayer::Start()
 		"GamePlayerCollision"
 	);
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
-		m_position,
-		300.0f,
-		300.0f,
-		20,
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->InitAttackPointRadius(
+		400.0f,
+		450.0f,
 		EnUseAttackPointRange::en_NearAttackPoint
 	);
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->CreateEnemyAttackPoints(
-		m_position,
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->InitAttackPointRadius(
 		600.0f,
-		400.0f,
-		20,
+		650.0f,
 		EnUseAttackPointRange::en_MiddleAttackPoint
 	);
 
@@ -140,29 +136,15 @@ void GamePlayer::Update()
 	m_tankCrawkerTrack.Update();
 	m_tankTurret.Update();
 
-	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateEnemyAttackPoints();
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateAttackPointRadius(
+		m_position,
+		EnUseAttackPointRange::en_NearAttackPoint
+	);
 
-	if (g_pad[0]->IsTrigger(enButtonDown))
-	{
-		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
-			EnEnemyTankAttribute::en_tankSelfDestruct,
-			{ 400.0f,0.0f,400.0f }
-		);
-	}
-	if (g_pad[0]->IsTrigger(enButtonLeft))
-	{
-		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
-			EnEnemyTankAttribute::en_tankNormal,
-			{ 400.0f,0.0f,400.0f }
-		);
-	}
-	if (g_pad[0]->IsTrigger(enButtonRight))
-	{
-		EnemyTankManager::GetEnemyTankManagerInstance()->CreateNewEnemyTank(
-			EnEnemyTankAttribute::en_tankHorming,
-			{ -400.0f,0.0f,400.0f }
-		);
-	}
+	EnemyAttackPointManager::GetEnemyAttackPointManagerInstance()->UpdateAttackPointRadius(
+		m_position,
+		EnUseAttackPointRange::en_MiddleAttackPoint
+	);
 
 	//“–‚½‚è”»’èˆÊ’uXV
 	Vector3 colPos = m_position;
