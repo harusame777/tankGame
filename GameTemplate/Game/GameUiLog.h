@@ -36,5 +36,10 @@ public:
 	/// UI を更新します。
 	/// </summary>
 	void UpdateUi() override;
+private:
+	/// <summary>
+	/// フォントレンダリング情報のリストを格納するベクターです。
+	/// </summary>
+	std::vector<FontRender> m_LogTextList;
 };
 
