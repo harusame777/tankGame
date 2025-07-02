@@ -79,6 +79,7 @@ public:
 	/// <param name="useRange">使用する攻撃ポイントの範囲を指定するEnUseAttackPointRange型の値。</param>
 	void CreateEnemyAttackPoint(
 		int enemyTankId,
+		const Vector3& enemyPos,
 		EnUseAttackPointRange useRange 
 	);
 	/// <summary>
@@ -109,52 +110,58 @@ public:
 	/// </summary>
 	void UpdateEnemyAttackPointManager();
 	/// <summary>
-	/// 引数のエネミーから一番近いエネミーを探す
+	/// 指定された敵戦車IDと使用範囲に基づいて、攻撃ポイントの位置を取得します。
 	/// </summary>
-	/// <param name="searchEnemyTank"></param>
-	/// <returns></returns>
-	EnemyAttackPoint* GetEnemyAttackPoint(
-		EnemyTankEntity* searchEnemyTank,
-		const EnUseAttackPointRange useRange
+	/// <param name="enemyTankId">攻撃ポイントの位置を取得する対象の敵戦車のID。</param>
+	/// <param name="useRange">攻撃ポイントの検索に使用する範囲を指定する列挙型。</param>
+	/// <returns>攻撃ポイントの位置を表すVector3型の定数参照。</returns>
+	const Vector3& GetEnemyIdAttackPointPosition(
+		int enemyTankId,
+		EnUseAttackPointRange useRange
 	);
 	/// <summary>
-	/// 同じエネミータンクのアドレスを持っている近距離のアタックポイントを取得する
+	/// 指定した敵タンクIDが攻撃ポイントにいるかどうかを判定します。
 	/// </summary>
-	/// <param name="searchEnemyTank"></param>
-	/// <returns></returns>
-	EnemyAttackPoint* GetSameEnemyAddressAttackPoint(
-		EnemyTankEntity* searchEnemyTank,
-		const EnUseAttackPointRange useRange
+	/// <param name="enemyTankId">判定対象の敵タンクのID。</param>
+	/// <param name="enemyPos">敵タンクの現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵タンクが攻撃ポイントにいる場合はtrue、そうでない場合はfalseを返します。</returns>
+	bool IsIdEnemyAtAttackPoint(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 指定した敵IDが攻撃ポイントの半径内にいるかどうかを判定します。
+	/// </summary>
+	/// <param name="enemyTankId">判定対象となる敵戦車のID。</param>
+	/// <param name="enemyPos">敵戦車の現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵IDが攻撃ポイントの半径内にいる場合はtrue、そうでない場合はfalseを返します。</returns>
+	bool IsIdEnemyInAttackPointRadius(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
+	);
+	/// <summary>
+	/// 指定した敵IDが攻撃終了半径内にいるかどうかを判定します。
+	/// </summary>
+	/// <param name="enemyTankId">判定対象となる敵戦車のID。</param>
+	/// <param name="enemyPos">敵戦車の現在位置（3次元ベクトル）。</param>
+	/// <param name="useRange">使用する攻撃ポイントの範囲。</param>
+	/// <returns>敵IDが攻撃終了半径内にいる場合はtrue、そうでない場合はfalse。</returns>
+	bool IsIdEnemyInAttackEndRadius(
+		int enemyTankId,
+		const Vector3& enemyPos,
+		EnUseAttackPointRange useRange
 	);
 	/// <summary>
 	/// アタックポイントの使用終了を知らせる
 	/// </summary>
 	/// <param name="enemyTank"></param>
-	void EndofUseAttackPoint(
-		EnemyTankEntity* enemyTank,
-		const EnUseAttackPointRange useRange
-	);
-	/// <summary>
-	/// 使用しているアタックポイントとポジションの距離が一定以内に入ったかどうかを調べる関数
-	/// </summary>
-	/// <param name="useAttackPoint"></param>
-	/// <param name="useEntityPos"></param>
-	/// <param name="triggerDistanceThreshold"></param>
-	/// <returns></returns>
-	bool IsUseAttackPointInDistance(
-		const EnemyAttackPoint& useAttackPoint,
-		const Vector3& useEntityPos,
-		float triggerDistanceThreshold
-	);
-	/// <summary>
-	/// 使用しているアタックポイント内にポジションが入っているかどうかを調べる関数
-	/// </summary>
-	/// <param name="useAttackPoint"></param>
-	/// <param name="useEntityPos"></param>
-	/// <returns></returns>
-	bool IsUseAttackPointInRadius(
-		const EnemyAttackPoint& useAttackPoint,
-		const Vector3& useEntityPos
+	void EndUseAttackPoint(
+		int enemyTankId,
+		EnUseAttackPointRange useRange
 	);
 private:
 	/// <summary>

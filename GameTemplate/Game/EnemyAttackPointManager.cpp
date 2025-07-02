@@ -30,6 +30,7 @@ void EnemyAttackPointManager::InitAttackPointRadius(
 
 void EnemyAttackPointManager::CreateEnemyAttackPoint(
 	int enemyTankId,
+	const Vector3& enemyPos,
 	EnUseAttackPointRange useRange
 )
 {
@@ -50,6 +51,24 @@ void EnemyAttackPointManager::CreateEnemyAttackPoint(
 	auto newAttackPoint = std::make_unique<EnemyAttackPoint>();
 
 	useAttackPointList->second.m_attackPointMap[enemyTankId] = std::move(newAttackPoint);
+
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
+
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
+	{
+		return;
+	}
+
+	//アタックポイントの位置を更新するための位置を計算
+	Vector3 updatePos = CalcAttackPointPosition(
+		useAttackPointList->second.m_followPosition,
+		useAttackPoint->second->GetPosition(),
+		enemyPos,
+		useAttackPointList->second.m_attackPointRadius,
+		useAttackPointList->second.m_attackEndRadius
+	);
 }
 
 void EnemyAttackPointManager::UpdateAttackPointRadius(
@@ -119,7 +138,7 @@ const Vector3& EnemyAttackPointManager::CalcAttackPointPosition(
 
 	//まずはアタックポイントが半径内に存在するかどうかを判定
 	if (IsAPositionInBRadius(
-		attackPointPos,
+		useEntityPos,
 		followPosition,
 		attackEndRadius
 	))
@@ -131,7 +150,7 @@ const Vector3& EnemyAttackPointManager::CalcAttackPointPosition(
 	else
 	{
 		//使用エネミータンク位置から追従位置へ伸びるベクトル
-		Vector3 direction = followPosition - useEntityPos;
+		Vector3 direction = useEntityPos - followPosition;
 		direction.Normalize();
 
 		//Y値は不要なので0にする
@@ -158,200 +177,168 @@ bool EnemyAttackPointManager::IsAPositionInBRadius(
 	return distSq <= radiusSq;
 }
 
-EnemyAttackPoint* EnemyAttackPointManager::GetEnemyAttackPoint(
-	EnemyTankEntity* searchEnemyTank,
-	const EnUseAttackPointRange useRange
+const Vector3& EnemyAttackPointManager::GetEnemyIdAttackPointPosition(
+	int enemyTankId,
+	EnUseAttackPointRange useRange
 )
 {
-	if (searchEnemyTank == nullptr)
+	//該当する距離の情報を取得
+	auto useAttackPointList = m_attackPointInfoMap.find(useRange);
+
+	//指定しようとした箇所のアタックポイント情報が存在しない場合は戻す
+	if (useAttackPointList == m_attackPointInfoMap.end())
 	{
-		return nullptr;
+		return Vector3::Zero;
 	}
 
-	//取得する距離のアタックポイントリストを取得
-	std::vector<EnemyAttackPointData>* useList = GetUseAttackPointRangeList(useRange);
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
 
-	//リストが空だったら
-	if (useList->empty() == true)
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
 	{
-		//ヌルを返す
-		return nullptr;
+		return Vector3::Zero;
 	}
 
-	//探すエネミーの位置を取得
-	Vector3 enemyTankPos = searchEnemyTank->GetPosition();
+	return useAttackPoint->second->GetPosition();
+}
 
-	//比較用ポインタ
-	EnemyAttackPointData* closestAttackPoint = nullptr;
-	//比較用距離
-	float closestLen = 0.0f;
+bool EnemyAttackPointManager::IsIdEnemyAtAttackPoint(
+	int enemyTankId,
+	const Vector3& enemyPos,
+	EnUseAttackPointRange useRange
+)
+{
+	//該当する距離の情報を取得
+	auto useAttackPointList = m_attackPointInfoMap.find(useRange);
+
+	//指定しようとした箇所のアタックポイント情報が存在しない場合は戻す
+	if (useAttackPointList == m_attackPointInfoMap.end())
+	{
+		return false;
+	}
+
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
+
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
+	{
+		return false;
+	}
+
 	
-	for (auto& attackPoint : *useList)
+	Vector3 attackPointPos = useAttackPoint->second->GetPosition();
+
+	Vector3 enemyToAttackPVec = attackPointPos - enemyPos;
+
+	float length = enemyToAttackPVec.Length();
+
+	if (length < 1.0f)
 	{
-		//アタックポイントの位置を取得
-		Vector3 attackPointPos = attackPoint.m_attackPointPtr->GetPosition();
-		//エネミーからアタックポイントまでの距離を計算
-		Vector3 EnemyToAttackPointDis = attackPointPos - enemyTankPos;
-		//計算したベクトルから長さを取得
-		float EnemyToAttackPointLen = EnemyToAttackPointDis.Length();
-
-		//ココから判定
-
-		//アタックポイントが使用中かどうか判定
-		if (nullptr != attackPoint.m_enemyTankEntityPtr)
-		{
-			//もし使用中だったらこの一回を飛ばす
-			continue;
-		}
-
-		//比較用のポインタがNULLだったら代入する
-		if (closestAttackPoint == nullptr)
-		{
-			closestAttackPoint = &attackPoint;
-
-			closestLen = EnemyToAttackPointLen;
-
-			continue;
-		}
-		
-		//計算した距離を現在一番近いアタックポイントと距離を比較する
-		if (EnemyToAttackPointLen < closestLen)
-		{
-			//もし真であれば入れ替え処理を行う
-			closestAttackPoint = &attackPoint;
-			closestLen = EnemyToAttackPointLen;
-		}
+		return true;
 	}
 
-	//もしアタックポイントが現在満員だったら
-	if (closestAttackPoint == nullptr)
-	{
-		//nullを返す
-		return nullptr;
-	}
-
-	//選択されたアタックポイントに使用中のエネミーを設定
-	closestAttackPoint->m_enemyTankEntityPtr = searchEnemyTank;
-
-	return closestAttackPoint->m_attackPointPtr.get();
+	return false;
 }
 
-//同じエネミータンクのアドレスを持っているアタックポイントを取得する
-EnemyAttackPoint* EnemyAttackPointManager::GetSameEnemyAddressAttackPoint(
-	EnemyTankEntity* searchEnemyTank,
-	const EnUseAttackPointRange useRange
+bool EnemyAttackPointManager::IsIdEnemyInAttackPointRadius(
+	int enemyTankId,
+	const Vector3& enemyPos,
+	EnUseAttackPointRange useRange
 )
 {
-	if (searchEnemyTank == nullptr)
+	//該当する距離の情報を取得
+	auto useAttackPointList = m_attackPointInfoMap.find(useRange);
+
+	//指定しようとした箇所のアタックポイント情報が存在しない場合は戻す
+	if (useAttackPointList == m_attackPointInfoMap.end())
 	{
-		return nullptr;
+		return false;
 	}
 
-	//取得する距離のアタックポイントリストを取得
-	std::vector<EnemyAttackPointData>* useList = GetUseAttackPointRangeList(useRange);
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
 
-	EnemyAttackPoint* attackPoint = nullptr;
-
-	for (auto& listPtr : *useList)
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
 	{
-		if (listPtr.m_enemyTankEntityPtr == searchEnemyTank)
-		{
-			attackPoint = listPtr.m_attackPointPtr.get();
-		}
+		return false;
 	}
 
-	if (attackPoint == nullptr)
-	{
-		return nullptr;
-	}
+	bool isInRadius = false;
 
-	return attackPoint;
+	//アタックポイントの位置とエネミーの位置を比較して半径内に存在するかどうかを判定
+	isInRadius = IsAPositionInBRadius(
+		useAttackPoint->second->GetPosition(),
+		enemyPos,
+		useAttackPointList->second.m_attackPointRadius
+	);
+
+	return isInRadius;
 }
 
-//アタックポイントの使用終了を知らせる関数
-void EnemyAttackPointManager::EndofUseAttackPoint(
-	EnemyTankEntity* enemyTank,
-	const EnUseAttackPointRange useRange
+bool EnemyAttackPointManager::IsIdEnemyInAttackEndRadius(
+	int enemyTankId,
+	const Vector3& enemyPos,
+	EnUseAttackPointRange useRange
 )
 {
-	if (enemyTank == nullptr)
+	//該当する距離の情報を取得
+	auto useAttackPointList = m_attackPointInfoMap.find(useRange);
+
+	//指定しようとした箇所のアタックポイント情報が存在しない場合は戻す
+	if (useAttackPointList == m_attackPointInfoMap.end())
+	{
+		return false;
+	}
+
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
+
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
+	{
+		return false;
+	}
+
+	bool isInRadius = false;
+
+	//アタックポイントの位置とエネミーの位置を比較して半径内に存在するかどうかを判定
+	isInRadius = IsAPositionInBRadius(
+		useAttackPointList->second.m_followPosition,
+		enemyPos,
+		useAttackPointList->second.m_attackEndRadius
+	);
+
+	return isInRadius;
+}
+
+void EnemyAttackPointManager::EndUseAttackPoint(
+	int enemyTankId,
+	EnUseAttackPointRange useRange
+)
+{
+
+	//該当する距離の情報を取得
+	auto useAttackPointList = m_attackPointInfoMap.find(useRange);
+
+	//指定しようとした箇所のアタックポイント情報が存在しない場合は戻す
+	if (useAttackPointList == m_attackPointInfoMap.end())
 	{
 		return;
 	}
 
-	//仕様解除する距離のアタックポイントリストを取得
-	std::vector<EnemyAttackPointData>* useList = GetUseAttackPointRangeList(useRange);
+	//該当するエネミータンクIDのアタックポイントを取得
+	auto useAttackPoint = useAttackPointList->second.m_attackPointMap.find(enemyTankId);
 
-	for (auto& attackPoint : *useList)
+	//該当のエネミータンクIDのアタックポイントが存在しない場合は戻す
+	if (useAttackPoint == useAttackPointList->second.m_attackPointMap.end())
 	{
-		if (attackPoint.m_enemyTankEntityPtr == enemyTank)
-		{
-			attackPoint.m_enemyTankEntityPtr = nullptr;
-		}
-	}
-}
-
-std::vector<EnemyAttackPointManager::EnemyAttackPointData>* EnemyAttackPointManager::GetUseAttackPointRangeList(const EnUseAttackPointRange useRange)
-{
-
-	switch (useRange)
-	{
-	case EnUseAttackPointRange::en_NearAttackPoint:
-
-		return &m_enemyNearAttackPointList;
-
-		break;
-	case EnUseAttackPointRange::en_MiddleAttackPoint:
-
-		return &m_enemyMiddleAttackPointList;
-
-		break;
-	default:
-		break;
+		return;
 	}
 
-}
-
-bool EnemyAttackPointManager::IsUseAttackPointInDistance(
-	const EnemyAttackPoint& useAttackPoint,
-	const Vector3& useEntityPos,
-	float triggerDistanceThreshold
-)
-{
-	//アタックポイントのポジション
-	const Vector3 attackPointPos = useAttackPoint.GetPosition();
-	//2点間のベクトルを作成
-	const Vector3 positionToAttackPointVec = attackPointPos - useEntityPos;
-	//距離を計算
-	const float distance = positionToAttackPointVec.Length();
-	//距離がtriggerDistanceThreshold以下になったらtrueを返す
-	if (distance < triggerDistanceThreshold)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool EnemyAttackPointManager::IsUseAttackPointInRadius(
-	const EnemyAttackPoint& useAttackPoint,
-	const Vector3& useEntityPos
-)
-{
-	//アタックポイントのポジション
-	const Vector3 attackPointPos = useAttackPoint.GetPosition();
-	//ポジションからアタックポイントに向かうベクトル(2Dベクトルとして考える)
-	const float distX = attackPointPos.x - useEntityPos.x;
-	const float distZ = attackPointPos.z - useEntityPos.z;
-	//半径計算
-	const float hostEnemyTankToAttackPointRangeSq = distX * distX + distZ * distZ;
-
-	if (useAttackPoint.GetRadiusSq() >= hostEnemyTankToAttackPointRangeSq)
-	{
-		return true;
-	}
-
-	return false;
+	useAttackPointList->second.m_attackPointMap.erase(useAttackPoint);
 }
 
 void EnemyAttackPointManager::InitEnemyAttackPointManager()

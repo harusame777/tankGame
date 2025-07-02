@@ -90,10 +90,6 @@ private:
 	/// </summary>
 	static bool m_attributeRegistered;
 	/// <summary>
-	/// アタックポイントのリセット
-	/// </summary>
-	void AttackPointReset();
-	/// <summary>
 	/// 移動方向
 	/// </summary>
 	Vector3 m_moveDirection = Vector3::Zero;
@@ -101,9 +97,5 @@ private:
 	/// 射撃クールタイム
 	/// </summary>
 	float m_fireCoolTime = 0.0f;
-	/// <summary>
-	/// 攻撃ポイントのリセットタイマーを表す浮動小数点型の変数です。
-	/// </summary>
-	float m_attackPointResetTimer = 0.0f;
 };
 
