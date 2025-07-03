@@ -6,6 +6,7 @@ namespace TankManagerConstant
 }
 
 #include "EnemyTankAttribute.h"
+#include "EventManager.h"
 
 class EnemyTankAttribute;
 class EnemyTankEntity;

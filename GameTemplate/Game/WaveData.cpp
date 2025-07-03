@@ -6,6 +6,7 @@
 
 #include "EnemyTankManager.h"
 #include "WaveManager.h"
+#include "EventManager.h"
 
 void WaveData::InitWaveData(
 	std::vector<EnEnemyTankAttribute> attribute,
@@ -210,6 +211,10 @@ void WaveData::UpdateEnemyTankListDelete()
 			itNo = m_waveActiveEnemyList.erase(itNo);
 			//ウェーブ内の倒されたエネミーの数を増やす
 			m_waveDefeatedEnemyNum++;
+			//ウェーブ内の残りエネミー数を格納
+			m_eventEnemyDead.m_enemyRemainingNum = m_waveActiveEnemyList.size();
+			//イベントを通知
+			EventManager::GetEventManagerInstance()->NotifyListeners(m_eventEnemyDead);
 		}
 		else
 		{

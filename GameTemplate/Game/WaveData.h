@@ -22,6 +22,17 @@ namespace WaveDataConstant
 	const float enemyAddTimeConstant = 15.0f;
 };
 
+/// <summary>
+/// 敵が死亡した際のイベント情報を表す構造体です。
+/// </summary>
+struct EventEnemyDead : public EventManager::StructEventBase
+{
+	/// <summary>
+	/// 敵の死亡数
+	/// </summary>
+	int m_enemyRemainingNum = 0;
+};
+
 class WaveData
 {
 public:
@@ -227,6 +238,10 @@ private:
 	/// ウェーブのスポーンポイントのリストを格納する変数です。
 	/// </summary>
 	WaveSpawnPointVector m_spawnPointList;
+	/// <summary>
+	/// 敵が倒されたときに発生するイベントです。
+	/// </summary>
+	EventEnemyDead m_eventEnemyDead;
 	/// <summary>
 	/// WaveEndEvent 型の変数 m_waveDatas です。
 	/// </summary>

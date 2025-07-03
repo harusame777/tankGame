@@ -14,6 +14,7 @@
 #include "GameModeNormalUpdateState.h"
 
 #include "GameUiLog.h"
+#include "GameUiEnemyCount.h"
 
 //初期化
 void GameLoadOrDeleteState::Enter()
@@ -91,7 +92,7 @@ void GameLoadOrDeleteState::LoadProcces()
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 
 	//テスト：UIの作成
-	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiLog>(0,{0.0f,0.0f});
+	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiEnemyCount>(0,{0.0f,0.0f});
 
 	//ロード完了
 	m_processEndFlag = true;

@@ -208,6 +208,9 @@
     <ClCompile Include="GameUiLog.cpp">
       <Filter>GameUI\UI</Filter>
     </ClCompile>
+    <ClCompile Include="GameUiEnemyCount.cpp">
+      <Filter>GameUI\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -363,6 +366,9 @@
       <Filter>GameUI</Filter>
     </ClInclude>
     <ClInclude Include="GameUiLog.h">
+      <Filter>GameUI\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUiEnemyCount.h">
       <Filter>GameUI\UI</Filter>
     </ClInclude>
   </ItemGroup>
