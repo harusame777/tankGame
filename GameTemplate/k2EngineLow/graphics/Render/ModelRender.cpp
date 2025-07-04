@@ -32,29 +32,11 @@ namespace nsK2EngineLow {
 		//アニメーションの初期化
 		InitAnimation(animationClips, numAnimationClips);
 
-		// GBuffer描画用のモデルを初期化。
-		// Gbufferは作りかけ
-		//InitModelOnRenderGBuffer(*g_renderingEngine,tkmfilePath,enModelUpAxis,isRecieveShadow);
-
 		//基本のモデル初期化
 		InitNormalModel(tkmfilePath, animationClips, numAnimationClips, enModelUpAxis, shader);
 
 		//シャドウマップ描画用モデルの初期化
 		InitShadowModel(tkmfilePath, enModelUpAxis);
-	}
-
-	//GBuffer描画用のモデルを初期化
-	void ModelRender::InitModelOnRenderGBuffer(
-		RenderingEngine& renderingEngine,
-		const char* tkmFilePath,
-		EnModelUpAxis enModelUpAxis,
-		bool isShadowReciever
-	)
-	{
-		//基本モデルの初期化構造体を作成
-		ModelInitData initData;
-		initData.m_fxFilePath = "";
-		
 	}
 
 	//基本モデルの初期化
@@ -79,7 +61,7 @@ namespace nsK2EngineLow {
 		case ModelRender::en_usuallyShader:
 
 			//描画シェーダーを登録
-			initData.m_fxFilePath = "Assets/shader/haruharuModel.fx";
+			initData.m_fxFilePath = "Assets/shader/differedModel.fx";
 
 			//ライトの情報を登録
 			//initData.m_expandConstantBuffer = g_sceneLight->GetLightData();

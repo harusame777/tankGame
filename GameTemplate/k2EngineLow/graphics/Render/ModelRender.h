@@ -68,18 +68,6 @@ namespace nsK2EngineLow {
 			EnModelUpAxis modelUpAxis
 		);
 
-		/// <summary>
-		/// GBuffer描画用のモデルを初期化。
-		/// </summary>
-		/// <param name="renderingEngine">レンダリングエンジン</param>
-		/// <param name="tkmFilePath">tkmファイルパス</param>
-		void InitModelOnRenderGBuffer(
-			RenderingEngine& renderingEngine,
-			const char* tkmFilePath,
-			EnModelUpAxis enModelUpAxis,
-			bool isShadowReciever
-		);
-
 		//スケルトンの初期化
 		void InitSkeleton(const char* filePath);
 

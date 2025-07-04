@@ -12,7 +12,7 @@ namespace nsK2EngineLow {
 
 
 		//アルベド用のレンダリングターゲットを初期化
-		float clearColor[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+		float clearColor[4] = { 0.7f, 0.7f, 1.0f, 1.0f };		
 		m_gBuffer[enGBufferAlbed].Create(
 			frameBuffer_w,
 			frameBuffer_h,
@@ -56,10 +56,11 @@ namespace nsK2EngineLow {
 		rc.ClearRenderTargetViews(ARRAYSIZE(rts), rts);
 
 		for (auto& renderObj : renderObjects){
-			renderObj->OnRenderToGBuffer(rc);
+			renderObj->OnRenderModel(rc);
 		}
 
-		//レンダリングターゲットへの書き込み終了待ち
-		rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
+
+		////レンダリングターゲットへの書き込み終了待ち
+		//rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
 	}
 }

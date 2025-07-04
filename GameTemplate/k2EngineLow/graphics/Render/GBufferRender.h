@@ -5,6 +5,15 @@ namespace nsK2EngineLow {
 	{
 	public:
 
+		//GBufferの定義
+		enum EnGBuffer
+		{
+			enGBufferAlbed,//アルベド
+			enGBufferNormal,//法線
+
+			enGBufferNum//GBufferの数
+		};
+
 		//初期化処理
 		void Init();
 
@@ -14,14 +23,13 @@ namespace nsK2EngineLow {
 			std::vector<IRenderer*>& renderObjects
 		);
 
-		//GBufferの定義
-		enum EnGBuffer
+		void SetRenderTargetTexture(SpriteInitData& spriteInitData)
 		{
-			enGBufferAlbed,//アルベド
-			enGBufferNormal,//法線
-
-			enGBufferNum//GBufferの数
-		};
+			for (int gBufferNo = 0; gBufferNo < enGBufferNum; gBufferNo++)
+			{
+				spriteInitData.m_textures[gBufferNo] = &m_gBuffer[gBufferNo].GetRenderTargetTexture();
+			}
+		}
 
 	private:
 		//GBuffer

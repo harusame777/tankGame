@@ -84,6 +84,19 @@ void GameModeNormalUpdateState::Update()
 		break;
 	}
 
+	m_testDirectionalLight.SetColor(1.0f, 1.0f, 1.0f);
+	m_testDirectionalLight.SetDirection(1.0f, -1.0f, -1.0f);
+	m_testDirectionalLight.LightDirectionNormalize();
+	m_testDirectionalLight.CastShadow();
+	m_testDirectionalLight.VPCamSetRotation(80.0f);
+	//sunDirectionalLight.VPCamSetPosition({ -10.0, 2000, 0.0 });
+
+	Vector3 m_sunPos = { -2000.0, 2000, 2000.0 };
+
+	m_testDirectionalLight.VPCamSetPosition(m_sunPos);
+	m_testDirectionalLight.VPCamSetTarget({0.0f,0.0f,0.0f});
+	m_testDirectionalLight.VPCamUpdate();
+
 	//ÉQÅ[ÉÄÇçXêV
 	GameUpdate();
 }

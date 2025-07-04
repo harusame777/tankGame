@@ -112,6 +112,11 @@ private:
 	/// </summary>
 	WaveData* m_waveData = nullptr;
 
+	/// <summary>
+	/// テスト用のDirectionalLight型の変数です。
+	/// </summary>
+	DirectionalLight m_testDirectionalLight;
+
 	float m_addtest = 0.0f;
 };
 
