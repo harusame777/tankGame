@@ -25,12 +25,12 @@ namespace WaveDataConstant
 /// <summary>
 /// “G‚ª€–S‚µ‚½Û‚ÌƒCƒxƒ“ƒgî•ñ‚ğ•\‚·\‘¢‘Ì‚Å‚·B
 /// </summary>
-struct EventEnemyDead : public EventManager::StructEventBase
+struct EventEnemyCount : public EventManager::StructEventBase
 {
 	/// <summary>
 	/// “G‚Ì€–S”
 	/// </summary>
-	int m_enemyRemainingNum = 0;
+	int m_enemyEventCount = 0;
 };
 
 class WaveData
@@ -241,7 +241,7 @@ private:
 	/// <summary>
 	/// “G‚ª“|‚³‚ê‚½‚Æ‚«‚É”­¶‚·‚éƒCƒxƒ“ƒg‚Å‚·B
 	/// </summary>
-	EventEnemyDead m_eventEnemyDead;
+	EventEnemyCount m_eventEnemyCount;
 	/// <summary>
 	/// WaveEndEvent Œ^‚Ì•Ï” m_waveDatas ‚Å‚·B
 	/// </summary>

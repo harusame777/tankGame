@@ -36,6 +36,10 @@ void WaveData::StartWave(
 	m_nextSpawnEnemyNum = nextSpawn;
 	//出現する敵のリストの初期化
 	InitAllEnemyInfo();
+	//イベント通知のためのイベントデータの初期化
+	m_eventEnemyCount.m_enemyEventCount = m_waveMaxEnemyNum;
+	//イベントを通知
+	EventManager::GetEventManagerInstance()->NotifyListeners(m_eventEnemyCount);
 	//ステートを生成ステートに
 	m_waveState = EnWaveState::en_enemyGenerate;
 }
@@ -212,9 +216,9 @@ void WaveData::UpdateEnemyTankListDelete()
 			//ウェーブ内の倒されたエネミーの数を増やす
 			m_waveDefeatedEnemyNum++;
 			//ウェーブ内の残りエネミー数を格納
-			m_eventEnemyDead.m_enemyRemainingNum = m_waveActiveEnemyList.size();
+			m_eventEnemyCount.m_enemyEventCount = (m_waveDefeatedEnemyNum - m_waveMaxEnemyNum) * -1;
 			//イベントを通知
-			EventManager::GetEventManagerInstance()->NotifyListeners(m_eventEnemyDead);
+			EventManager::GetEventManagerInstance()->NotifyListeners(m_eventEnemyCount);
 		}
 		else
 		{

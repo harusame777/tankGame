@@ -102,11 +102,11 @@ void GameModeNormalUpdateState::GameModeInit()
 {
 	//外部イベント、ウェーブ終了時に実行
 	EventManager::GetEventManagerInstance()->RegisterListener<WaveEndEvent, GameModeNormalUpdateState>(
-		m_gameModeNormalSharedPtr,
-		[](std::shared_ptr<GameModeNormalUpdateState> obj) {
+		this,
+		[](GameModeNormalUpdateState* obj) {
 			return obj->m_waveEndGoFlag;
 		},
-		[](std::shared_ptr<GameModeNormalUpdateState> obj, const WaveEndEvent &evt) {
+		[](GameModeNormalUpdateState* obj, const WaveEndEvent &evt) {
 			
 			obj->m_addtest = evt.m_eventEndTime;
 

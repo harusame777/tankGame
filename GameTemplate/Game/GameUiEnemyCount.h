@@ -2,6 +2,13 @@
  
 #include "GameUiBase.h"
 
+namespace UiConstant
+{
+	Vector2 const ENEMY_COUNT_POSITION = Vector2(800.0f, 500.0f);
+
+	const float ENEMY_COUNT_MAX_SIZE = 2.0f;
+}
+
 class GameUiEnemyCount :
 	public GameUiBase,
 	public IGameObject
@@ -43,6 +50,18 @@ public:
 	/// </summary>
 	void UpdateUi() override;
 private:
+	/// <summary>
+	/// 現在の敵の数をUIに表示します。
+	/// </summary>
+	/// <param name="nowEnemyCount">現在存在する敵の数。</param>
+	void UpdateEnemyCountUi(
+		int nowEnemyCount,
+		const Vector2& setPosition
+	);
+	/// <summary>
+	/// フォントレンダー
+	/// </summary>
+	FontRender m_fontRender; 
 	/// <summary>
 	/// 敵の数を表す整数型のメンバー変数です。
 	/// </summary>

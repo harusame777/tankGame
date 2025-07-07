@@ -64,9 +64,9 @@ public:
 	/// <param name="handler"></param>
 	template<typename EventType,typename ObjectType>
 	void RegisterListener(
-		std::weak_ptr<ObjectType> object,
-		std::function<bool(std::shared_ptr<ObjectType>)> condition,
-		std::function<void(std::shared_ptr<ObjectType>, const EventType&)> handler
+		ObjectType* object,
+		std::function<bool(ObjectType* object)> condition,
+		std::function<void(ObjectType* object, const EventType&)> handler
 	)
 	{
 		//型判別するためにtype_indexに代入
@@ -76,22 +76,13 @@ public:
 		m_listnersList[type].emplace_back(
 			[object, condition]()-> bool 
 			{
-				//このオブジェクトが削除済みでないかを確認
-				if (auto sp = object.lock())
-				{
-					//関数が起動可能かどうかを返す
-					return condition(sp);
-				}
-				return false;
+				//関数が起動可能かどうかを返す
+				return condition(object);
 			},
 			[object, handler](const StructEventBase& event)
 			{
-				//このオブジェクトが削除済みでないかを確認
-				if (auto sp = object.lock())
-				{
-					//イベント処理
-                    handler(sp, dynamic_cast<const EventType&>(event));
-				}
+				//イベント処理
+				handler(object, dynamic_cast<const EventType&>(event));
 			}
 		);
 	}
