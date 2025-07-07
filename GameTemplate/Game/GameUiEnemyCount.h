@@ -6,6 +6,8 @@ namespace UiConstant
 {
 	Vector2 const ENEMY_COUNT_POSITION = Vector2(800.0f, 500.0f);
 
+	Vector2 const UI_OFF_POSITION = Vector2(1100.0f, 500.0f);
+
 	const float ENEMY_COUNT_MAX_SIZE = 2.0f;
 }
 
@@ -62,6 +64,10 @@ private:
 	/// フォントレンダー
 	/// </summary>
 	FontRender m_fontRender; 
+	/// <summary>
+	/// 移動比率を表す浮動小数点型の変数です。
+	/// </summary>
+	float m_uiMoveRatio = 0.0f;
 	/// <summary>
 	/// 敵の数を表す整数型のメンバー変数です。
 	/// </summary>

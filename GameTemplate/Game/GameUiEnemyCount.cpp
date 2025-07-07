@@ -62,7 +62,7 @@ void GameUiEnemyCount::UpdateUi()
 {
 	UpdateEnemyCountUi(
 		m_enemyCount,
-		UiConstant::ENEMY_COUNT_POSITION
+		UiConstant::UI_OFF_POSITION
 	);
 }
 
