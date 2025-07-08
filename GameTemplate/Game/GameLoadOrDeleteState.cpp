@@ -92,7 +92,7 @@ void GameLoadOrDeleteState::LoadProcces()
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 
 	//テスト：UIの作成
-	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiEnemyCount>(0,{0.0f,0.0f});
+	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiEnemyCount>(0);
 
 	//ロード完了
 	m_processEndFlag = true;

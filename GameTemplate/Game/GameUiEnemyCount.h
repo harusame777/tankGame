@@ -4,9 +4,11 @@
 
 namespace UiConstant
 {
-	Vector2 const ENEMY_COUNT_POSITION = Vector2(800.0f, 500.0f);
+	const Vector2 FONT_ON_POSITION = Vector2(800.0f, 500.0f);
 
-	Vector2 const UI_OFF_POSITION = Vector2(1100.0f, 500.0f);
+	const Vector2 FONT_OFF_POSITION = Vector2(1100.0f, 500.0f);
+
+	const Vector2 SPRITE_ON_POSITION = Vector2(650.0f, 350.0f);
 
 	const float ENEMY_COUNT_MAX_SIZE = 2.0f;
 }
@@ -65,6 +67,14 @@ private:
 	/// </summary>
 	FontRender m_fontRender; 
 	/// <summary>
+	/// メインUIのスプライトレンダラーを表す変数です。
+	/// </summary>
+	SpriteRender m_uiFrame;
+	/// <summary>
+	/// 戦車アイコンを描画するためのSpriteRender型のメンバー変数です。
+	/// </summary>
+	SpriteRender m_uiTankIcon;
+	/// <summary>
 	/// 移動比率を表す浮動小数点型の変数です。
 	/// </summary>
 	float m_uiMoveRatio = 0.0f;
@@ -72,9 +82,5 @@ private:
 	/// 敵の数を表す整数型のメンバー変数です。
 	/// </summary>
 	int m_enemyCount; 
-	/// <summary>
-	/// 敵の数を管理するGameUiEnemyCountオブジェクトへの共有ポインタです。
-	/// </summary>
-	std::shared_ptr<GameUiEnemyCount> m_uiEnemyCountSharedPtr;
 };
 

@@ -10,7 +10,7 @@ public:\
 
 class GameUiBase
 {
-public:
+protected:
 	/// <summary>
 	/// GameUiBase クラスのデフォルトコンストラクタです。
 	/// </summary>
@@ -113,6 +113,22 @@ public:
 	{
 		return m_state;
 	}
+	/// <summary>
+	/// リスト内のスプライトを描画コンテキストに描画します。
+	/// </summary>
+	/// <param name="rc">スプライトを描画するためのレンダーコンテキスト。</param>
+	void DrawListSprites(RenderContext& rc);
+	/// <summary>
+	/// スプライトをスプライトリストに追加します。
+	/// </summary>
+	/// <param name="sprite">追加するSpriteRender型のスプライトへのポインタ。</param>
+	void AddSprite(
+		int drawOrderNum,
+		SpriteRender* sprite
+	)
+	{
+		m_spriteList.insert({ drawOrderNum,sprite });
+	}
 private:
 	/// <summary>
 	/// 描画フラグを示すブール値の変数です。
@@ -126,5 +142,14 @@ private:
 	/// EnGameUiState 型の変数 m_state を en_init で初期化します。
 	/// </summary>
 	EnGameUiState m_state = en_init; 
+	/// <summary>
+	/// int型のキーとSpriteRenderポインタを関連付けるマップです。
+	/// </summary>
+	std::map<int,SpriteRender*> m_spriteList;
+	/// <summary>
+	/// フォントレンダリングオブジェクトへのポインタを格納するマップです。
+	/// </summary>
+	std::map<int, FontRender*> m_fontList;
+
 };
 

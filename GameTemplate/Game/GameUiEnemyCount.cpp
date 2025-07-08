@@ -7,6 +7,14 @@
 bool GameUiEnemyCount::Start()
 {
 
+	m_uiFrame.Init("Assets/spriteData/uiEnemyCount/EnemyCountUiV1.DDS", 288, 152);
+
+	m_uiTankIcon.Init("Assets/spriteData/uiEnemyCount/EnemyCountUiTankIconV1.DDS", 129, 74);
+
+	AddSprite(1,&m_uiFrame);
+
+	AddSprite(0, &m_uiTankIcon);
+
 	//イベントマネジャーを使用して、エネミーマネージャー側にエネミーが倒された数を通知してもらう。
 	EventManager::GetEventManagerInstance()->RegisterListener<EventEnemyCount, GameUiEnemyCount>(
 		this,
@@ -42,6 +50,8 @@ void GameUiEnemyCount::Update()
 //描画処理
 void GameUiEnemyCount::Render(RenderContext& rc)
 {
+	DrawListSprites(rc);
+
 	m_fontRender.Draw(rc);
 }
 
@@ -62,7 +72,7 @@ void GameUiEnemyCount::UpdateUi()
 {
 	UpdateEnemyCountUi(
 		m_enemyCount,
-		UiConstant::UI_OFF_POSITION
+		UiConstant::FONT_ON_POSITION
 	);
 }
 
@@ -91,4 +101,18 @@ void GameUiEnemyCount::UpdateEnemyCountUi(
 	m_fontRender.SetText(fontBuffer);
 
 	m_fontRender.SetScale(UiConstant::ENEMY_COUNT_MAX_SIZE);
+
+	Vector3 test(
+		UiConstant::SPRITE_ON_POSITION.x,
+		UiConstant::SPRITE_ON_POSITION.y,
+		0.0f
+	);
+
+	m_uiFrame.SetPosition(test);
+
+	m_uiTankIcon.SetPosition(test);
+
+	m_uiFrame.Update();
+
+	m_uiTankIcon.Update();
 }

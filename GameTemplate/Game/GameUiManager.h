@@ -85,12 +85,10 @@ public:
 	/// <param name="drawNum"></param>
 	/// <param name="pos"></param>
 	template<class T, std::enable_if_t<IsComponentData<T>,int> = 0>
-	void CreateGameUi(int drawNum,const Vector2& pos)
+	void CreateGameUi(int drawNum)
 	{
 		//生成するゲームUI要素のポインタを取得します。
 		auto NewGameUi = NewGO<T>(drawNum, "gameUi");
-		//位置設定
-		NewGameUi->SetBasePosition(pos);
 		//生成したゲームUI要素をリストに追加します。
 		m_gameUiList.insert(GameUiPair(T::ID(), NewGameUi));
 	}
@@ -118,6 +116,6 @@ private:
 	/// <summary>
 	/// ゲームUI要素のリストを保持するベクターです。
 	/// </summary>
-	std::unordered_map<uint32_t,GameUiBase*> m_gameUiList;
+	std::unordered_map<uint32_t, GameUiBase*> m_gameUiList;
 };
 
