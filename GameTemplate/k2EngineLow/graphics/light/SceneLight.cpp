@@ -28,10 +28,10 @@ namespace nsK2EngineLow {
 		//m_light.m_directionalLight[0].m_direction.Normalize();
 		//m_light.m_directionalLight[0].m_castShadow = true;
 
-		m_light.m_ambientLight.x = 0.3f;
-		m_light.m_ambientLight.y = 0.3f;
-		m_light.m_ambientLight.z = 0.3f;
-		m_light.m_eyePos = g_camera3D->GetPosition();
+		//m_light.m_ambientLight.x = 0.3f;
+		//m_light.m_ambientLight.y = 0.3f;
+		//m_light.m_ambientLight.z = 0.3f;
+		//m_light.m_eyePos = g_camera3D->GetPosition();
 
 		//float sizeofTest = sizeof(SPointLight);
 
@@ -43,17 +43,17 @@ namespace nsK2EngineLow {
 		m_light.m_numDirectionLight = 0;
 
 		//全てのポイントライトを未使用にする
-		for (auto& pt : m_light.m_pointLights) {
-			pt.UnUse();
-			pt.SetAffectPowParam(1.0f);
-		}
-		m_light.m_numPointLight = 0;
+		//for (auto& pt : m_light.m_pointLights) {
+		//	pt.UnUse();
+		//	pt.SetAffectPowParam(1.0f);
+		//}
+		//m_light.m_numPointLight = 0;
 
-		//全てのスポットライトを未使用にする
-		for (auto& pt : m_light.m_spotLights){
-			pt.UnUse();
-		}
-		m_light.m_numSpotLight = 0;
+		////全てのスポットライトを未使用にする
+		//for (auto& pt : m_light.m_spotLights){
+		//	pt.UnUse();
+		//}
+		//m_light.m_numSpotLight = 0;
 	}
 
 	void SceneLight::Update()
@@ -67,23 +67,23 @@ namespace nsK2EngineLow {
 			}
 		}
 
-		m_light.m_numPointLight = 0;
-		for (int i = 0; i < MAX_POINT_LIGHT; i++)
-		{
-			if (m_light.m_pointLights[i].GetUse())
-			{
-				m_light.m_numPointLight++;
-			}
-		}
+	//	m_light.m_numPointLight = 0;
+	//	for (int i = 0; i < MAX_POINT_LIGHT; i++)
+	//	{
+	//		if (m_light.m_pointLights[i].GetUse())
+	//		{
+	//			m_light.m_numPointLight++;
+	//		}
+	//	}
 
-		m_light.m_numSpotLight = 0;
-		for (int i = 0; i < MAX_SPOT_LIGHT; i++)
-		{
-			if (m_light.m_spotLights[i].GetUse())
-			{
-				m_light.m_numSpotLight++;
-			}
-		}
+	//	m_light.m_numSpotLight = 0;
+	//	for (int i = 0; i < MAX_SPOT_LIGHT; i++)
+	//	{
+	//		if (m_light.m_spotLights[i].GetUse())
+	//		{
+	//			m_light.m_numSpotLight++;
+	//		}
+	//	}
 	}
 
 	//新規ディレクションライトを作成
@@ -130,19 +130,21 @@ namespace nsK2EngineLow {
 	//新規ポイントライトを作成
 	SPointLight* SceneLight::NewPointLight()
 	{
-		if (m_light.m_numPointLight >= MAX_POINT_LIGHT)
-		{
-			return nullptr;
-		}
+		//if (m_light.m_numPointLight >= MAX_POINT_LIGHT)
+		//{
+		//	return nullptr;
+		//}
 
-		for (int i = 0; i < MAX_POINT_LIGHT; i++)
-		{
-			if (m_light.m_pointLights[i].GetUse() != true)
-			{
-				m_light.m_pointLights[i].Use();
-				return &m_light.m_pointLights[i];
-			}
-		}
+		//for (int i = 0; i < MAX_POINT_LIGHT; i++)
+		//{
+		//	if (m_light.m_pointLights[i].GetUse() != true)
+		//	{
+		//		m_light.m_pointLights[i].Use();
+		//		return &m_light.m_pointLights[i];
+		//	}
+		//}
+
+		return nullptr;
 	}
 
 	//ポイントライトを削除
@@ -160,34 +162,37 @@ namespace nsK2EngineLow {
 		for (int i = 0; i < MAX_POINT_LIGHT; i++)
 		{
 
-			if (m_pointlight == &m_light.m_pointLights[i])
-			{
-				//初期化
-				m_pointlight->UnUse();
-				m_pointlight->SetColor(0.0f, 0.0f, 0.0f);
-				m_pointlight->SetPosition(0.0f, 0.0f, 0.0f);
-				m_pointlight->SetRange(0.0f);
-				m_pointlight->SetAffectPowParam(1.0f);
-			}
+			//if (m_pointlight == &m_light.m_pointLights[i])
+			//{
+			//	//初期化
+			//	m_pointlight->UnUse();
+			//	m_pointlight->SetColor(0.0f, 0.0f, 0.0f);
+			//	m_pointlight->SetPosition(0.0f, 0.0f, 0.0f);
+			//	m_pointlight->SetRange(0.0f);
+			//	m_pointlight->SetAffectPowParam(1.0f);
+			//}
 		}
 	}
 
 	//新規スポットライトを作成
 	SSpotLight* SceneLight::NewSpotLight()
 	{
-		if (m_light.m_numSpotLight >= MAX_SPOT_LIGHT)
-		{
-			return nullptr;
-		}
+		//if (m_light.m_numSpotLight >= MAX_SPOT_LIGHT)
+		//{
+		//	return nullptr;
+		//}
 
-		for (int i = 0; i < MAX_SPOT_LIGHT; i++)
-		{
-			if (m_light.m_spotLights[i].GetUse() != true)
-			{
-				m_light.m_spotLights[i].Use();
-				return &m_light.m_spotLights[i];
-			}
-		}
+		//for (int i = 0; i < MAX_SPOT_LIGHT; i++)
+		//{
+		//	if (m_light.m_spotLights[i].GetUse() != true)
+		//	{
+		//		m_light.m_spotLights[i].Use();
+		//		return &m_light.m_spotLights[i];
+		//	}
+		//}
+
+		return nullptr;
+
 	}
 
 	//スポットライトを削除
@@ -201,15 +206,15 @@ namespace nsK2EngineLow {
 		for (int i = 0; i < MAX_SPOT_LIGHT; i++)
 		{
 
-			if (spotlight == &m_light.m_spotLights[i])
-			{
-				spotlight->UnUse();
-				spotlight->SetColor(0.0f, 0.0f, 0.0f);
-				spotlight->SetPosition(0.0f, 0.0f, 0.0f);
-				spotlight->SetRange(0.0f);
-				spotlight->SetRangeAffectPowParam(1.0f);
-				spotlight->SetAngleAffectPowParam(1.0f);
-			}
+			//if (spotlight == &m_light.m_spotLights[i])
+			//{
+			//	spotlight->UnUse();
+			//	spotlight->SetColor(0.0f, 0.0f, 0.0f);
+			//	spotlight->SetPosition(0.0f, 0.0f, 0.0f);
+			//	spotlight->SetRange(0.0f);
+			//	spotlight->SetRangeAffectPowParam(1.0f);
+			//	spotlight->SetAngleAffectPowParam(1.0f);
+			//}
 		}
 	}
 }

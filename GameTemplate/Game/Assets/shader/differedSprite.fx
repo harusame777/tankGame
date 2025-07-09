@@ -4,25 +4,35 @@
 ////////////////////////////////////////////////
 // 定数
 ////////////////////////////////////////////////
-static const int NUM_DIRECTIONAL_LIGHT = 4; // ディレクションライトの数
-static const int MAX_POINT_LIGHT = 32; // ポイントライトの最大数
-static const int MAX_SPOT_LIGHT = 32; // スポットライトの最大数
+static const int NUM_DIRECTIONAL_LIGHT = 2; // ディレクションライトの数
+static const int MAX_POINT_LIGHT = 10; // ポイントライトの最大数
+static const int MAX_SPOT_LIGHT = 10; // スポットライトの最大数
 
 ////////////////////////////////////////////////
 // ライトの構造体
 ////////////////////////////////////////////////
 struct DirectionLight
-{
+{    
+    //ライトのビュープロジェクション
+    float4x4 mLVP;
 	//ライトの方向
     float3 direction;
-	//ライトのカラー
+	//パディング1
+    int pad1;
+	//カラー
     float3 color;
-    //使用中かどうか
-    int isUse;
-    //
-    float4x4 mLVP;
-    //
+	//パディング2
+    int pad2;
+	//ビュープロジェクションカメラのポジション
     float3 ligPos;
+	//影をキャストするかしないか
+    int m_castShadow;
+	//使用されいているかどうか
+    int isUse;
+	//パディング3
+    int pad3;
+	//パディング4(配列ずれ合わせ分)
+    int pad4[2];
 };
 
 //ポイントライト

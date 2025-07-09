@@ -41,15 +41,15 @@ namespace nsK2EngineLow {
 		//初期化オブジェクトを作成
 		SpriteInitData spriteInitData;
 
+		//スプライト表示用のシェーダーのファイルパスを指定する
+		spriteInitData.m_fxFilePath = "Assets/shader/differedSprite.fx";
+
 		m_gBufferRender.SetRenderTargetTexture(spriteInitData);
 		spriteInitData.m_width = frameBuffer_w;
 		spriteInitData.m_height = frameBuffer_h;
 		spriteInitData.m_expandConstantBuffer = g_sceneLight->GetLightData();
 		spriteInitData.m_expandConstantBufferSize = sizeof(Light);
 		
-		//スプライト表示用のシェーダーのファイルパスを指定する
-		spriteInitData.m_fxFilePath = "Assets/shader/differedSprite.fx";
-
 		//初期化オブジェクトを使用してスプライトを初期化
 		m_copyToFrameBufferSprite.Init(spriteInitData);
 

@@ -2,9 +2,9 @@
 
 namespace nsK2EngineLow {
 
-	static const int MAX_DIRECTIONAL_LIGHT = 4;
-	static const int MAX_POINT_LIGHT = 32;
-	static const int MAX_SPOT_LIGHT = 32;
+	static const int MAX_DIRECTIONAL_LIGHT = 2;
+	static const int MAX_POINT_LIGHT = 10;
+	static const int MAX_SPOT_LIGHT = 10;
 
 	//パディングは16バイトごとに1変数で合わせること
 
@@ -324,6 +324,7 @@ namespace nsK2EngineLow {
 		}
 	};
 
+
 	struct Light
 	{
 		//ディレクションライトの配列
@@ -378,7 +379,7 @@ namespace nsK2EngineLow {
 		//環境光を設定
 		void SetAmbient(Vector3 ambient)
 		{
-			m_light.m_ambientLight = ambient;
+			//m_light.m_ambientLight = ambient;
 		}
 
 		//更新処理

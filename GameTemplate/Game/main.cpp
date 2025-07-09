@@ -19,16 +19,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D->SetPosition({ 0.0f, 100.0f, -200.0f });
 	g_camera3D->SetTarget({ 0.0f, 50.0f, 0.0f });
 
+	//シーンライトの初期化
+	SceneLight m_sceneLight;
+	g_sceneLight = &m_sceneLight;
+	m_sceneLight.Init();
+
 	//追加コード
 	//レンダリングエンジンを初期化
 	RenderingEngine m_renderingEngine;
 	m_renderingEngine.Init();
 	g_renderingEngine = &m_renderingEngine;
 
-	//シーンライトの初期化
-	SceneLight m_sceneLight;
-	g_sceneLight = &m_sceneLight;
-	m_sceneLight.Init();
 
 	//コリジョンマネージャーの初期化
 	CollisionObjectManager m_collisionObjectManager;
