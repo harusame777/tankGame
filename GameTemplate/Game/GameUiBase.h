@@ -47,7 +47,7 @@ protected:
 
 			//表示移行の更新を行う
 			UpdateAppearanceMove();
-
+			
 			break;
 		case en_updateUi:
 
@@ -127,13 +127,109 @@ protected:
 		SpriteRender* sprite
 	)
 	{
-		m_spriteList.insert({ drawOrderNum,sprite });
+		SpriteListData newData;
+
+		newData.m_isDraw = true;
+
+		newData.m_spritePtr = sprite;
+
+		m_spriteList.insert({ drawOrderNum,newData});
+	}
+	/// <summary>
+	/// フォントを描画順序番号に従ってリストに追加します。
+	/// </summary>
+	/// <param name="drawOrderNum">フォントを追加する際の描画順序番号。</param>
+	/// <param name="font">追加するFontRender型のフォントへのポインタ。</param>
+	void AddFont(
+		int drawOrderNum,
+		FontRender* font
+	)
+	{
+		FontListData newData;
+
+		newData.m_isDraw = true;
+
+		newData.m_fontPtr = font;
+
+		m_fontList.insert({ drawOrderNum,newData });
+	}
+	/// <summary>
+	/// 指定した描画順序番号のスプライトの描画状態を設定します。
+	/// </summary>
+	/// <param name="drawOrderNum">描画状態を変更するスプライトの描画順序番号。</param>
+	/// <param name="isDraw">スプライトを描画する場合は true、描画しない場合は false。</param>
+	void IsDrawSprite(
+		int drawOrderNum,
+		bool isDraw
+	)
+	{
+		auto iter = m_spriteList.find(drawOrderNum);
+		if (iter != m_spriteList.end())
+		{
+			iter->second.m_isDraw = isDraw;
+		}
+	}
+	/// <summary>
+	/// 指定した描画順番号のフォントの描画フラグを設定します。
+	/// </summary>
+	/// <param name="drawOrderNum">描画順番号。対象となるフォントを識別します。</param>
+	/// <param name="isDraw">フォントを描画するかどうかを示すフラグ。trueの場合は描画し、falseの場合は描画しません。</param>
+	void IsDrawFont(
+		int drawOrderNum,
+		bool isDraw
+	)
+	{
+		auto iter = m_fontList.find(drawOrderNum);
+		if (iter != m_fontList.end())
+		{
+			iter->second.m_isDraw = isDraw;
+		}
 	}
 private:
 	/// <summary>
+	/// スプライトの位置を更新します。
+	/// </summary>
+	void UpdateSpritePosition();
+	/// <summary>
+	/// 個々のスプライトの描画フラグを保持する構造体です。
+	/// </summary>
+	struct SpriteListData
+	{
+		/// <summary>
+		/// 個別の描画フラグを示すブール値の変数です。
+		/// </summary>
+		bool m_isDraw = false;
+		/// <summary>
+		/// スプライト描画用のポインタを格納するメンバー変数です。
+		/// </summary>
+		SpriteRender* m_spritePtr = nullptr; 
+		/// <summary>
+		/// スプライトの位置を表す3次元ベクトルを初期化します。
+		/// </summary>
+		Vector3 m_spritePosition = Vector3::Zero;
+	};
+	/// <summary>
+	/// フォントリストのデータを保持する構造体です。
+	/// </summary>
+	struct FontListData
+	{
+		/// <summary>
+		/// 個別のフォント描画フラグを示すブール値の変数です。
+		/// </summary>
+		bool m_isDraw = false;
+		/// <summary>
+		/// フォント描画用のポインタを格納するメンバー変数です。
+		/// </summary>
+		FontRender* m_fontPtr = nullptr;
+		/// <summary>
+		/// スプライトの位置をゼロベクトルで初期化します。
+		/// </summary>
+		Vector3 m_spritePosition = Vector3::Zero; 
+	};
+	/// <summary>
 	/// 描画フラグを示すブール値の変数です。
 	/// </summary>
-	bool m_drawFlag = false;
+	bool m_drawFlag = true;
 	/// <summary>
 	/// 2次元ベクトルの基準位置をゼロベクトルで初期化します。
 	/// </summary>
@@ -145,11 +241,11 @@ private:
 	/// <summary>
 	/// int型のキーとSpriteRenderポインタを関連付けるマップです。
 	/// </summary>
-	std::map<int,SpriteRender*> m_spriteList;
+	std::map<int,SpriteListData> m_spriteList;
 	/// <summary>
 	/// フォントレンダリングオブジェクトへのポインタを格納するマップです。
 	/// </summary>
-	std::map<int, FontRender*> m_fontList;
+	std::map<int, FontListData> m_fontList;
 
 };
 

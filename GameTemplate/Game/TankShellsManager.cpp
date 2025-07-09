@@ -117,21 +117,3 @@ void TankShellsManager::DeleteTankShells()
 		}
 	}
 }
-
-//今は使わないけど後でなんか使うかもしれないので残しておく
-
-//クラス名からハッシュ値を取得するテンプレート関数
-//template <typename T>
-//constexpr uint32_t TankShellsManager::GetTypeNameHash()
-//{
-//	型名を取得
-//	const char* typeName = typeid(T).name();
-//	文字列からハッシュ値を計算
-//	uint32_t hash = 2166136261u;
-//	while (*typeName)
-//	{
-//		hash ^= static_cast<uint8_t>(*typeName++);
-//		hash *= 16777619u;
-//	}
-//	return hash;
-//}
