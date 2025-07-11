@@ -12,15 +12,13 @@ namespace nsK2EngineLow {
 
 
 		//アルベド用のレンダリングターゲットを初期化
-		float clearColor[4] = { 0.7f, 0.7f, 1.0f, 1.0f };		
 		m_gBuffer[enGBufferAlbed].Create(
 			frameBuffer_w,
 			frameBuffer_h,
 			1,
 			1,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
-			DXGI_FORMAT_D32_FLOAT,
-			clearColor
+			DXGI_FORMAT_D32_FLOAT
 		);
 
 		//法線用のレンダリングターゲットを初期化
@@ -29,9 +27,19 @@ namespace nsK2EngineLow {
 			frameBuffer_h,
 			1,
 			1,
-			DXGI_FORMAT_R8G8B8A8_SNORM,
+			DXGI_FORMAT_R8G8B8A8_UNORM,
 			DXGI_FORMAT_UNKNOWN
 		);
+
+		m_gBuffer[enGBufferWorldPos].Create(
+			frameBuffer_w,
+			frameBuffer_h,
+			1,
+			1,
+			DXGI_FORMAT_R32G32B32A32_FLOAT,
+			DXGI_FORMAT_UNKNOWN
+		);
+
 	}
 
 	//描画処理
@@ -41,9 +49,10 @@ namespace nsK2EngineLow {
 	)
 	{
 		//レンダリングターゲットをGBufferに変更
-		RenderTarget* rts[enGBufferNum] = {
+		RenderTarget* rts[] = {
 			&m_gBuffer[enGBufferAlbed], // 0番目のレンダリングターゲット
 			&m_gBuffer[enGBufferNormal],// 1番目のレンダリングターゲット
+			&m_gBuffer[enGBufferWorldPos] // 2番目のレンダリングターゲット
 		};
 
 		// まず、レンダリングターゲットとして設定できるようになるまで待つ
@@ -59,8 +68,7 @@ namespace nsK2EngineLow {
 			renderObj->OnRenderModel(rc);
 		}
 
-
-		////レンダリングターゲットへの書き込み終了待ち
-		//rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
+		//レンダリングターゲットへの書き込み終了待ち
+		rc.WaitUntilFinishDrawingToRenderTargets(ARRAYSIZE(rts), rts);
 	}
 }

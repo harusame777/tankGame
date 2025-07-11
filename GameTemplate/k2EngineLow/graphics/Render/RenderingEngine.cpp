@@ -73,7 +73,11 @@ namespace nsK2EngineLow {
 			m_renderObjects
 		);
 
-		g_graphicsEngine->ChangeRenderTargetToFrameBuffer(rc);
+		//絵をフレームバッファーにコピー
+		rc.SetRenderTarget(
+			g_graphicsEngine->GetCurrentFrameBuffuerRTV(),
+			g_graphicsEngine->GetCurrentFrameBuffuerDSV()
+		);
 
 		m_copyToFrameBufferSprite.Draw(rc);
 

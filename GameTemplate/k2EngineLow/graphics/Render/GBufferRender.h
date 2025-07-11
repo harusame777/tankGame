@@ -10,6 +10,7 @@ namespace nsK2EngineLow {
 		{
 			enGBufferAlbed,//アルベド
 			enGBufferNormal,//法線
+			enGBufferWorldPos,//ワールド座標
 
 			enGBufferNum//GBufferの数
 		};
