@@ -4,11 +4,13 @@
 
 namespace UiConstant
 {
-	const Vector2 FONT_ON_POSITION = Vector2(800.0f, 500.0f);
+	const Vector2 BASE_ON_POSITION = Vector2(650.0f, 360.0f);
 
-	const Vector2 FONT_OFF_POSITION = Vector2(1100.0f, 500.0f);
+	const Vector2 BASE_OFF_POSITION = Vector2(1000.0f, 360.0f);
 
-	const Vector2 SPRITE_ON_POSITION = Vector2(650.0f, 350.0f);
+	const Vector2 TANKICON_ADD_POSITION = Vector2(-60.0f,0.0f);
+
+	const Vector2 COUNT_ADD_POSITION = Vector2(160.0f, 120.0f);
 
 	const float ENEMY_COUNT_MAX_SIZE = 2.0f;
 }

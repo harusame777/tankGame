@@ -47,6 +47,9 @@ protected:
 
 			//表示移行の更新を行う
 			UpdateAppearanceMove();
+
+			//位置更新
+			UpdateSpritePosition();
 			
 			break;
 		case en_updateUi:
@@ -54,16 +57,24 @@ protected:
 			//表示後の更新を行う
 			UpdateUi();
 
+			//位置更新
+			UpdateSpritePosition();
+
 			break;
 		case en_extinction:
 
 			//非表示移行の更新を行う
 			UpdateExtinctionMove();
 
+			//位置更新
+			UpdateSpritePosition();
+
 			break;
 		default:
 			break;
 		}
+
+
 	}
 	/// <summary>
 	/// 描画フラグを設定します。
@@ -170,6 +181,32 @@ protected:
 		}
 	}
 	/// <summary>
+	/// 指定した描画順IDに対応するスプライトまたはフォントの追加位置を設定します。
+	/// </summary>
+	/// <param name="drawOrderId">位置を設定する対象のスプライトまたはフォントの描画順ID。</param>
+	/// <param name="addPos">新しく設定する追加位置（2次元ベクトル）。</param>
+	void SetSpriteOrFontAddPosition(
+		int drawOrderId,
+		const Vector2& addPos
+	)
+	{
+		auto iterSprite = m_spriteList.find(drawOrderId);
+		if (iterSprite != m_spriteList.end())
+		{
+			iterSprite->second.m_spritePosition = addPos;
+
+			return;
+		}
+
+		auto iterFont = m_fontList.find(drawOrderId);
+		if (iterFont != m_fontList.end())
+		{
+			iterFont->second.m_spritePosition = addPos;
+
+			return;
+		}
+	}
+	/// <summary>
 	/// 指定した描画順番号のフォントの描画フラグを設定します。
 	/// </summary>
 	/// <param name="drawOrderNum">描画順番号。対象となるフォントを識別します。</param>
@@ -183,6 +220,36 @@ protected:
 		if (iter != m_fontList.end())
 		{
 			iter->second.m_isDraw = isDraw;
+		}
+	}
+	/// <summary>
+	/// 指定された描画順IDに対応するスプライト情報への参照を取得します。
+	/// </summary>
+	/// <param name="drawOrderId"></param>
+	/// <returns></returns>
+	const SpriteRender& GetSpriteAddres(
+		int drawOrderId
+	)
+	{
+		auto iter = m_spriteList.find(drawOrderId);
+		if (iter != m_spriteList.end())
+		{
+			return *iter->second.m_spritePtr;
+		}
+	}
+	/// <summary>
+	/// 指定された描画順IDに対応するフォント情報への参照を取得します。
+	/// </summary>
+	/// <param name="drawOrderId">フォントを取得するための描画順ID。</param>
+	/// <returns>対応するFontRenderオブジェクトへの定数参照。</returns>
+	const FontRender& GetFontAddres(
+		int drawOrderId
+	)
+	{
+		auto iter = m_fontList.find(drawOrderId);
+		if (iter != m_fontList.end())
+		{
+			return *iter->second.m_fontPtr;
 		}
 	}
 private:
@@ -206,7 +273,7 @@ private:
 		/// <summary>
 		/// スプライトの位置を表す3次元ベクトルを初期化します。
 		/// </summary>
-		Vector3 m_spritePosition = Vector3::Zero;
+		Vector2 m_spritePosition = Vector2::Zero;
 	};
 	/// <summary>
 	/// フォントリストのデータを保持する構造体です。
@@ -224,7 +291,7 @@ private:
 		/// <summary>
 		/// スプライトの位置をゼロベクトルで初期化します。
 		/// </summary>
-		Vector3 m_spritePosition = Vector3::Zero; 
+		Vector2 m_spritePosition = Vector2::Zero; 
 	};
 	/// <summary>
 	/// 描画フラグを示すブール値の変数です。

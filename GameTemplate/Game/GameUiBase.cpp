@@ -54,3 +54,47 @@ void GameUiBase::DrawListSprites(RenderContext& rc)
 	}
 
 }
+
+//位置更新
+void GameUiBase::UpdateSpritePosition()
+{
+	//まずはスプライトの位置更新
+	for (auto& sprite : m_spriteList)
+	{
+		//基底位置
+		Vector2 basePos = m_basePosition;
+		//＋座標
+		Vector2 addPos = sprite.second.m_spritePosition;
+
+		//更新位置
+		Vector3 updatePos = Vector3::Zero;
+
+		//更新後の位置を計算
+		updatePos.x = basePos.x + addPos.x;
+		updatePos.y = basePos.y + addPos.y;
+		updatePos.z = 0.0f;
+
+		//位置設定
+		sprite.second.m_spritePtr->SetPosition(updatePos);
+	}
+
+	//次にフォントの位置更新
+	for (auto& sprite : m_fontList)
+	{
+		//規定位置
+		Vector2 basePos = m_basePosition;
+		//＋座標
+		Vector2 addPos = sprite.second.m_spritePosition;
+
+		//更新位置
+		Vector3 updatePos = Vector3::Zero;
+
+		//更新後の位置を計算
+		updatePos.x = basePos.x + addPos.x;
+		updatePos.y = basePos.y + addPos.y;
+		updatePos.z = 0.0f;
+
+		//位置設定
+		sprite.second.m_fontPtr->SetPosition(updatePos);
+	}
+}
