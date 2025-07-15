@@ -2,7 +2,27 @@
 
 #include "GameUiBase.h"
 
+#include "EventManager.h"
 
+struct EventGameLog : public EventManager::StructEventBase
+{
+	/// <summary>
+	/// 文字バッファー
+	/// </summary>
+	wchar_t m_textBuffe[256];
+	/// <summary>
+	/// 文字カラー
+	/// </summary>
+	Vector4 m_textColor = { 1.0f,1.0f,1.0f,1.0f };
+	/// <summary>
+	/// 文字のx軸の位置
+	/// </summary>
+	float m_textXPos = 0.0f;
+	/// <summary>
+	/// 優先度
+	/// </summary>
+	int m_priorityNum = 0;
+};
 
 class GameUiLog : 
 	public GameUiBase ,
@@ -38,8 +58,63 @@ public:
 	void UpdateUi() override;
 private:
 	/// <summary>
-	/// フォントレンダリング情報のリストを格納するベクターです。
+	/// ログの記録構造体
 	/// </summary>
-	std::vector<FontRender> m_LogTextList;
+	struct RecordLogInfo
+	{
+		/// <summary>
+		/// 文字バッファー
+		/// </summary>
+		wchar_t m_textBuffe[256];
+		/// <summary>
+		/// 文字カラー
+		/// </summary>
+		Vector4 m_textColor = { 1.0f,1.0f,1.0f,1.0f };
+		/// <summary>
+		/// 文字のx軸の位置
+		/// </summary>
+		float m_textXPos = 0.0f;
+	};
+
+	struct FontLogInfo
+	{
+		/// <summary>
+		/// イベントによって他クラスから送られてくる情報
+		/// </summary>
+		EventGameLog m_logData;
+		/// <summary>
+		/// フォントレンダー
+		/// </summary>
+		FontRender m_text;
+		/// <summary>
+		/// アクティブかどうか
+		/// </summary>
+		bool m_isActive = false;
+		/// <summary>
+		/// 位置
+		/// </summary>
+		Vector2 m_pos = Vector2::Zero;
+	};
+
+	/// <summary>
+	/// スプライトのイージング
+	/// </summary>
+	/// <returns></returns>
+	bool SpriteEasing(
+		const Vector2& startPos,
+		const Vector2& endPos
+	);
+	/// <summary>
+	/// 移動比率を表す浮動小数点型の変数です。
+	/// </summary>
+	float m_uiMoveRatio = 0.0f;
+	/// <summary>
+	/// 記録フォントログ
+	/// </summary>
+	std::map<int,RecordLogInfo> m_recordFontLog;
+	/// <summary>
+	/// 表示フォントログ
+	/// </summary>
+	FontLogInfo m_displayFontLog[6];
 };
 
