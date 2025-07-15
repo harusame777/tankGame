@@ -11,6 +11,8 @@ class GameMain : public IGameObject
 public:
 	enum class LoadOrDelete
 	{
+		en_fadeOut,				//フェードアウト
+		en_fadeIn,				//フェードイン
 		en_modeLoad,			// ロード
 		en_modeDelete,			// 削除
 	};
@@ -27,7 +29,7 @@ private:
 	/// <summary>
 	/// ロードか削除か
 	/// </summary>
-	LoadOrDelete m_loadOrDelete = LoadOrDelete::en_modeLoad;	
+	LoadOrDelete m_desiredState = LoadOrDelete::en_modeLoad;	
 	/// <summary>
 	/// ロードのインスタンス
 	/// </summary>

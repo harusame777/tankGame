@@ -98,3 +98,11 @@ void GameUiBase::UpdateSpritePosition()
 		sprite.second.m_fontPtr->SetPosition(updatePos);
 	}
 }
+
+void GameUiBase::UpdateSpriteDrawInfo()
+{
+	for (auto& sprite : m_spriteList)
+	{
+		sprite.second.m_spritePtr->Update();
+	}
+}

@@ -93,4 +93,6 @@ void WaveManager::NotifyWaveCompleted(WaveEndEvent endEventData)
 	EventManager::GetEventManagerInstance()->NotifyListeners(m_waveEndEventData);
 	//íœ
 	delete m_nowWave;
+
+	m_nowWave = nullptr;
 }

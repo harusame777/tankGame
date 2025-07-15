@@ -18,15 +18,7 @@ void GameTitleState::Enter()
 //ゲームステート更新
 void GameTitleState::Update()
 {
-	if (m_gameTitle->IsGameTitleBoot() == false)
-	{
-		m_gameLoad->LoadExecutionFadeOut({ GameLoadingScreen::en_loadOrdinary,GameLoadingScreen::en_loadOrdinary }, 3.0f);
-	}
 
-	if (m_gameLoad->IsLoadBlackout() == true)
-	{
-		m_fadeOutFlag = true;
-	}
 }
 
 void GameTitleState::Exit()
@@ -36,7 +28,7 @@ void GameTitleState::Exit()
 
 bool GameTitleState::RequestState(uint32_t& request)
 {
-	if (m_fadeOutFlag == true)
+	if (m_gameTitle->IsGameTitleBoot() == false)
 	{
 		request = GameLoadOrDeleteState::ID();
 

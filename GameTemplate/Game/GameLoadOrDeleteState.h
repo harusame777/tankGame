@@ -14,7 +14,7 @@ public:
 	/// </summary>
 	GameLoadOrDeleteState(GameMain::LoadOrDelete* loadordelete)
 	{
-		m_loadOrDelete = loadordelete;
+		m_desiredState = loadordelete;
 	};
 	/// <summary>
 	/// デストラクタ
@@ -56,7 +56,11 @@ private:
 	/// </summary>
 	GameLoadingScreen* m_gameLoad = nullptr;
 	/// <summary>
+	/// 現在のステート
+	/// </summary>
+	GameMain::LoadOrDelete m_nowState;
+	/// <summary>
 	/// ロードまたは削除の状態
 	/// </summary>
-	GameMain::LoadOrDelete* m_loadOrDelete = nullptr;
+	GameMain::LoadOrDelete* m_desiredState = nullptr;
 };

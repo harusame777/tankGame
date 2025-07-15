@@ -10,6 +10,9 @@
 #include "GameCollisionManager.h"
 #include "EnemyTankManager.h"
 #include "WaveManager.h"
+#include "GameUiManager.h"
+
+#include "GameUiEnemyCount.h"
 
 #include "EventManager.h"
 
@@ -26,6 +29,8 @@ void GameModeNormalUpdateState::Enter()
 	m_gameModeNormalSharedPtr = initShared;
 
 	SetWaveEndFlag(false);
+
+	GameUiManager::GetGameUiManagerInstance()->ChangeStateGameUi<GameUiEnemyCount>(EnGameUiState::en_application);
 }
 
 //ゲームステート更新
@@ -38,7 +43,7 @@ void GameModeNormalUpdateState::Update()
 		//ロードが終わるまではプレイヤーは動けない
 		GamePlayerManager::GetGamePlayerManagerInstance()->SetIsGamePlayerCanMoving(false);
 
-		if (m_gameLoad->IsLoadCompletion() == true)
+		if (m_gameLoad->IsLoadCompletion() == true && IsUiSetUp())
 		{
 			//ステート初期化
 			GameModeInit();
@@ -57,10 +62,10 @@ void GameModeNormalUpdateState::Update()
 		//ウェーブを生成
 		WaveManager::GetWaveManagerInstance()
 			->CreateAndStartWaveData(
-			30,
-			5.0f,
-			10,
 			5,
+			0.0f,
+			5,
+			0,
 			3
 		);
 
@@ -127,6 +132,17 @@ void GameModeNormalUpdateState::GameUpdate()
 	EnemyTankManager::GetEnemyTankManagerInstance()->UpdateEnemyTankManager();
 
 	GameCollisionManager::GetCollisionManagerInstance()->UpdateCollisionManager();
+}
+
+bool GameModeNormalUpdateState::IsUiSetUp()
+{
+
+	if (GameUiManager::GetGameUiManagerInstance()->IsGameUiIsState<GameUiEnemyCount>(EnGameUiState::en_application) == true)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 

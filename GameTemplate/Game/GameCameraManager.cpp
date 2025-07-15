@@ -21,6 +21,13 @@ void GameCameraManager::InitGameCameraManager()
 	{
 		listPtr->InitCamera();
 	}
+
+	//ステートによって実行された更新情報から得た数値でカメラを更新する
+	g_camera3D->SetTarget(m_cameraUpdateData.m_targetPosition);
+	g_camera3D->SetPosition(m_cameraUpdateData.m_position);
+	g_camera3D->SetNear(m_cameraUpdateData.m_near);
+	g_camera3D->SetFar(m_cameraUpdateData.m_far);
+	g_camera3D->Update();
 }
 
 //アップデート関数

@@ -15,7 +15,7 @@ class GameUiBase;
 enum EnGameUiState
 {
 	//初期化中
-	en_init,
+	en_standby,
 	//表示
 	en_application,
 	//表示中更新
@@ -111,6 +111,33 @@ public:
 
 		//見つかった要素の状態を変更します。
 		it->second->SetState(changeState);
+	}
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name=""></typeparam>
+	/// <returns></returns>
+	template<class T, std::enable_if_t<IsComponentData<T>, int> = 0>
+	bool IsGameUiIsState(EnGameUiState isState)
+	{
+		//IDを使用してゲームUI要素を検索します。
+		auto it = m_gameUiList.find(T::ID());
+
+		//要素が見つからない場合はfalse
+		if (it == m_gameUiList.end())
+		{
+			return false;
+		}
+
+		EnGameUiState nowState = it->second->GetState();
+
+		if (nowState == isState)
+		{
+			return true;
+		}
+
+		return false;
 	}
 private:
 	/// <summary>

@@ -63,6 +63,9 @@ private:
 	/// ゲームアップデート
 	/// </summary>
 	void GameUpdate();
+
+	bool IsUiSetUp();
+
 	/// <summary>
 	/// ウェーブ終了フラグを設定します。
 	/// </summary>

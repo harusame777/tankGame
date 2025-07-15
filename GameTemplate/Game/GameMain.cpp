@@ -18,7 +18,7 @@ bool GameMain::Start()
 
 	m_gameMainStateMachine->RegisterState<GameTitleState>();
 	m_gameMainStateMachine->RegisterState<GameModeNormalUpdateState>();
-	m_gameMainStateMachine->RegisterState<GameLoadOrDeleteState>(&m_loadOrDelete);
+	m_gameMainStateMachine->RegisterState<GameLoadOrDeleteState>(&m_desiredState);
 	m_gameMainStateMachine->InitilizeState<GameTitleState>();
 	m_gameMainStateMachine->InitState();
 

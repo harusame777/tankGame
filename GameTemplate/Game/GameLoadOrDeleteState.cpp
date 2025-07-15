@@ -23,13 +23,30 @@ void GameLoadOrDeleteState::Enter()
 	m_gameLoad = FindGO<GameLoadingScreen>("gameLoad");
 	//ロード完了
 	m_processEndFlag = false;
+
+	m_nowState = GameMain::LoadOrDelete::en_fadeOut;
+
+	m_gameLoad->LoadExecutionFadeOut({ GameLoadingScreen::en_loadOrdinary,GameLoadingScreen::en_loadOrdinary }, 3.0f);
 }
 
 //更新
 void GameLoadOrDeleteState::Update()
 {
-	switch (*m_loadOrDelete)
+	switch (m_nowState)
 	{
+	case GameMain::LoadOrDelete::en_fadeOut:
+
+		if (m_gameLoad->IsLoadBlackout() == true)
+		{
+			m_nowState = *m_desiredState;
+		}
+
+		break;
+	case GameMain::LoadOrDelete::en_fadeIn:
+
+		//フェードインするまで待機
+
+		break;
 	case GameMain::LoadOrDelete::en_modeLoad:
 
 		LoadProcces();
@@ -53,21 +70,18 @@ void GameLoadOrDeleteState::Exit()
 
 bool GameLoadOrDeleteState::RequestState(uint32_t& request)
 {
-	if (*m_loadOrDelete == GameMain::LoadOrDelete::en_modeLoad &&
-		m_processEndFlag == true)
+	if (*m_desiredState == GameMain::LoadOrDelete::en_modeLoad &&
+		m_processEndFlag == true && m_gameLoad->IsLoadCompletion())
 	{
-		m_gameLoad->LoadExecutionFadeIn();
 
 		request = GameModeNormalUpdateState::ID();
 
 		return true;
 	}
 
-	if (*m_loadOrDelete == GameMain::LoadOrDelete::en_modeDelete &&
+	if (*m_desiredState == GameMain::LoadOrDelete::en_modeDelete &&
 		m_processEndFlag == true)
 	{
-
-
 		return true;
 	}
 
@@ -96,6 +110,10 @@ void GameLoadOrDeleteState::LoadProcces()
 
 	//ロード完了
 	m_processEndFlag = true;
+
+	m_gameLoad->LoadExecutionFadeIn();
+
+	m_nowState = GameMain::LoadOrDelete::en_fadeIn;
 }
 
 void GameLoadOrDeleteState::DeleteProcces()

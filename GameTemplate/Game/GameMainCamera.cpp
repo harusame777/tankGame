@@ -20,6 +20,14 @@ bool GameMainCamera::InitCamera()
 	m_cameraUpdateData->m_near = cameraNear;
 	m_cameraUpdateData->m_far = cameraFar;
 
+	Vector3 target = m_gamePlayer->GetPosition();
+	Vector3 add = { 0.0f, 1000.0f, -100.0f };
+
+	Vector3 cameraPos = target + add;
+
+	m_cameraUpdateData->m_position = cameraPos;
+	m_cameraUpdateData->m_targetPosition = target;
+
 	return true;
 }
 

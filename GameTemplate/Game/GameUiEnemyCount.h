@@ -61,8 +61,15 @@ private:
 	/// </summary>
 	/// <param name="nowEnemyCount">現在存在する敵の数。</param>
 	void UpdateEnemyCountUi(
-		int nowEnemyCount,
-		const Vector2& setPosition
+		int nowEnemyCount
+	);
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	bool SpriteEasing(
+		const Vector2& startPos,
+		const Vector2& endPos
 	);
 	/// <summary>
 	/// フォントレンダー

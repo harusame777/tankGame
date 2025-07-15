@@ -10,6 +10,23 @@ public:\
 
 class GameUiBase
 {
+public:
+	/// <summary>
+	/// EnGameUiState の値で UI の状態を設定します。
+	/// </summary>
+	/// <param name="state">設定する EnGameUiState の値。</param>
+	void SetState(EnGameUiState state)
+	{
+		m_state = state;
+	}
+	/// <summary>
+	/// 現在のゲームUIの状態を取得します。
+	/// </summary>
+	/// <returns>現在のEnGameUiState値。</returns>
+	EnGameUiState GetState() const
+	{
+		return m_state;
+	}
 protected:
 	/// <summary>
 	/// GameUiBase クラスのデフォルトコンストラクタです。
@@ -38,43 +55,33 @@ protected:
 	{
 		switch (m_state)
 		{
-		case en_init:
+		case en_standby:
 
-			//初期化中なので待機
-
+			//待機
 			break;
 		case en_application:
 
 			//表示移行の更新を行う
 			UpdateAppearanceMove();
-
-			//位置更新
-			UpdateSpritePosition();
-			
 			break;
 		case en_updateUi:
 
 			//表示後の更新を行う
 			UpdateUi();
-
-			//位置更新
-			UpdateSpritePosition();
-
 			break;
 		case en_extinction:
 
 			//非表示移行の更新を行う
 			UpdateExtinctionMove();
-
-			//位置更新
-			UpdateSpritePosition();
-
 			break;
 		default:
 			break;
 		}
 
-
+		//位置更新
+		UpdateSpritePosition();
+		//描画情報更新
+		UpdateSpriteDrawInfo();
 	}
 	/// <summary>
 	/// 描画フラグを設定します。
@@ -107,22 +114,6 @@ protected:
 	const Vector2& GetBasePosition() const
 	{
 		return m_basePosition;
-	}
-	/// <summary>
-	/// EnGameUiState の値で UI の状態を設定します。
-	/// </summary>
-	/// <param name="state">設定する EnGameUiState の値。</param>
-	void SetState(EnGameUiState state)
-	{
-		m_state = state;
-	}
-	/// <summary>
-	/// 現在のゲームUIの状態を取得します。
-	/// </summary>
-	/// <returns>現在のEnGameUiState値。</returns>
-	EnGameUiState GetState() const
-	{
-		return m_state;
 	}
 	/// <summary>
 	/// リスト内のスプライトを描画コンテキストに描画します。
@@ -227,7 +218,7 @@ protected:
 	/// </summary>
 	/// <param name="drawOrderId"></param>
 	/// <returns></returns>
-	const SpriteRender& GetSpriteAddres(
+	SpriteRender& GetSpriteAddres(
 		int drawOrderId
 	)
 	{
@@ -242,7 +233,7 @@ protected:
 	/// </summary>
 	/// <param name="drawOrderId">フォントを取得するための描画順ID。</param>
 	/// <returns>対応するFontRenderオブジェクトへの定数参照。</returns>
-	const FontRender& GetFontAddres(
+	FontRender& GetFontAddres(
 		int drawOrderId
 	)
 	{
@@ -257,6 +248,10 @@ private:
 	/// スプライトの位置を更新します。
 	/// </summary>
 	void UpdateSpritePosition();
+	/// <summary>
+	/// スプライトとフォントの描画情報を更新
+	/// </summary>
+	void UpdateSpriteDrawInfo();
 	/// <summary>
 	/// 個々のスプライトの描画フラグを保持する構造体です。
 	/// </summary>
@@ -304,7 +299,7 @@ private:
 	/// <summary>
 	/// EnGameUiState 型の変数 m_state を en_init で初期化します。
 	/// </summary>
-	EnGameUiState m_state = en_init; 
+	EnGameUiState m_state = en_standby; 
 	/// <summary>
 	/// int型のキーとSpriteRenderポインタを関連付けるマップです。
 	/// </summary>
@@ -313,6 +308,5 @@ private:
 	/// フォントレンダリングオブジェクトへのポインタを格納するマップです。
 	/// </summary>
 	std::map<int, FontListData> m_fontList;
-
 };
 

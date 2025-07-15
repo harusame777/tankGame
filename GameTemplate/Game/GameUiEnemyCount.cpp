@@ -41,11 +41,10 @@ bool GameUiEnemyCount::Start()
 
 	//いまはテスト
 	UpdateEnemyCountUi(
-		m_enemyCount,
-		{0.0f,0.0f}
+		m_enemyCount
 	);
 
-	SetState(EnGameUiState::en_application);
+	SetState(EnGameUiState::en_standby);
 
 	return true;
 }
@@ -66,12 +65,30 @@ void GameUiEnemyCount::Render(RenderContext& rc)
 //表示処理
 void GameUiEnemyCount::UpdateAppearanceMove()
 {
-	SetState(EnGameUiState::en_updateUi);
+
+	//UIを出す
+	if (SpriteEasing(
+		UiConstant::BASE_OFF_POSITION,
+		UiConstant::BASE_ON_POSITION
+		))
+	{
+		SetState(EnGameUiState::en_updateUi);
+	}
+
 }
 
 //非表示処理
 void GameUiEnemyCount::UpdateExtinctionMove()
 {
+
+	//UIをしまう
+	if (SpriteEasing(
+		UiConstant::BASE_OFF_POSITION,
+		UiConstant::BASE_ON_POSITION
+	))
+	{
+		SetState(EnGameUiState::en_updateUi);
+	}
 
 }
 
@@ -79,21 +96,15 @@ void GameUiEnemyCount::UpdateExtinctionMove()
 void GameUiEnemyCount::UpdateUi()
 {
 	UpdateEnemyCountUi(
-		m_enemyCount,
-		UiConstant::BASE_ON_POSITION
+		m_enemyCount
 	);
 }
 
 //エネミーの残り数を表示するUIの更新処理
 void GameUiEnemyCount::UpdateEnemyCountUi(
-	int nowEnemyCount,
-	const Vector2& setPosition
+	int nowEnemyCount
 )
 {
-	//エネミーの残り数を表示するUIの更新処理をここに記述
-
-	//位置設定
-
 	//表示文字設定
 
 	//文字バッファ
@@ -102,17 +113,37 @@ void GameUiEnemyCount::UpdateEnemyCountUi(
 	//エネミーの残り数を文字列に変換してバッファに格納
 	swprintf(fontBuffer, 256, L"%01d", int(nowEnemyCount));
 
-	m_fontRender.SetText(fontBuffer);
+	GetFontAddres(1).SetText(fontBuffer);
 
-	m_fontRender.SetScale(UiConstant::ENEMY_COUNT_MAX_SIZE);
+	GetFontAddres(1).SetScale(UiConstant::ENEMY_COUNT_MAX_SIZE);
+}
 
-	Vector3 test(
-		UiConstant::COUNT_ADD_POSITION.x,
-		UiConstant::COUNT_ADD_POSITION.y,
-		0.0f
+bool GameUiEnemyCount::SpriteEasing(
+	const Vector2& startPos,
+	const Vector2& endPos
+)
+{
+
+	Vector2 easingPos = Vector2::Zero;
+
+	easingPos.Lerp(
+		m_uiMoveRatio,
+		startPos,
+		endPos
 	);
 
-	m_uiFrame.Update();
+	SetBasePosition(easingPos);
 
-	m_uiTankIcon.Update();
+	if (m_uiMoveRatio >= 1.0f)
+	{
+		m_uiMoveRatio = 0.0f;
+
+		SetBasePosition(endPos);
+
+		return true;
+	}
+
+	m_uiMoveRatio += g_gameTime->GetFrameDeltaTime() * 1.2;
+
+	return false;
 }
