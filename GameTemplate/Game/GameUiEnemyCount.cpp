@@ -17,13 +17,13 @@ bool GameUiEnemyCount::Start()
 
 	AddSprite(2, &m_uiTankIcon);
 
-	SetBasePosition(UiConstant::BASE_OFF_POSITION);
+	SetBasePosition(UiEnemyCountConstant::BASE_OFF_POSITION);
 
 	SetSpriteOrFontAddPosition(0,{0.0f,0.0f});
 
-	SetSpriteOrFontAddPosition(1, UiConstant::COUNT_ADD_POSITION);
+	SetSpriteOrFontAddPosition(1, UiEnemyCountConstant::COUNT_ADD_POSITION);
 
-	SetSpriteOrFontAddPosition(2, UiConstant::TANKICON_ADD_POSITION);
+	SetSpriteOrFontAddPosition(2, UiEnemyCountConstant::TANKICON_ADD_POSITION);
 
 	//イベントマネジャーを使用して、エネミーマネージャー側にエネミーが倒された数を通知してもらう。
 	EventManager::GetEventManagerInstance()->RegisterListener<EventEnemyCount, GameUiEnemyCount>(
@@ -68,8 +68,8 @@ void GameUiEnemyCount::UpdateAppearanceMove()
 
 	//UIを出す
 	if (SpriteEasing(
-		UiConstant::BASE_OFF_POSITION,
-		UiConstant::BASE_ON_POSITION
+		UiEnemyCountConstant::BASE_OFF_POSITION,
+		UiEnemyCountConstant::BASE_ON_POSITION
 		))
 	{
 		SetState(EnGameUiState::en_updateUi);
@@ -83,8 +83,8 @@ void GameUiEnemyCount::UpdateExtinctionMove()
 
 	//UIをしまう
 	if (SpriteEasing(
-		UiConstant::BASE_OFF_POSITION,
-		UiConstant::BASE_ON_POSITION
+		UiEnemyCountConstant::BASE_OFF_POSITION,
+		UiEnemyCountConstant::BASE_ON_POSITION
 	))
 	{
 		SetState(EnGameUiState::en_updateUi);
@@ -115,7 +115,7 @@ void GameUiEnemyCount::UpdateEnemyCountUi(
 
 	GetFontAddres(1).SetText(fontBuffer);
 
-	GetFontAddres(1).SetScale(UiConstant::ENEMY_COUNT_MAX_SIZE);
+	GetFontAddres(1).SetScale(UiEnemyCountConstant::ENEMY_COUNT_MAX_SIZE);
 }
 
 bool GameUiEnemyCount::SpriteEasing(

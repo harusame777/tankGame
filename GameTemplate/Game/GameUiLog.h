@@ -4,6 +4,15 @@
 
 #include "EventManager.h"
 
+namespace UiGameLogConstant
+{
+
+	const Vector2 BASE_ON_POSITION = { 650.0f,300.0f };
+
+	const Vector2 BASE_OFF_POSITION = { 1000.0f,300 };
+
+};
+
 struct EventGameLog : public EventManager::StructEventBase
 {
 	/// <summary>
@@ -116,5 +125,14 @@ private:
 	/// 表示フォントログ
 	/// </summary>
 	FontLogInfo m_displayFontLog[6];
+	/// <summary>
+	/// 上部分フレーム
+	/// </summary>
+	SpriteRender m_spriteUpFrame;
+	/// <summary>
+	/// 下部分フレーム
+	/// </summary>
+	SpriteRender m_spriteDownFrame;
+
 };
 

@@ -4,12 +4,23 @@
 //スタート関数
 bool GameUiLog::Start()
 {
+	//上部分フレーム初期化
+	m_spriteUpFrame.Init("Assets/spriteData/uiGameLog/GameLogUiUpFrameV1.DDS", 234, 19);
+		
+	//下部分フレーム初期化
+	m_spriteDownFrame.Init("Assets/spriteData/uiGameLog/GameLogUiDownFrameV1.DDS", 234, 19);
+
+	AddSprite(1, &m_spriteUpFrame);
+
+	AddSprite(2, &m_spriteDownFrame);
 
 	//表示するフォントレンダーを登録
 	for (auto& ptr : m_displayFontLog)
 	{
 		AddFont(0, &m_displayFontLog->m_text);
 	}
+
+	SetBasePosition(UiGameLogConstant::BASE_ON_POSITION);
 
 	//イベントリスナーに登録
 	EventManager::GetEventManagerInstance()->RegisterListener<EventGameLog, GameUiLog>(
@@ -31,6 +42,8 @@ bool GameUiLog::Start()
 		}
 	);
 
+	SetState(EnGameUiState::en_updateUi);
+
 	return true;
 }
 
@@ -44,7 +57,7 @@ void GameUiLog::Update()
 //描画処理
 void GameUiLog::Render(RenderContext& rc)
 {
-
+	DrawListSprites(rc);
 }
 
 //表示処理

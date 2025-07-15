@@ -105,8 +105,10 @@ void GameLoadOrDeleteState::LoadProcces()
 	//コリジョンマネージャーを作成
 	GameCollisionManager::GetCollisionManagerInstance()->InitCollisionManager();
 
-	//テスト：UIの作成
+	//UIの作成
 	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiEnemyCount>(0);
+	//テスト
+	GameUiManager::GetGameUiManagerInstance()->CreateGameUi<GameUiLog>(0);
 
 	//ロード完了
 	m_processEndFlag = true;

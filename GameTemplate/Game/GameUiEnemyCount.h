@@ -2,7 +2,7 @@
  
 #include "GameUiBase.h"
 
-namespace UiConstant
+namespace UiEnemyCountConstant
 {
 	const Vector2 BASE_ON_POSITION = Vector2(650.0f, 360.0f);
 
