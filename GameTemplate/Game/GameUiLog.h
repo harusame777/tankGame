@@ -7,10 +7,15 @@
 namespace UiGameLogConstant
 {
 
-	const Vector2 BASE_ON_POSITION = { 650.0f,300.0f };
+	const Vector2 BASE_ON_POSITION = { 677.5f,100.0f };
 
-	const Vector2 BASE_OFF_POSITION = { 1000.0f,300 };
+	const Vector2 BASE_OFF_POSITION = { 1000.0f,100.0f };
 
+	const Vector2 TEXT_INIT_POSITION = { 0.0f,30.0f };
+
+	const int LOG_DISPLAY_MAX = 6;
+
+	const int LOG_TEXT_MAX = 20;
 };
 
 struct EventGameLog : public EventManager::StructEventBase
@@ -74,7 +79,7 @@ private:
 		/// <summary>
 		/// 文字バッファー
 		/// </summary>
-		wchar_t m_textBuffe[256];
+		wchar_t m_textBuffe[256] = L"";
 		/// <summary>
 		/// 文字カラー
 		/// </summary>
@@ -83,9 +88,12 @@ private:
 		/// 文字のx軸の位置
 		/// </summary>
 		float m_textXPos = 0.0f;
+		/// <summary>
+		/// 未表示かどうか
+		/// </summary>
+		bool m_isNotDisplay = false;
 	};
-
-	struct FontLogInfo
+	struct DysplayLogInfo
 	{
 		/// <summary>
 		/// イベントによって他クラスから送られてくる情報
@@ -94,17 +102,41 @@ private:
 		/// <summary>
 		/// フォントレンダー
 		/// </summary>
-		FontRender m_text;
+		//FontRender m_text;
 		/// <summary>
-		/// アクティブかどうか
+		/// 描画Id
 		/// </summary>
-		bool m_isActive = false;
+		int m_drawId = 0;
 		/// <summary>
 		/// 位置
 		/// </summary>
 		Vector2 m_pos = Vector2::Zero;
 	};
-
+	/// <summary>
+	/// テキスト位置の初期化
+	/// </summary>
+	void InitTextPosList(int displayTextNum);
+	/// <summary>
+	/// 記録リスト内に未表示のログが存在するかどうか
+	/// </summary>
+	/// <returns></returns>
+	bool IsRecordListNotDisplayLog();
+	/// <summary>
+	/// テキストログの更新
+	/// </summary>
+	void UpdateTextLogUi();
+	/// <summary>
+	/// 表示リストに表示情報を追加
+	/// </summary>
+	void AddDisplayListInfo();
+	/// <summary>
+	/// 表示リストの末尾を削除
+	/// </summary>
+	void DeleteDisplayListBack();
+	/// <summary>
+	/// 記録リストからデータを取得
+	/// </summary>
+	EventGameLog GetRecordListData();
 	/// <summary>
 	/// スプライトのイージング
 	/// </summary>
@@ -120,11 +152,23 @@ private:
 	/// <summary>
 	/// 記録フォントログ
 	/// </summary>
-	std::map<int,RecordLogInfo> m_recordFontLog;
+	std::map<int,RecordLogInfo> m_recordTextLogList;
 	/// <summary>
 	/// 表示フォントログ
 	/// </summary>
-	FontLogInfo m_displayFontLog[6];
+	std::deque<DysplayLogInfo> m_displayTextLogList;
+	/// <summary>
+	/// 表示するログの最大数
+	/// </summary>
+	int m_displayLogMax = UiGameLogConstant::LOG_DISPLAY_MAX + 1;
+	/// <summary>
+	/// 次の描画番号
+	/// </summary>
+	int m_nextDrawId = 0;
+	/// <summary>
+	/// 表示位置記録配列
+	/// </summary>
+	Vector2 m_displayTextPosList[UiGameLogConstant::LOG_DISPLAY_MAX + 2];
 	/// <summary>
 	/// 上部分フレーム
 	/// </summary>
@@ -133,6 +177,5 @@ private:
 	/// 下部分フレーム
 	/// </summary>
 	SpriteRender m_spriteDownFrame;
-
 };
 

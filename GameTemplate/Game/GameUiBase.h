@@ -156,6 +156,18 @@ protected:
 		m_fontList.insert({ drawOrderNum,newData });
 	}
 	/// <summary>
+	/// フォントを描画順IDを使用して削除します
+	/// </summary>
+	/// <param name="drawOrderNum"></param>
+	void DeleteFont(
+		int drawOrderNum
+	)
+	{
+		auto it = m_fontList.find(drawOrderNum);
+
+		m_fontList.erase(it);
+	}
+	/// <summary>
 	/// 指定した描画順序番号のスプライトの描画状態を設定します。
 	/// </summary>
 	/// <param name="drawOrderNum">描画状態を変更するスプライトの描画順序番号。</param>

@@ -13,6 +13,7 @@
 #include "GameUiManager.h"
 
 #include "GameUiEnemyCount.h"
+#include "GameUiLog.h"
 
 #include "EventManager.h"
 
@@ -31,6 +32,8 @@ void GameModeNormalUpdateState::Enter()
 	SetWaveEndFlag(false);
 
 	GameUiManager::GetGameUiManagerInstance()->ChangeStateGameUi<GameUiEnemyCount>(EnGameUiState::en_application);
+
+	GameUiManager::GetGameUiManagerInstance()->ChangeStateGameUi<GameUiLog>(EnGameUiState::en_application);
 }
 
 //ゲームステート更新
