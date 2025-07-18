@@ -12,6 +12,13 @@ bool GameUiLog::Start()
 
 	//表示位置初期化
 	InitTextPosList(m_displayLogMax + 1);
+
+	//テキスト登録
+	for (int i = 0; i < m_textRenderList.size(); i++)
+	{
+		AddFont(i, &m_textRenderList[i]);
+	}
+
 	//上部分フレーム登録
 	AddSprite(m_displayLogMax + 1, &m_spriteUpFrame);
 	//位置設定
@@ -88,10 +95,7 @@ void GameUiLog::UpdateExtinctionMove()
 //Ui更新処理
 void GameUiLog::UpdateUi()
 {
-	
-	//文字の位置は+30または-30で１スペース確保
-
-
+	UpdateTextLogUi();
 }
 
 void GameUiLog::InitTextPosList(int displayTextNum)
@@ -115,7 +119,8 @@ bool GameUiLog::IsRecordListNotDisplayLog()
 	//記録リスト分回す
 	for (auto& listPtr : m_recordTextLogList)
 	{
-		if (listPtr.second.m_isNotDisplay)
+		//まだ未表示なら
+		if (!listPtr.second.m_isNotDisplay)
 		{
 			itExist = true;
 		}
@@ -126,6 +131,8 @@ bool GameUiLog::IsRecordListNotDisplayLog()
 
 void GameUiLog::UpdateTextLogUi()
 {
+	//新しいログが入ってきたか
+	bool isNewLogIn = false;
 
 	//もしも記録リスト内にまだ表示していないログがあれば表示処理に入る
 	if (IsRecordListNotDisplayLog())
@@ -134,11 +141,24 @@ void GameUiLog::UpdateTextLogUi()
 		if (m_displayLogMax < m_displayTextLogList.size())
 		{
 			//表示リストの末尾を削除
-			DeleteDisplayListBack();
+			m_displayTextLogList.pop_back();
 		}
 
 		//新しく表示リストに追加
 		AddDisplayListInfo();
+
+		isNewLogIn = true;
+	}
+
+	SetUpdateText();
+
+	//ログが作成されたかログが移動中なら
+	if (isNewLogIn || m_isLogMoving)
+	{
+		//移動更新
+		UpdateTextMoving();
+		//ログは現在移動中
+		m_isLogMoving = true;
 	}
 
 }
@@ -149,29 +169,133 @@ void GameUiLog::AddDisplayListInfo()
 	//記録リストから優先度の高いものを取得
 	newLogData.m_logData = GetRecordListData();
 	//位置はログが映らない一番下の箇所に
-	newLogData.m_pos = m_displayTextPosList[0];
+	newLogData.m_positionNo = 0;	
 	//描画番号を設定する
-	if (m_nextDrawId < m_displayLogMax - 1)
+	if (m_nextDrawId > m_displayLogMax - 1)
 	{
 		m_nextDrawId = 0;
 	}
-	newLogData.m_drawId = m_nextDrawId++;
+	//フォントレンダーのアドレスを登録
+	newLogData.m_textPtr = &m_textRenderList[m_nextDrawId++];
+	//透過させる
+	Vector4 colorValue = { 0.0f,0.0f,0.0f,0.0f };
+	colorValue.x = newLogData.m_logData.m_textColor.x;
+	colorValue.y = newLogData.m_logData.m_textColor.y;
+	colorValue.z = newLogData.m_logData.m_textColor.z;
+	newLogData.m_textPtr->SetColor(colorValue); 
 	//リストの空きに入れる
 	m_displayTextLogList.push_front(newLogData);
-	//フォントを登録
-	//AddFont(newLogData.m_drawId,
-	//	&m_displayTextLogList[newLogData.m_drawId].m_text
-	//);
 }
 
-void GameUiLog::DeleteDisplayListBack()
+const GameUiLog::RecordLogInfo& GameUiLog::GetRecordListData()
 {
-	//描画Idを取得
-	int deleteDrawId = m_displayTextLogList[m_displayLogMax - 1].m_drawId;
-	//描画Idのfontを削除
-	DeleteFont(deleteDrawId);
-	//配列から削除
-	m_displayTextLogList.pop_back();
+	RecordLogInfo* recordData = nullptr;
+
+	for (auto recordIt = m_recordTextLogList.rbegin();
+		recordIt != m_recordTextLogList.rend(); 
+		++recordIt)
+	{
+		//表示しているやつは飛ばす
+		if (recordIt->second.m_isNotDisplay)
+		{
+			continue;
+		}
+
+		//表示させるのでアドレスを格納
+		recordData = &recordIt->second;
+		//表示中に変更
+		recordData->m_isNotDisplay = true;
+	}
+
+	return *recordData;
+
+}
+
+void GameUiLog::SetUpdateText()
+{
+
+	//表示中の文字の設定
+	for (auto displayPtr : m_displayTextLogList)
+	{
+		//文字を設定
+		displayPtr.m_textPtr->SetText(displayPtr.m_logData.m_textBuffe);
+	}
+
+}
+
+void GameUiLog::UpdateTextMoving()
+{
+	int easingEndLogNum = 0;
+
+	for (auto& displayPtr : m_displayTextLogList)
+	{
+		//位置更新
+		Vector2 startPos = m_displayTextPosList[displayPtr.m_positionNo];
+		Vector2 endPos = m_displayTextPosList[displayPtr.m_positionNo + 1];
+
+		Vector3 updatePos = Vector3::Zero;
+
+		if (LogEasing(startPos, endPos, updatePos))
+		{
+			easingEndLogNum++;
+		}
+
+		displayPtr.m_textPtr->SetPosition(updatePos);
+
+		Vector4 color = { 0.0f,0.0f,0.0f,0.0f };
+
+		color = displayPtr.m_logData.m_textColor;
+
+		if (displayPtr.m_positionNo <= 0)
+		{
+			color.a = m_logMovingRatio;
+		}
+		else if (displayPtr.m_positionNo >= UiGameLogConstant::LOG_DISPLAY_MAX)
+		{
+			color.a = 1.0f - m_logMovingRatio;
+		}
+
+		displayPtr.m_textPtr->SetColor(color);
+	}
+
+	if (easingEndLogNum >= m_displayTextLogList.size())
+	{
+		m_logMovingRatio = 0.0f;
+
+		m_isLogMoving = false;
+	}
+}
+
+bool GameUiLog::LogEasing(
+	const Vector2& startPos,
+	const Vector2& endPos,
+	Vector3& updatePos
+)
+{
+
+	Vector2 easingPos = Vector2::Zero;
+
+	easingPos.Lerp(
+		m_logMovingRatio,
+		startPos,
+		endPos
+	);
+
+	updatePos.x = easingPos.x;
+	updatePos.y = easingPos.y;
+
+	if (m_logMovingRatio >= 1.0f)
+	{
+		updatePos.x = endPos.x;
+		updatePos.y = endPos.y;
+
+		return true;
+	}
+
+	m_logMovingRatio += g_gameTime->GetFrameDeltaTime();
+
+	return false;
+
 }
 
 bool GameUiLog::SpriteEasing(

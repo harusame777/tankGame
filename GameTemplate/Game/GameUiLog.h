@@ -98,19 +98,16 @@ private:
 		/// <summary>
 		/// イベントによって他クラスから送られてくる情報
 		/// </summary>
-		EventGameLog m_logData;
+		RecordLogInfo m_logData;
 		/// <summary>
 		/// フォントレンダー
 		/// </summary>
-		//FontRender m_text;
+		FontRender* m_textPtr;
 		/// <summary>
-		/// 描画Id
+		/// 位置番号
 		/// </summary>
-		int m_drawId = 0;
-		/// <summary>
-		/// 位置
-		/// </summary>
-		Vector2 m_pos = Vector2::Zero;
+		int m_positionNo = 0;
+
 	};
 	/// <summary>
 	/// テキスト位置の初期化
@@ -130,13 +127,28 @@ private:
 	/// </summary>
 	void AddDisplayListInfo();
 	/// <summary>
-	/// 表示リストの末尾を削除
-	/// </summary>
-	void DeleteDisplayListBack();
-	/// <summary>
 	/// 記録リストからデータを取得
 	/// </summary>
-	EventGameLog GetRecordListData();
+	const RecordLogInfo& GetRecordListData();
+	/// <summary>
+	/// 更新するテキストを設定
+	/// </summary>
+	void SetUpdateText();
+	/// <summary>
+	/// 移動更新
+	/// </summary>
+	void UpdateTextMoving();
+	/// <summary>
+	/// ログのイージング
+	/// </summary>
+	/// <param name="startPos"></param>
+	/// <param name="endPos"></param>
+	/// <param name="ratio"></param>
+	bool LogEasing(
+		const Vector2& startPos,
+		const Vector2& endPos,
+		Vector3& updatePos
+	);
 	/// <summary>
 	/// スプライトのイージング
 	/// </summary>
@@ -150,6 +162,10 @@ private:
 	/// </summary>
 	float m_uiMoveRatio = 0.0f;
 	/// <summary>
+	/// ログの移動比率
+	/// </summary>
+	float m_logMovingRatio = 0.0f;
+	/// <summary>
 	/// 記録フォントログ
 	/// </summary>
 	std::map<int,RecordLogInfo> m_recordTextLogList;
@@ -157,6 +173,10 @@ private:
 	/// 表示フォントログ
 	/// </summary>
 	std::deque<DysplayLogInfo> m_displayTextLogList;
+	/// <summary>
+	/// テキスト表示用のフォントレンダーのリスト
+	/// </summary>
+	std::array<FontRender, UiGameLogConstant::LOG_DISPLAY_MAX + 1> m_textRenderList;
 	/// <summary>
 	/// 表示するログの最大数
 	/// </summary>
@@ -166,7 +186,11 @@ private:
 	/// </summary>
 	int m_nextDrawId = 0;
 	/// <summary>
-	/// 表示位置記録配列
+	/// ログが動いているかどうか
+	/// </summary>
+	bool m_isLogMoving = false;
+	/// <summary>
+	/// 表示位置記録配列(出現位置も込み)
 	/// </summary>
 	Vector2 m_displayTextPosList[UiGameLogConstant::LOG_DISPLAY_MAX + 2];
 	/// <summary>

@@ -16,6 +16,10 @@
 
 #include "WaveManager.h"
 
+#include "EventManager.h"
+
+#include "GameUiLog.h"
+
 namespace GamePlayerTankConstant 
 {
 }
@@ -145,6 +149,20 @@ void GamePlayer::Update()
 		m_position,
 		EnUseAttackPointRange::en_MiddleAttackPoint
 	);
+
+	if (g_pad[0]->IsTrigger(enButtonUp))
+	{
+
+		EventGameLog testLog;
+
+		swprintf(testLog.m_textBuffe, L"<test> testLog");
+
+		testLog.m_textColor = { 1.0f,1.0f,1.0f,1.0f };
+
+		testLog.m_priorityNum = 0;
+
+		EventManager::GetEventManagerInstance()->NotifyListeners(testLog);
+	}
 
 	//“–‚½‚è”»’èˆÊ’uXV
 	Vector3 colPos = m_position;
