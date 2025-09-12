@@ -17,6 +17,8 @@ bool GameUiLog::Start()
 	for (int i = 0; i < m_textRenderList.size(); i++)
 	{
 		AddFont(i, &m_textRenderList[i]);
+
+		IsDrawFont(i, false);
 	}
 
 	//上部分フレーム登録
@@ -175,19 +177,22 @@ void GameUiLog::AddDisplayListInfo()
 	{
 		m_nextDrawId = 0;
 	}
+	//描画状態をtrueにする
+	IsDrawFont(m_nextDrawId, true);
 	//フォントレンダーのアドレスを登録
 	newLogData.m_textPtr = &m_textRenderList[m_nextDrawId++];
 	//透過させる
 	Vector4 colorValue = { 0.0f,0.0f,0.0f,0.0f };
-	colorValue.x = newLogData.m_logData.m_textColor.x;
-	colorValue.y = newLogData.m_logData.m_textColor.y;
-	colorValue.z = newLogData.m_logData.m_textColor.z;
-	newLogData.m_textPtr->SetColor(colorValue); 
+	colorValue.x = newLogData.m_logData->m_textColor.x;
+	colorValue.y = newLogData.m_logData->m_textColor.y;
+	colorValue.z = newLogData.m_logData->m_textColor.z;
+
+	newLogData.m_logData->m_textColor = colorValue;
 	//リストの空きに入れる
 	m_displayTextLogList.push_front(newLogData);
 }
 
-const GameUiLog::RecordLogInfo& GameUiLog::GetRecordListData()
+GameUiLog::RecordLogInfo* GameUiLog::GetRecordListData()
 {
 	RecordLogInfo* recordData = nullptr;
 
@@ -207,7 +212,7 @@ const GameUiLog::RecordLogInfo& GameUiLog::GetRecordListData()
 		recordData->m_isNotDisplay = true;
 	}
 
-	return *recordData;
+	return recordData;
 
 }
 
@@ -218,7 +223,7 @@ void GameUiLog::SetUpdateText()
 	for (auto displayPtr : m_displayTextLogList)
 	{
 		//文字を設定
-		displayPtr.m_textPtr->SetText(displayPtr.m_logData.m_textBuffe);
+		displayPtr.m_textPtr->SetText(displayPtr.m_logData->m_textBuffe);
 	}
 
 }
@@ -240,11 +245,12 @@ void GameUiLog::UpdateTextMoving()
 			easingEndLogNum++;
 		}
 
+		//ここはのちに改良する
 		displayPtr.m_textPtr->SetPosition(updatePos);
 
 		Vector4 color = { 0.0f,0.0f,0.0f,0.0f };
 
-		color = displayPtr.m_logData.m_textColor;
+		color = displayPtr.m_logData->m_textColor;
 
 		if (displayPtr.m_positionNo <= 0)
 		{
@@ -255,6 +261,7 @@ void GameUiLog::UpdateTextMoving()
 			color.a = 1.0f - m_logMovingRatio;
 		}
 
+		//問題あり
 		displayPtr.m_textPtr->SetColor(color);
 	}
 

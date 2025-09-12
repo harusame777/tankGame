@@ -98,7 +98,7 @@ private:
 		/// <summary>
 		/// イベントによって他クラスから送られてくる情報
 		/// </summary>
-		RecordLogInfo m_logData;
+		RecordLogInfo* m_logData;
 		/// <summary>
 		/// フォントレンダー
 		/// </summary>
@@ -129,7 +129,7 @@ private:
 	/// <summary>
 	/// 記録リストからデータを取得
 	/// </summary>
-	const RecordLogInfo& GetRecordListData();
+	RecordLogInfo* GetRecordListData();
 	/// <summary>
 	/// 更新するテキストを設定
 	/// </summary>
@@ -168,7 +168,7 @@ private:
 	/// <summary>
 	/// 記録フォントログ
 	/// </summary>
-	std::map<int,RecordLogInfo> m_recordTextLogList;
+	std::multimap<int,RecordLogInfo> m_recordTextLogList;
 	/// <summary>
 	/// 表示フォントログ
 	/// </summary>
