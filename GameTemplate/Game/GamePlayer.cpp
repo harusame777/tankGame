@@ -161,6 +161,8 @@ void GamePlayer::Update()
 
 		testLog.m_priorityNum = 0;
 
+		testLog.m_textXPos = 50.0f;
+
 		EventManager::GetEventManagerInstance()->NotifyListeners(testLog);
 	}
 

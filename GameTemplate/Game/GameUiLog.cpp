@@ -152,17 +152,16 @@ void GameUiLog::UpdateTextLogUi()
 		isNewLogIn = true;
 	}
 
-	SetUpdateText();
-
 	//ログが作成されたかログが移動中なら
 	if (isNewLogIn || m_isLogMoving)
 	{
-		//移動更新
-		UpdateTextMoving();
 		//ログは現在移動中
 		m_isLogMoving = true;
+		//移動更新
+		UpdateTextMoving();
 	}
 
+	SetUpdateText();
 }
 
 void GameUiLog::AddDisplayListInfo()
@@ -218,14 +217,33 @@ GameUiLog::RecordLogInfo* GameUiLog::GetRecordListData()
 
 void GameUiLog::SetUpdateText()
 {
-
+	
 	//表示中の文字の設定
-	for (auto displayPtr : m_displayTextLogList)
-	{
-		//文字を設定
-		displayPtr.m_textPtr->SetText(displayPtr.m_logData->m_textBuffe);
-	}
+	int arreyNo = 0;
 
+	for (const auto displayPtr : m_displayTextLogList)
+	{
+		//対象のフォントレンダーにテキストを設定
+		GetFontAddres(arreyNo).SetText(
+			displayPtr.m_logData->m_textBuffe
+		);
+
+		//位置を作成
+		Vector2 updatePos = Vector2::Zero;
+		updatePos.x =
+			displayPtr.m_logData->m_textXPos;
+		updatePos.y =
+			displayPtr.m_textYPos;
+
+		//対象のフォントレンダーに位置を設定
+		SetSpriteOrFontAddPosition(
+			arreyNo,
+			updatePos
+		);
+
+		//配列ナンバーをインクリメント
+		arreyNo++;
+	}
 }
 
 void GameUiLog::UpdateTextMoving()
@@ -234,7 +252,7 @@ void GameUiLog::UpdateTextMoving()
 
 	for (auto& displayPtr : m_displayTextLogList)
 	{
-		//位置更新
+		//この一回で更新する表示テキスト情報の移動開始位置と終了位置を取得
 		Vector2 startPos = m_displayTextPosList[displayPtr.m_positionNo];
 		Vector2 endPos = m_displayTextPosList[displayPtr.m_positionNo + 1];
 
@@ -243,26 +261,12 @@ void GameUiLog::UpdateTextMoving()
 		if (LogEasing(startPos, endPos, updatePos))
 		{
 			easingEndLogNum++;
+			//ポジションナンバーをインクリメント
+			displayPtr.m_positionNo++;
 		}
 
-		//ここはのちに改良する
-		displayPtr.m_textPtr->SetPosition(updatePos);
-
-		Vector4 color = { 0.0f,0.0f,0.0f,0.0f };
-
-		color = displayPtr.m_logData->m_textColor;
-
-		if (displayPtr.m_positionNo <= 0)
-		{
-			color.a = m_logMovingRatio;
-		}
-		else if (displayPtr.m_positionNo >= UiGameLogConstant::LOG_DISPLAY_MAX)
-		{
-			color.a = 1.0f - m_logMovingRatio;
-		}
-
-		//問題あり
-		displayPtr.m_textPtr->SetColor(color);
+		//表示テキスト情報に更新した位置のY値を設定
+		displayPtr.m_textYPos = updatePos.y;
 	}
 
 	if (easingEndLogNum >= m_displayTextLogList.size())

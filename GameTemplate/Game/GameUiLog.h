@@ -85,7 +85,7 @@ private:
 		/// </summary>
 		Vector4 m_textColor = { 1.0f,1.0f,1.0f,1.0f };
 		/// <summary>
-		/// 文字のx軸の位置
+		/// 文字のx軸の位置(X値は外部から変更させたいためここに記載)
 		/// </summary>
 		float m_textXPos = 0.0f;
 		/// <summary>
@@ -104,10 +104,13 @@ private:
 		/// </summary>
 		FontRender* m_textPtr;
 		/// <summary>
+		/// 文字のy軸の位置(Y値は内部で変更するためここに記載)
+		/// </summary>
+		float m_textYPos = 0.0f;
+		/// <summary>
 		/// 位置番号
 		/// </summary>
 		int m_positionNo = 0;
-
 	};
 	/// <summary>
 	/// テキスト位置の初期化
